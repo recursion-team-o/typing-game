@@ -23,7 +23,7 @@ import HelloWorld from "@/components/HelloWorld.vue";
     </div>
   </header>
   <h1 class="text-3xl font-bold underline">
-    Hello world!
+    Hello Vite!
   </h1>
   <RouterView />
 </template>
