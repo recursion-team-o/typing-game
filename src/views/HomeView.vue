@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import Header from "../components/Header.vue";
 import HomeLeftConainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
 </script>
 
 <template>
   <main>
-    <Header />
     <div class="h-screen bg-yellow-300">
       <div class="flex flex-col justify-center text-center h-1/2">
         <p>A website focused on improving your coding skills</p>
