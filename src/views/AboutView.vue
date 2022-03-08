@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import TheWelcome from "@/components/TheWelcome.vue";
-import HeaderAll from "@/components/HeaderAll.vue";
+import Header from "@/components/Header.vue";
 </script>
 
 
 <template>
-  <HeaderAll />
+  <Header />
 </template>
 
