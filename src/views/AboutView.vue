@@ -34,7 +34,7 @@ import HeaderAll from "@/components/HeaderAll.vue";
     <!--「メインに戻る」と「スタート」のボタンを格納-->
     <div class="pt-20 pb-20 flex items-center justify-center">
       <div class="flex buttonbox justify-around">
-        <a href="#" class="inline-block px-20 py-3 rounded-lg shadow-lg bg-indigo-700 text-white">メインに戻る</a>
+        <RouterLink class="inline-block px-20 py-3 rounded-lg shadow-lg bg-indigo-700 text-white" to="/">ホーム画面</RouterLink>
         <a href="#" class="inline-block px-20 py-3 rounded-lg shadow-lg bg-gray-600 text-white">スタート</a>
       </div>
     </div>
