@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HomeLeftConainer from "../components/HomeLeftContainer.vue";
+import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
 </script>
 
@@ -19,7 +19,7 @@ import HomeRightContainer from "../components/HomeRightContainer.vue";
         </div>
       </div>
       <div class="flex h-1/2">
-        <HomeLeftConainer />
+        <HomeLeftContainer />
         <HomeRightContainer />
       </div>
     </div>
