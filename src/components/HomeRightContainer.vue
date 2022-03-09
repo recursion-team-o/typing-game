@@ -6,22 +6,9 @@
   <div class="flex justify-center items-center w-1/2 h-full">
     <div class="flex flex-col justify-center items-center max-w-md w-10/12 bg-gray-100 border border-gray-900 border-opacity-60 rounded-lg shadow-lg">
       <h3 class="py-6 font-semibold text-2xl">自分のソースコード練習</h3>
-      <div class="relative inline-block w-7/12 mb-4 text-gray-700">
-        <select class="w-full h-10 pl-3 pr-6 text-base placeholder-gray-200
-        border rounded-lg appearance-none focus:shadow-outline
-        " placeholder="言語を選んでください">
-          <option selected>言語を選択してください</option>
-          <option value="1">test1</option>
-          <option value="2">test2</option>
-          <option value="3">test3</option>
-        </select>
-        <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" fill-rule="evenodd"></path></svg>
-        </div>
-      </div>
       <div class="w-7/12 mb-4">
         <textarea
-          class="block w-full px-3 py-1.5 max-h-10 text-base font-normal text-gray-700 placeholder-gray-400 bg-white bg-clip-padding border rounded-lg appearance-none focus:shadow-outline transition ease-in-out m-0"
+          class="block w-full px-3 py-1.5 h-24 text-base font-normal text-gray-700 placeholder-gray-400 bg-white bg-clip-padding border rounded-lg appearance-none focus:shadow-outline transition ease-in-out m-0"
           id="exampleFormControlTextarea1"
           rows="3"
           placeholder="コードをペーストしてください"
