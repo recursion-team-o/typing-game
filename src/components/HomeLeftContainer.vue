@@ -1,13 +1,8 @@
-<script lang="ts">
-  export default{
-    data(): {
-      testSelected: string;
-    } {
-      return {
-        testSelected: ""
-      }
-    }
-  }
+<script setup lang="ts">
+import { ref } from "vue";
+
+const selectTestLang = ref<string>('');
+const selectTestLevel = ref<number | string>('');
 </script>
 
 <template>
@@ -17,7 +12,7 @@
       <div class="relative inline-block w-7/12 mb-4 text-gray-700">
         <select
           class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
-          v-model="testSelected">
+          v-model="selectTestLang">
           <option disabled value="">言語を選択してください</option>
           <option value="1">test1</option>
           <option value="2">test2</option>
@@ -35,7 +30,7 @@
       </div>
       <div class="relative inline-block w-7/12 my-2 text-gray-700">
         <select class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
-        v-model="testSelected">
+          v-model.number="selectTestLevel">
           <option disabled value="">レベルを選んでください</option>
           <option value="1">test1</option>
           <option value="2">test2</option>
