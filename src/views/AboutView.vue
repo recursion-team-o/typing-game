@@ -14,21 +14,21 @@ import HeaderAll from "@/components/HeaderAll.vue";
         <div class="font-bold text-4xl">Welcome User!</div>
         <!--言語とレベルが縦並びなのでさらに箱を一つ加える-->
         <div>
-          <div class="text-2xl px-0">プログラミング言語；Javascript</div>
-          <div class="text-2xl px-0">レベル：　２</div>
+          <div class="text-2xl px-0">プログラミング言語: JavaScript</div>
+          <div class="text-2xl px-0">レベル: ２</div>
         </div>
       </div>
     </div>
 
     <!--ルール説明のための箱-->
     <div class="justify-center mt-6 items-center flex">
-      <div class="rulebox rounded-lg  p-10  bg-gray-100">
-        <p class="text-5xl pb-4">ルール:</p>
-        <p class="text-2xl"> -   任意のキーを押すと始まります</p>
-        <p class="text-2xl"> -   左側にソースコードが、右側に自分の書いているコードがでます</p>
-        <p class="text-2xl"> -   全てのコードを書き終えたら自動的に終了します</p>
-        <p class="text-2xl"> -   レベルはコードを書く量により変わります</p>
-      </div>
+      <ol class="rulebox rounded-lg  p-10  bg-gray-100">
+        <li class="text-5xl pb-4">ルール:</li>
+        <li class="text-2xl"> 任意のキーを押すと始まります</li>
+        <li class="text-2xl"> 左側にソースコードが、右側に自分の書いているコードがでます</li>
+        <li class="text-2xl"> 全てのコードを書き終えたら自動的に終了します</li>
+        <li class="text-2xl"> レベルはコードを書く量により変わります</li>
+      </ol>
     </div>
 
     <!--「メインに戻る」と「スタート」のボタンを格納-->
@@ -44,19 +44,19 @@ import HeaderAll from "@/components/HeaderAll.vue";
 
 <style>
 .box{
-  height: 100vh;
+  height: 92.2vh;
   width: 100%;
 }
 
 .welcomebox{
-  width: 60%
+  width: 60%;
 }
 
 .rulebox{
-  width: 70%
+  width: 70%;
 }
 
 .buttonbox{
-  width:800px
+  width:800px;
 }
 </style>
