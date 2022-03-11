@@ -1,8 +1,14 @@
 <script setup lang="ts">
+import HomeLeftDialog from "../components/HomeLeftDialog.vue";
 import { ref } from "vue";
 
-const selectTestLang = ref<string>('');
-const selectTestLevel = ref<number | string>('');
+let showLeftDialog = ref<boolean>(false);
+const openDialog = ():void => {
+  showLeftDialog.value = true;
+};
+const closeDialog = ():void => {
+  showLeftDialog.value = false;
+};
 </script>
 
 <template>
@@ -47,9 +53,14 @@ const selectTestLevel = ref<number | string>('');
       </div>
       <div class="w-10/12 my-4 flex space-x-2 justify-center">
         <button
+          @click="openDialog()"
           type="button"
           class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transiton duration-150 ease-in-out">START</button>
       </div>
     </div>
   </div>
+  <HomeLeftDialog
+    :showLeftDialog="showLeftDialog"
+    @closeDialog="closeDialog()"
+  />
 </template>
