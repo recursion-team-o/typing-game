@@ -4,8 +4,10 @@ import Header from "@/components/Header.vue";
 </script>
 
 <template>
+
   <!-- ヘッダーの追加　-->
   <Header />
+
     <!--背景が黄色の一番大本の箱-->
    <div class="box bg-yellow-500">
 
@@ -41,9 +43,11 @@ import Header from "@/components/Header.vue";
 </template>
 
 <style>
+
 .space-height {
   height: 70px
 }
+
 .box{
   height:92.2vh;
   width: 100%;
@@ -60,6 +64,7 @@ import Header from "@/components/Header.vue";
 .button-box{
   width:800px;
 }
+
 </style>
 
 
