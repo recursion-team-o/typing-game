@@ -1,12 +1,10 @@
 <script setup lang="ts">
-
 import { RouterLink, RouterView } from 'vue-router'
 import Header from "@/components/Header.vue";
 
 </script>
 
 <template>
-
   <!-- ヘッダーの追加　-->
   <Header />
     <!--背景が黄色の一番大本の箱-->
@@ -25,17 +23,16 @@ import Header from "@/components/Header.vue";
     </div>
     <!--ツイッターでシェアの箱-->
     <div class="flex mt-10 justify-center items-center">
-      <div class="flex items-center twitter-box inline-block hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center">
-        <p class="text-2xl text-center">Twitterでシェア</p>
+      <a href="#" class="flex items-center twitter-box inline-block hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center">
+        <button class="text-2xl text-center">Twitterでシェア</button>
         <img class="h-10" src="../image/twitter2.png">
-      </div>
+      </a>
     </div>
-  
     <!--「メインに戻る」と「リスタート」のボタンを格納-->
     <div class="pt-20 pb-20 flex items-center justify-center">
       <div class="flex button-box justify-around">
-        <RouterLink class="inline-block px-20 py-3 rounded-lg shadow-lg bg-indigo-700 text-white" to="/">メインに戻る</RouterLink>
-        <a href="#" class="inline-block px-20 py-3 rounded-lg shadow-lg bg-gray-600 text-white">リスタート</a>
+        <RouterLink class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white" to="/">メインに戻る</RouterLink>
+        <a href="#" class="inline-block px-20 py-3 rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white">リスタート</a>
       </div>
     </div>
   </div>
@@ -43,7 +40,6 @@ import Header from "@/components/Header.vue";
 </template>
 
 <style>
-
 .box{
   width:100%;
   height:92.1vh;
