@@ -10,9 +10,8 @@ import Header from "@/components/Header.vue";
   <!-- ヘッダーの追加　-->
   <Header />
     <!--背景が黄色の一番大本の箱-->
-   <div class="box bg-yellow-500">
+   <div class="box bg-yellow-500 pt-20">
     <!--スコアの箱-->
-    <div class="space-height"></div>
     <div class="pt-20 flex items-center justify-center pb-10">
       <p class="text-6xl font-bold">スコア : 100</p>
     </div>
@@ -25,9 +24,13 @@ import Header from "@/components/Header.vue";
       </ol>
     </div>
     <!--ツイッターでシェアの箱-->
-    <div class="pt-10 flex items-center justify-center">
-      <p class="text-4xl twitter-box text-center">Twitterでシェア</p>
+    <div class="flex mt-10 justify-center items-center">
+      <div class="flex items-center twitter-box inline-block hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center">
+        <p class="text-2xl text-center">Twitterでシェア</p>
+        <img class="h-10" src="../image/twitter2.png">
+      </div>
     </div>
+  
     <!--「メインに戻る」と「リスタート」のボタンを格納-->
     <div class="pt-20 pb-20 flex items-center justify-center">
       <div class="flex button-box justify-around">
@@ -41,12 +44,10 @@ import Header from "@/components/Header.vue";
 
 <style>
 
-.space-height {
-  height: 70px
-}
 .box{
-  height:92.2vh;
-  width: 100%;
+  width:100%;
+  height:92.1vh;
+  background-position: center;
 }
 .result-box{
   width: 250px;
