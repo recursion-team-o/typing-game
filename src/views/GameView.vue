@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Header from "@/components/Header.vue";
+import HeaderAll from "@/components/HeaderAll.vue";
 import GamePage from "@/components/GamePage.vue";
 
 
@@ -8,6 +8,6 @@ import GamePage from "@/components/GamePage.vue";
 
 
 <template class="box">
-  <Header />
+  <HeaderAll />
   <GamePage />
 </template>
