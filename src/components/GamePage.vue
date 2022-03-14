@@ -8,111 +8,90 @@ const message = (ele) => {
   inputs += ele;
 }
 
+//キーボードのhashmap
+const keys: { [name: string]: string } = {};
+
+//1
+keys["1"] = "num1";
+keys["2"] = "num2";
+keys["3"] = "num3";
+keys["4"] = "num4";
+keys["5"] = "num5";
+keys["6"] = "num6";
+keys["7"] = "num7";
+keys["8"] = "num8";
+keys["9"] = "num9";
+keys["0"] = "num0";
+keys["-"] = "bar";
+keys["^"] = "hat";
+keys["¥"] = "¥";
+keys["Backspace"] = "Backspace";
+
+//2
+keys["q"] = "q";
+keys["w"] = "w";
+keys["e"] = "e";
+keys["r"] = "r";
+keys["t"] = "t";
+keys["y"] = "y";
+keys["u"] = "u";
+keys["i"] = "i";
+keys["o"] = "o";
+keys["p"] = "p";
+keys["@"] = "atmark";
+keys["["] = "bigparaini";
+keys["]"] = "bigparafini";
+
+//3
+keys["Control"] = "Control";
+keys["a"] = "a";
+keys["s"] = "s";
+keys["d"] = "d";
+keys["f"] = "f";
+keys["g"] = "g";
+keys["h"] = "h";
+keys["j"] = "j";
+keys["k"] = "k";
+keys["l"] = "l";
+keys[";"] = "semi";
+keys[":"] = "coron";
+keys["Enter"] = "Enter";
+
+//4
+keys["Shift"] = "Shift";
+keys["z"] = "z";
+keys["x"] = "x";
+keys["c"] = "c";
+keys["v"] = "v";
+keys["b"] = "b";
+keys["n"] = "n";
+keys["m"] = "m";
+keys[","] = "hai";
+keys["."] = "peri";
+keys["/"] = "slash";
+keys["_"] = "sub";
+
+//5
+keys["Alt"] = "Alt";
+keys["Meta"] = "Meta";
+keys[" "] = "space";
+
 //キーボード押したらひかる
 //ロジックとしては押したボタンのkey.valueを取得する。"."+key.valueというクラスリストを持つノードを探す。（それぞれに対応するクラスの名前はあらかじめひつ一つのclasslistに書いてある。そのノードに光る要素を加える。keyupしたらremove。
 const KeyDown = () => {
-  console.log(["you clicked"]);
-  console.log(event.key)
-  //console.log(inputs,inputs.value);
-  //console.log(p.value);
-  if(event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9" || event.key === "0"){
-    console.log("you clikced nums");
-    console.log(p.value.querySelectorAll(".num" + event.key)[0].classList);
-    p.value.querySelectorAll(".num" + event.key)[0].classList.add("bg-indigo-500")
-    console.log(p.value.querySelectorAll(".num" + event.key)[0].classList);
-  }
-  else if(event.key === "-"){
-    p.value.querySelectorAll(".bar")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "^"){
-    p.value.querySelectorAll(".hat")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "@"){
-    p.value.querySelectorAll(".atmark")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "["){
-    p.value.querySelectorAll(".bigparaini")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === ";"){
-    p.value.querySelectorAll(".semi")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === ":"){
-    p.value.querySelectorAll(".coron")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "]"){
-    p.value.querySelectorAll(".bigparafini")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === ","){
-    p.value.querySelectorAll(".hai")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "."){
-    p.value.querySelectorAll(".peri")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "/"){
-    p.value.querySelectorAll(".slash")[0].classList.add("bg-indigo-500");
-  }
-  else if(event.key === "_"){
-    p.value.querySelectorAll(".sub")[0].classList.add("bg-indigo-500")
-  }
-  else if(event.key === " "){
-    p.value.querySelectorAll(".space")[0].classList.add("bg-indigo-500")
-  }
-  else if(p.value.querySelectorAll("." + event.key).length === 0){
-    console.log("none")
-  }
-  else{
-    p.value.querySelectorAll("." + event.key)[0].classList.add("bg-indigo-500");
-  }
+  for(let key in keys){
+    if(key === event.key){
+      p.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+      p.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+    }
+  };
 };
-
 const KeyUp = () => {
-  console.log(["you clicked"]);
-  console.log(event.key)
-  if(event.key === "1" || event.key === "2" || event.key === "3" || event.key === "4" || event.key === "5" || event.key === "6" || event.key === "7" || event.key === "8" || event.key === "9" || event.key === "0"){
-    console.log("you clikced nums");
-    p.value.querySelectorAll(".num" + event.key)[0].classList.remove("bg-indigo-500")
-  }
-  else if(event.key === "-"){
-    p.value.querySelectorAll(".bar")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "^"){
-    p.value.querySelectorAll(".hat")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "@"){
-    p.value.querySelectorAll(".atmark")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "["){
-    p.value.querySelectorAll(".bigparaini")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === ";"){
-    p.value.querySelectorAll(".semi")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === ":"){
-    p.value.querySelectorAll(".coron")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "]"){
-    p.value.querySelectorAll(".bigparafini")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === ","){
-    p.value.querySelectorAll(".hai")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "."){
-    p.value.querySelectorAll(".peri")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "/"){
-    p.value.querySelectorAll(".slash")[0].classList.remove("bg-indigo-500");
-  }
-  else if(event.key === "_"){
-    p.value.querySelectorAll(".sub")[0].classList.remove("bg-indigo-500")
-  }
-  else if(event.key === " "){
-    p.value.querySelectorAll(".space")[0].classList.remove("bg-indigo-500")
-  }
-  else if(p.value.querySelectorAll("." + event.key).length === 0){
-    console.log("none")
-  }
-  else{
-    p.value.querySelectorAll("." + event.key)[0].classList.remove("bg-indigo-500")
+  for(let key in keys){
+    if(key === event.key){
+      p.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
+      p.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
+    }
   }
 };
 
@@ -318,7 +297,7 @@ const refreshes = () => {
         <!-- 2行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 onefive flex justify-center items-center">
-            <div class="bg-gray-100 p-2 innerbuttons"> 
+            <div class="tabs bg-gray-100 p-2 innerbuttons"> 
               <div><br/></div>
               <div></div>
             </div>
@@ -602,8 +581,8 @@ const refreshes = () => {
       </div>
     </div>
   </div>
-</template>
 
+</template>
 
 <style>
 .box{
@@ -668,5 +647,5 @@ const refreshes = () => {
   width: 400px;
   height:66px
 }
-</style>
 
+</style>
