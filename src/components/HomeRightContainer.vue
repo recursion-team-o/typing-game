@@ -1,5 +1,14 @@
 <script setup lang="ts">
+import HomeRightDialog from "../components/HomeRightDialog.vue";
+import { ref } from "vue";
 
+let showRightDialog = ref<boolean>(false);
+const openDialog = ():void => {
+  showRightDialog.value = true;
+};
+const closeDialog = ():void => {
+  showRightDialog.value = false;
+};
 </script>
 
 <template>
@@ -15,8 +24,15 @@
         ></textarea>
       </div>
       <div class="w-10/12 my-4 flex space-x-2 justify-center">
-        <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transiton duration-150 ease-in-out">START</button>
+        <button
+          @click="openDialog()"
+        >
+        </button>
       </div>
     </div>
   </div>
+  <HomeRightDialog
+    :showRightDialog="showRightDialog"
+    @closeDialog="closeDialog()"
+  />
 </template>
