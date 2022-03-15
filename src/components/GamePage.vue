@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
-import { ref, onMounted, Vue} from "vue"
+import { ref, onMounted, Vue, reactive} from "vue"
 
 const keyborard = ref(null)
 const inputs = ref('') 
