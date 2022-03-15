@@ -2,12 +2,8 @@
 import { reactive } from 'vue';
 import { ref, onMounted, Vue} from "vue"
 
-const p = ref(null)
-const inputs = ref('') // Ref<string>型
-const message = (ele) => {
-  inputs += ele;
-}
-
+const keyborard = ref(null)
+const inputs = ref('') 
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -81,16 +77,16 @@ keys[" "] = "space";
 const KeyDown = () => {
   for(let key in keys){
     if(key === event.key){
-      p.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-      p.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+      keyborard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+      keyborard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
     }
   };
 };
 const KeyUp = () => {
   for(let key in keys){
     if(key === event.key){
-      p.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
-      p.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
+      keyborard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
+      keyborard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
     }
   }
 };
@@ -204,7 +200,7 @@ const refreshes = () => {
       以下キーボードのHTML-->
 
     <div class="bottombox flex justify-center items-center bg-gray-900">
-      <div ref="p" class="boardarea bg-gray-200 p-1">
+      <div ref="keyborard" class="boardarea bg-gray-200 p-1">
 
         <!-- １行目　-->
         <div class="oneline flex">
