@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import Header from "@/components/Header.vue";
-import { reactive } from "vue";
+import HeaderAll from "@/components/HeaderAll.vue";
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
+import { reactive } from "vue";
 
 export interface User {
   name: string;
@@ -18,7 +18,7 @@ const user = reactive<User>({
 
 <template>
   <main>
-    <Header />
+    <HeaderAll />
     <div class="h-screen bg-yellow-300">
       <div class="flex flex-col justify-center text-center h-1/2">
         <p>A website focused on improving your coding skills</p>
