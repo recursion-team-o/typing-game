@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, Vue, reactive} from "vue"
 
-const keyborard = ref(null)
+const keyboard = ref(null)
 const inputs = ref('') 
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
@@ -21,6 +21,19 @@ keys["-"] = "bar";
 keys["^"] = "hat";
 keys["¥"] = "¥";
 keys["Backspace"] = "Backspace";
+//uppercase
+keys["!"] = "num1";
+keys['"'] = "num2";
+keys["#"] = "num3";
+keys["$"] = "num4";
+keys["%"] = "num5";
+keys["&"] = "num6";
+keys["'"] = "num7";
+keys["("] = "num8";
+keys[")"] = "num9";
+keys["="] = "bar";
+keys["~"] = "hat";
+keys["|"] = "¥";
 
 //2
 keys["q"] = "q";
@@ -36,6 +49,20 @@ keys["p"] = "p";
 keys["@"] = "atmark";
 keys["["] = "bigparaini";
 keys["]"] = "bigparafini";
+//uppercase
+keys["Q"] = "q";
+keys["W"] = "w";
+keys["E"] = "e";
+keys["R"] = "r";
+keys["T"] = "t";
+keys["Y"] = "y";
+keys["U"] = "u";
+keys["I"] = "i";
+keys["O"] = "o";
+keys["P"] = "p";
+keys["`"] = "atmark";
+keys["{"] = "bigparaini";
+keys["}"] = "bigparafini";
 
 //3
 keys["Control"] = "Control";
@@ -51,6 +78,18 @@ keys["l"] = "l";
 keys[";"] = "semi";
 keys[":"] = "coron";
 keys["Enter"] = "Enter";
+//uppercase
+keys["A"] = "a";
+keys["s"] = "s";
+keys["D"] = "d";
+keys["F"] = "f";
+keys["G"] = "g";
+keys["H"] = "h";
+keys["J"] = "j";
+keys["K"] = "k";
+keys["L"] = "l";
+keys["+"] = "semi";
+keys["*"] = "coron";
 
 //4
 keys["Shift"] = "Shift";
@@ -65,6 +104,17 @@ keys[","] = "hai";
 keys["."] = "peri";
 keys["/"] = "slash";
 keys["_"] = "sub";
+//4 uppercase
+keys["Z"] = "z";
+keys["X"] = "x";
+keys["C"] = "c";
+keys["V"] = "v";
+keys["B"] = "b";
+keys["N"] = "n";
+keys["M"] = "m";
+keys["<"] = "hai";
+keys[">"] = "peri";
+keys["?"] = "slash";
 
 //5
 keys["Alt"] = "Alt";
@@ -75,17 +125,35 @@ keys[" "] = "space";
 //ロジックとしては押したボタンのkey.valueを取得する。"."+key.valueというクラスリストを持つノードを探す。（それぞれに対応するクラスの名前はあらかじめひつ一つのclasslistに書いてある。そのノードに光る要素を加える。keyupしたらremove。
 const KeyDown = () => {
   for(let key in keys){
-    if(key === event.key){
-      keyborard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-      keyborard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+      }
     }
-  };
+  if(event.shiftKey){
+    console.log("shift is clicked");
+    console.log(event.key);
+    for(let key in keys){
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+      }
+    }
+  }
 };
 const KeyUp = () => {
   for(let key in keys){
-    if(key === event.key){
-      keyborard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
-      keyborard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
+      }
+    }
+  if(event.shiftKey){
+    for(let key in keys){
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
+      }
     }
   }
 };
@@ -199,7 +267,7 @@ const refreshes = () => {
       以下キーボードのHTML-->
 
     <div class="bottombox flex justify-center items-center bg-gray-900">
-      <div ref="keyborard" class="boardarea bg-gray-200 p-1">
+      <div ref="keyboard" class="boardarea bg-gray-200 p-1">
 
         <!-- １行目　-->
         <div class="oneline flex">
