@@ -8,7 +8,7 @@ export const userStore = defineStore({
     level: 0 as number,
     time: 0 as number,
     score: 0 as number,
-    misses: new Map<string, number>(),
+    missTypes: new Map<string, number>(),
   }),
   getters: {
     getName(state): string {
@@ -27,13 +27,13 @@ export const userStore = defineStore({
       return state.score;
     },
     getMisses(state): Map<string, number> {
-      return state.misses;
+      return state.missTypes;
     },
     getMissCount(state): any {
-      const messCount = (key: string) => {
-        return state.misses.get(key);
+      const missCount = (key: string) => {
+        return state.missTypes.get(key);
       };
-      return messCount;
+      return missCount;
     },
   },
   actions: {
@@ -53,12 +53,12 @@ export const userStore = defineStore({
       this.score = value;
     },
     setMisses(key: string): void {
-      const value = this.misses.get(key);
+      const value = this.missTypes.get(key);
       if (typeof value !== "number") {
-        this.misses.set(key, 1);
+        this.missTypes.set(key, 1);
         console.log("first set");
       } else {
-        this.misses.set(key, value + 1);
+        this.missTypes.set(key, value + 1);
         console.log("plus set");
       }
     },
