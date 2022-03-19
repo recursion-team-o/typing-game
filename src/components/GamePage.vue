@@ -160,8 +160,9 @@ const KeyUp = () => {
     }
   }
 };
-
-
+//ページ全体を開いている時にどこを押してもkeyeventが起こる
+document.onkeydown = event => KeyDown();
+document.onkeyup = event => KeyUp();
 
 </script>
 
