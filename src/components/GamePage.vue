@@ -4,7 +4,6 @@ import { codeStore } from '../stores/code'
 
 const code = codeStore();
 const keyboard = ref(null);
-const inputs = ref('');
 const upper = ref(null);
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
@@ -681,6 +680,9 @@ document.onkeyup = event => KeyUp();
 .oneten{
   width: 194px;
   height: 66px
+}
+.overs{
+  overflow: scroll;
 }
 .spacebar{
   width: 400px;
