@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import StopWatch from "../components/StopWatch.vue";
 import { ref, onMounted, Vue, reactive } from "vue";
 
 const keyboard = ref(null);
@@ -242,7 +241,7 @@ const refreshes = () => {
         ></textarea>
       </div>
 
-      <div class="codearea flex">
+      <div class="codearea">
         <textarea
           v-on:keydown="KeyDown()"
           v-on:keyup="KeyUp()"
@@ -252,15 +251,12 @@ const refreshes = () => {
           type="textarea"
           v-model="inputs"
         ></textarea>
-        <div class="w-2/12 max-w-[110px] h-auto flex flex-col justify-between">
-          <StopWatch />
-          <button
-            v-on:click="refreshes()"
-            class="hover:bg-indigo-400 lg-rounded bg-gray-400"
-          >
-            refresh
-          </button>
-        </div>
+        <button
+          v-on:click="refreshes()"
+          class="hover:bg-indigo-400 lg-rounded bg-gray-400"
+        >
+          refresh
+        </button>
       </div>
     </div>
 

@@ -9,7 +9,7 @@ const { startTimer, stopTimer, resetTimer } = timer;
 </script>
 
 <template>
-  <div class="flex flex-col justify-center border bg-gray-200 w-full h-24">
+  <div class="flex items-center justify-center border bg-gray-200 w-3/12 h-24">
     <div class="flex justify-center items-center h-10 mx-auto">
       <p class="text-black text-2xl w-[33px]">
         {{ getMinString }}
