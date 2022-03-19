@@ -3,8 +3,10 @@ import { defineStore } from "pinia";
 export const codeStore = defineStore({
   id: "code",
   state: () => ({
-    sampleCode: "" as string,
-    writeCode: "" as string,
+    fullcode: config.newcode,
+    correctcode: "",
+    pointercode: config.newcode.substring(0, 1),
+    personalcode: config.newcode.substring(1),
   }),
   getters: {
     getSource(state): string {
@@ -23,3 +25,27 @@ export const codeStore = defineStore({
     },
   },
 });
+
+//仮のデータ
+const config = {
+  newcode:
+    `
+      <HeaderAll />
+      <div class=7box bg-yellow-400'>
+      <div class=7box bg-yellow-400'>
+          <div class='upperbox bg-white flex justify-center items-center'>
+            <div class='codearea flex justify-center items-center '>
+              <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
+            </div>
+          </div>
+        </div>
+        <div class=7box bg-yellow-400'>
+          <div class='upperbox bg-white flex justify-center items-center'>
+            <div class='codearea flex justify-center items-center '>
+              <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+    `
+}
