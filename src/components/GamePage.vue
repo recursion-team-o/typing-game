@@ -3,8 +3,9 @@ import { ref, onMounted, Vue, reactive} from "vue"
 import { codeStore } from '../stores/code'
 
 const code = codeStore();
-const keyboard = ref(null)
-const inputs = ref('') 
+const keyboard = ref(null);
+const inputs = ref('');
+const upper = ref(null);
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -170,76 +171,12 @@ const refreshes = () => {
 <template class="box">
   <div>
     <!-- 上半分のHTML -->
-    <div class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
-      <div class="codearea flex justify-center  items-center ">
-        <textarea
-          cols="55" rows="55"
-          class="codearea p-5"
-          type="textarea"
-          placeholder="
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          "
-          disabled></textarea>
-      </div>
-
-      <div class="codearea flex-col justify-center  items-center">
-        <textarea
-          v-on:keydown="KeyDown()"
-          v-on:keyup="KeyUp()"
-          cols="55" rows="55"
-          class="codearea p-5"
-          type="textarea"
-          v-model="inputs"
-          
-          ></textarea>
-          <button v-on:click="refreshes()" class="hover:bg-indigo-400 lg-rounded bg-gray-400">refresh</button>
-      </div>
-      
+    <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
+      <pre class="codearea p-5">
+        <code class="language-html "><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.personalcode}}</code>
+      </pre>
     </div>
+  </div>
     
 
     <!--キーボードの設計
