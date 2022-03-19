@@ -2,6 +2,7 @@
 import { ref, onMounted, Vue, reactive} from "vue"
 import { codeStore } from '../stores/code'
 
+const code = codeStore();
 const keyboard = ref(null)
 const inputs = ref('') 
 //キーボードのhashmap
