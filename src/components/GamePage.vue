@@ -161,10 +161,7 @@ const KeyUp = () => {
   }
 };
 
-//中身をrefresh
-const refreshes = () => {
-  inputs.value = ""
-}
+
 
 </script>
 
