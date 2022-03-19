@@ -125,7 +125,12 @@ keys[" "] = "space";
 
 
 let index = 0;
+
 const KeyDown = () => {
+  if(code.finishcode.length === index){
+    console.log("finished");
+    return;
+  }
   console.log(KeyboardEvent.keyCode)
   //1: 最初にスペースを押したら始まる
   if(code.correctcode === "" && event.key === " "){
@@ -133,7 +138,7 @@ const KeyDown = () => {
         if(code.fullcode[i] === "<"){
           code.correctcode = code.fullcode.substring(0,i)
           code.pointercode = code.fullcode.substring(i,i+1);
-          code.personalcode = code.fullcode.substring(i+1);
+          code.notyetcode = code.fullcode.substring(i+1);
           index = i;
           break;
       }
@@ -149,7 +154,7 @@ const KeyDown = () => {
         if(code.fullcode[i] === "<"){
           code.correctcode = code.fullcode.substring(0,i)
           code.pointercode = code.fullcode.substring(i,i+1);
-          code.personalcode = code.fullcode.substring(i+1);
+          code.notyetcode = code.fullcode.substring(i+1);
           index = i;
           //見つかり次第終了
           break;
@@ -160,7 +165,7 @@ const KeyDown = () => {
     else{
       code.correctcode = code.fullcode.substring(0,index)
       code.pointercode = code.fullcode.substring(index,index+1);
-      code.personalcode = code.fullcode.substring(index+1);
+      code.notyetcode = code.fullcode.substring(index+1);
       index += 1
     }
   }
@@ -184,6 +189,7 @@ const KeyDown = () => {
   }
 };
 const KeyUp = () => {
+  
   for(let key in keys){
       if(key === event.key){
         keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
@@ -212,7 +218,7 @@ document.onkeyup = event => KeyUp();
     <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
       <div class="codearea overs flex justify-center  items-center ">
         <pre class="codearea p-5">
-          <code class="language-html "><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.personalcode}}</code>
+          <code class="language-html "><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code>
         </pre>
       </div>
     </div>
