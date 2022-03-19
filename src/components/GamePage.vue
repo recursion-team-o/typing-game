@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted, Vue, reactive} from "vue"
+import { codeStore } from '../stores/code'
 
 const keyboard = ref(null)
 const inputs = ref('') 
