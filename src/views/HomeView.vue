@@ -2,6 +2,18 @@
 import HeaderAll from "@/components/HeaderAll.vue";
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
+import { reactive } from "vue";
+
+export interface User {
+  name: string;
+  selectLang: string;
+  selectLevel: number | string;
+}
+const user = reactive<User>({
+  name: "",
+  selectLang: "",
+  selectLevel: "",
+});
 </script>
 
 <template>
@@ -19,8 +31,9 @@ import HomeRightContainer from "../components/HomeRightContainer.vue";
               UserName
             </span>
             <input
+              v-model="user.name"
               type="text"
-              class="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+              class="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base"
               name="userName"
               placeholder="ユーザーネームを入力"
             />
@@ -28,8 +41,8 @@ import HomeRightContainer from "../components/HomeRightContainer.vue";
         </div>
       </div>
       <div class="flex h-1/2">
-        <HomeLeftContainer />
-        <HomeRightContainer />
+        <HomeLeftContainer :user="user" />
+        <HomeRightContainer :user="user" />
       </div>
     </div>
   </main>
