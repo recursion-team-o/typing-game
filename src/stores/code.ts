@@ -3,23 +3,23 @@ import { defineStore } from "pinia";
 export const codeStore = defineStore({
   id: "code",
   state: () => ({
-    source: "" as string,
-    myCode: "" as string,
+    sampleCode: "" as string,
+    writeCode: "" as string,
   }),
   getters: {
     getSource(state): string {
-      return state.source;
+      return state.sampleCode;
     },
     getMyCode(state): string {
-      return state.myCode;
+      return state.writeCode;
     },
   },
   actions: {
     setSource(value: string): void {
-      this.source = value;
+      this.sampleCode = value;
     },
     setMyCode(value: string): void {
-      this.myCode = value;
+      this.writeCode = value;
     },
   },
 });
