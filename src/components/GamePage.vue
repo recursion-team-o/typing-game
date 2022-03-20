@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { ref, onMounted, Vue, reactive } from "vue";
 
+import { ref, onMounted, Vue, reactive} from "vue"
+import { codeStore } from '../stores/code'
+
+const code = codeStore();
 const keyboard = ref(null);
-const inputs = ref("");
+const upper = ref(null);
+
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -121,30 +125,68 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-//キーボード押したらひかる
-//ロジックとしては押したボタンのkey.valueを取得する。"."+key.valueというクラスリストを持つノードを探す。（それぞれに対応するクラスの名前はあらかじめひつ一つのclasslistに書いてある。そのノードに光る要素を加える。keyupしたらremove。
+
+let index = 0;
+
 const KeyDown = () => {
-  for (let key in keys) {
-    if (key === event.key) {
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.remove("bg-gray-100");
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.add("bg-indigo-500");
+  if(code.finishcode.length === index){
+    console.log("finished");
+    return;
+  }
+  console.log(KeyboardEvent.keyCode)
+  //1: 最初にスペースを押したら始まる
+  if(code.correctcode === "" && event.key === " "){
+    for(let i = 0; i < code.fullcode.length; i++){
+        if(code.fullcode[i] === "<"){
+          code.correctcode = code.fullcode.substring(0,i)
+          code.pointercode = code.fullcode.substring(i,i+1);
+          code.notyetcode = code.fullcode.substring(i+1);
+          index = i;
+          break;
+      }
     }
   }
-  if (event.shiftKey) {
-    console.log("shift is clicked");
-    console.log(event.key);
-    for (let key in keys) {
-      if (key === event.key) {
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-gray-100");
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-indigo-500");
+  //2: ポインターと打ったキーが同じかどうかの判定
+  else if(event.key === code.pointercode){
+    //2-1: もしも">"だったら次の"<"までインデックスをスキップ
+    if(event.key === ">"){
+      code.correctcode = code.fullcode.substring(0,index);
+      //今のindex以降で次にある"<"
+      for(let i = index; i < code.fullcode.length; i++){
+        if(code.fullcode[i] === "<"){
+          code.correctcode = code.fullcode.substring(0,i)
+          code.pointercode = code.fullcode.substring(i,i+1);
+          code.notyetcode = code.fullcode.substring(i+1);
+          index = i;
+          //見つかり次第終了
+          break;
+        }
+      }
+    }
+    //2-2: もしも">"ではなく普通に一致したら次のindexへ
+    else{
+      code.correctcode = code.fullcode.substring(0,index)
+      code.pointercode = code.fullcode.substring(index,index+1);
+      code.notyetcode = code.fullcode.substring(index+1);
+      index += 1
+    }
+  }
+  //3: 間違っていた場合の処理
+  else{
+    console.log("you clicked wrong key");
+  }
+  for(let key in keys){
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+      }
+    }
+  if(event.shiftKey){
+    for(let key in keys){
+      if(key === event.key){
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
+        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
+
       }
     }
   }
@@ -173,90 +215,20 @@ const KeyUp = () => {
     }
   }
 };
+//ページ全体を開いている時にどこを押してもkeyeventが起こる
+document.onkeydown = event => KeyDown();
+document.onkeyup = event => KeyUp();
 
-//中身をrefresh
-const refreshes = () => {
-  inputs.value = "";
-};
 </script>
 
 <template class="box">
   <div>
     <!-- 上半分のHTML -->
-    <div class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
-      <div class="codearea flex justify-center items-center">
-        <textarea
-          cols="55"
-          rows="55"
-          class="codearea p-5"
-          type="textarea"
-          placeholder="
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          "
-          disabled
-        ></textarea>
-      </div>
-
-      <div class="codearea">
-        <textarea
-          v-on:keydown="KeyDown()"
-          v-on:keyup="KeyUp()"
-          cols="55"
-          rows="55"
-          class="codearea p-5"
-          type="textarea"
-          v-model="inputs"
-        ></textarea>
-        <button
-          v-on:click="refreshes()"
-          class="hover:bg-indigo-400 lg-rounded bg-gray-400"
-        >
-          refresh
-        </button>
+    <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
+      <div class="codearea overs flex justify-center  items-center ">
+        <pre class="codearea p-5">
+          <code class="language-html "><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code>
+        </pre>
       </div>
     </div>
 
@@ -678,7 +650,6 @@ const refreshes = () => {
     </div>
   </div>
 </template>
-
 <style>
 .box {
   height: 100vh;
@@ -690,9 +661,10 @@ const refreshes = () => {
 .upperbox {
   height: 45vh;
 }
-.codearea {
-  width: 90%;
-  height: 100%;
+.codearea{
+  width: 80%;
+  height: 100%
+
 }
 .bottombox {
   width: 100%;
@@ -738,8 +710,39 @@ const refreshes = () => {
   width: 194px;
   height: 66px;
 }
-.spacebar {
+.overs{
+  overflow: scroll;
+}
+.spacebar{
   width: 400px;
   height: 66px;
 }
+.makeit{
+  word-wrap:break-word;
+}
+textarea::selection {
+  background: #fff;
+  color: #ff0000;
+}
+
+#correct{
+  color: #0000FF;
+}
+#that{
+  animation: flash 1s linear infinite;
+  background: #808080;
+}
+#wrong{
+  color: #ff0000;
+}
+@keyframes flash {
+  0%,100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
 </style>
