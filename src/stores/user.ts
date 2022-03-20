@@ -26,9 +26,6 @@ export const userStore = defineStore({
     getScore(state): number {
       return state.score;
     },
-    getMisses(state): Map<string, number> {
-      return state.missTypes;
-    },
     getMissCount(state): any {
       const missCount = (key: string) => {
         return state.missTypes.get(key);
@@ -59,7 +56,6 @@ export const userStore = defineStore({
         console.log("first set");
       } else {
         this.missTypes.set(key, value + 1);
-        console.log("plus set");
       }
     },
   },
