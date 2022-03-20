@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { User } from "../views/HomeView.vue";
+import { useRouter } from "vue-router";
+import { codeStore } from "../stores/code";
+import { storeToRefs } from "pinia";
+
 defineProps<{
   user: User;
-  myCode: string;
   showMyCodeDialog: boolean;
 }>();
 const emit = defineEmits<{
@@ -11,6 +14,10 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
+const code = codeStore();
+const { getSampleCode } = storeToRefs(code);
+const router = useRouter();
+const goToGamePage = () => router.push("/game");
 </script>
 
 <template>
@@ -55,7 +62,7 @@ const closeDialog = (): void => {
               <div
                 class="flex relative mt-4 w-10/12 max-w-2xl rounded-md border overflow-y-scroll h-60"
               >
-                {{ myCode }}
+                {{ getSampleCode }}
               </div>
             </div>
             <div
@@ -69,7 +76,16 @@ const closeDialog = (): void => {
               >
                 Close
               </button>
-              <button type="button" class="btn bg-blue-600">start</button>
+              <button
+                type="button"
+                class="btn bg-blue-600"
+                @click="
+                  code.setJustCode();
+                  goToGamePage();
+                "
+              >
+                start
+              </button>
             </div>
           </div>
         </div>
