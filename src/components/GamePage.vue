@@ -125,7 +125,12 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-
+//使いわますため（次のインデックスにするためのやつ）
+function substfunc(ind:num) {
+  code.correctcode = code.fullcode.substring(0,ind)
+  code.pointercode = code.fullcode.substring(ind,ind+1);
+  code.notyetcode = code.fullcode.substring(ind+1);
+}
 let index = 0;
 
 const KeyDown = () => {
