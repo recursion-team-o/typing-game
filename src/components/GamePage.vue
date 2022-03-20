@@ -138,40 +138,51 @@ const KeyDown = () => {
   if(code.correctcode === "" && event.key === " "){
     for(let i = 0; i < code.fullcode.length; i++){
         if(code.fullcode[i] === "<"){
-          code.correctcode = code.fullcode.substring(0,i)
-          code.pointercode = code.fullcode.substring(i,i+1);
-          code.notyetcode = code.fullcode.substring(i+1);
-          index = i;
+          substfunc(i)
+          index = i + 1;
           break;
       }
     }
   }
-  //2: ポインターと打ったキーが同じかどうかの判定
-  else if(event.key === code.pointercode){
-    //2-1: もしも">"だったら次の"<"までインデックスをスキップ
-    if(event.key === ">"){
-      code.correctcode = code.fullcode.substring(0,index);
-      //今のindex以降で次にある"<"
-      for(let i = index; i < code.fullcode.length; i++){
-        if(code.fullcode[i] === "<"){
-          code.correctcode = code.fullcode.substring(0,i)
-          code.pointercode = code.fullcode.substring(i,i+1);
-          code.notyetcode = code.fullcode.substring(i+1);
-          index = i;
-          //見つかり次第終了
-          break;
+  //2: shiftが押されている時に打ったキーと文字が同じかどうか
+  else if(event.shiftKey){
+    if(event.key === code.pointercode){
+      substfunc(index)
+      index += 1
+      if(code.finishcode.length + 1 === index){
+        console.log("finished");
+        return;
+      }
+      else if(code.pointercode === "\n"){
+        for(let i = index; i < code.fullcode.length; i++){
+          if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
+            substfunc(i)
+            index = i + 1;
+            break
+          }
         }
       }
     }
-    //2-2: もしも">"ではなく普通に一致したら次のindexへ
-    else{
-      code.correctcode = code.fullcode.substring(0,index)
-      code.pointercode = code.fullcode.substring(index,index+1);
-      code.notyetcode = code.fullcode.substring(index+1);
-      index += 1
-    }
   }
-  //3: 間違っていた場合の処理
+  //3: ポインターと打ったキーが同じかどうかの判定
+  else if(event.key === code.pointercode){
+    substfunc(index)
+      index += 1
+      if(code.finishcode.length + 1 === index){
+        console.log("finished");
+        return;
+      }
+      if(code.pointercode === "\n"){
+        for(let i = index; i < code.fullcode.length; i++){
+          if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
+            substfunc(i)
+            index = i + 1;
+            break
+          }
+        }
+      }
+  }
+  //4: 間違っていた場合の処理
   else{
     console.log("you clicked wrong key");
   }
