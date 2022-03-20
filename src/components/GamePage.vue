@@ -134,11 +134,6 @@ function substfunc(ind:num) {
 let index = 0;
 
 const KeyDown = () => {
-  if(code.finishcode.length === index){
-    console.log("finished");
-    return;
-  }
-  console.log(KeyboardEvent.keyCode)
   //1: 最初にスペースを押したら始まる
   if(code.correctcode === "" && event.key === " "){
     for(let i = 0; i < code.fullcode.length; i++){
