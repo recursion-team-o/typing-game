@@ -19,7 +19,7 @@ const user = reactive<User>({
 <template>
   <main>
     <HeaderAll />
-    <div class="h-screen bg-yellow-300">
+    <div class="h-[87.2vh] bg-yellow-300">
       <div class="flex flex-col justify-center text-center h-1/2">
         <p>A website focused on improving your coding skills</p>
         <h2 class="text-5xl my-4">CODE-TYPING</h2>
