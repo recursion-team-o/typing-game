@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { timerStore } from "../stores/timer.ts";
+import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 
 const timer = timerStore();
-const { getDurationString, getMinString, getSecString, getPointMsec } =
-  storeToRefs(timer);
+const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { startTimer, stopTimer, resetTimer } = timer;
 </script>
 
