@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 export const timerStore = defineStore({
   id: "timer",
   state: () => ({
-    intervalId: null as number | NodeJS.Timer | null,
+    intervalId: null as NodeJS.Timer | null,
     startTime: 0 as number,
     stopTime: 0 as number,
     durationTime: 0 as number,
@@ -50,39 +50,28 @@ export const timerStore = defineStore({
       this.durationTime = value;
     },
     startTimer(): void {
-      if (this.getStopTime !== 0) {
-        const startTime =
-          performance.now() - this.getStopTime + this.getStartTime;
-        this.setStartTime(startTime);
-      } else {
-        this.setStartTime(performance.now());
+      if (this.intervalId) {
+        return;
       }
+      const startTime =
+        performance.now() - this.getStopTime + this.getStartTime;
+      this.setStartTime(startTime);
       this.intervalId = setInterval(() => {
         const currMs = performance.now();
-        if (this.getStartTime !== undefined) {
-          const currDurationMs = currMs - this.getStartTime;
-          this.setDurationTime(currDurationMs);
-        } else {
-          return;
-        }
+        const currDurationMs = currMs - this.getStartTime;
+        this.setDurationTime(currDurationMs);
       }, 10);
     },
     stopTimer(): void {
-      if (this.intervalId !== null) {
+      if (this.intervalId) {
         clearInterval(this.intervalId);
         this.setStopTime(performance.now());
-      } else {
-        console.log("no start");
-        return;
+        this.intervalId = null;
       }
-      return;
     },
     resetTimer(): void {
-      if (this.intervalId != null) {
+      if (this.intervalId) {
         clearInterval(this.intervalId);
-      } else {
-        console.log("no start");
-        return;
       }
       this.$reset();
     },
