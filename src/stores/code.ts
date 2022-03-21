@@ -7,6 +7,7 @@ export const codeStore = defineStore({
     correctcode: "",
     pointercode: config.newcode.substring(0, 1),
     notyetcode: config.newcode.substring(1),
+    //コード全体の最後にある空白を全て消す
     finishcode: config.newcode.replace(/\s+$/g, ""),
     index: 0
   }),
@@ -48,7 +49,7 @@ export const codeStore = defineStore({
         }
       }
     },
-    setControlIndex(events: string, shifted: boolean): void {
+    controlIndex(events: string, shifted: boolean): void {
       if (this.correctcode === "" && events === " ") {
         this.startgame();
       }

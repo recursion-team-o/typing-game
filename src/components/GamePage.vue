@@ -4,7 +4,7 @@ import { ref, onMounted, Vue, reactive} from "vue"
 import { codeStore } from '../stores/code'
 
 const code = codeStore();
-const { setNextIndexCode, setControlIndex} = code;
+const { setNextIndexCode, controlIndex} = code;
 const keyboard = ref(null);
 const upper = ref(null);
 
@@ -128,21 +128,29 @@ keys[" "] = "space";
 
 const KeyDown = () => {
   if(event.shiftKey){
-    setControlIndex(event.key,true)
-  }
-  else{
-    setControlIndex(event.key, false)
-  }
-  if(keys[event.key]){
-    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
-    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
-  }
-  if(event.shiftKey){
+    controlIndex(event.key,true)
     if(keys[event.key]){
       keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
       keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
     }
   }
+  else{
+    controlIndex(event.key, false)
+    if(keys[event.key]){
+    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
+    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
+  }
+  }
+  // if(keys[event.key]){
+  //   keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
+  //   keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
+  // }
+  // if(event.shiftKey){
+  //   if(keys[event.key]){
+  //     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
+  //     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
+  //   }
+  // }
 };
 const KeyUp = () => {
   if(keys[event.key]){
