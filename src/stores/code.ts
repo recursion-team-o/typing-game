@@ -39,6 +39,15 @@ export const codeStore = defineStore({
         }
       }
     },
+    changeline(): void {
+      for (let i = this.index; i < this.fullcode.length; i++) {
+        if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
+          this.setNextIndexCode(i)
+          this.index = i + 1;
+          break
+        }
+      }
+    },
     setControlIndex(events: string, shifted: boolean): void {
       if (this.correctcode === "" && events === " ") {
         this.startgame();
@@ -52,13 +61,7 @@ export const codeStore = defineStore({
             return;
           }
           else if (this.pointercode === "\n") {
-            for (let i = this.index; i < this.fullcode.length; i++) {
-              if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
-                this.setNextIndexCode(i)
-                this.index = i + 1;
-                break
-              }
-            }
+            this.changeline();
           }
         }
       }
@@ -71,13 +74,7 @@ export const codeStore = defineStore({
           return;
         }
         if (this.pointercode === "\n") {
-          for (let i = this.index; i < this.fullcode.length; i++) {
-            if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
-              this.setNextIndexCode(i)
-              this.index = i + 1;
-              break
-            }
-          }
+          this.changeline();
         }
       }
       //4: 間違っていた場合の処理
