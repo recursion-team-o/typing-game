@@ -4,7 +4,7 @@ import { ref, onMounted, Vue, reactive} from "vue"
 import { codeStore } from '../stores/code'
 
 const code = codeStore();
-const { setNextIndexCode, controlIndex} = code;
+const { setNextIndexCode, moveIndex, startgame } = code;
 const keyboard = ref(null);
 const upper = ref(null);
 
@@ -127,19 +127,31 @@ keys["Meta"] = "Meta";
 keys[" "] = "space";
 
 const KeyDown = () => {
-  if(event.shiftKey){
-    controlIndex(event.key,true)
+  //スタート
+  if(code.correctcode === "" && event.key === " ") {
+    startgame();
+  }
+  //ポインターとキーがあっているか
+  else if(event.key === code.pointercode) {
+    moveIndex();
+  }
+  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
+  else if (event.shiftKey) {
+    if(event.key === code.pointercode){
+      moveIndex();
+    }
     if(keys[event.key]){
       keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
       keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
     }
   }
-  else{
-    controlIndex(event.key, false)
-    if(keys[event.key]){
+  else {
+    console.log("you clicked wrong key");
+    //setMisses(event.key);
+  }
+  if(keys[event.key]){
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
-    }
   }
 };
 
