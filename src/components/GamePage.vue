@@ -139,19 +139,10 @@ const KeyDown = () => {
     if(keys[event.key]){
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
+    }
   }
-  }
-  // if(keys[event.key]){
-  //   keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
-  //   keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
-  // }
-  // if(event.shiftKey){
-  //   if(keys[event.key]){
-  //     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
-  //     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-indigo-500")
-  //   }
-  // }
 };
+
 const KeyUp = () => {
   if(keys[event.key]){
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-indigo-500")
