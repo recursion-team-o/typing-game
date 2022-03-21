@@ -126,10 +126,10 @@ keys["Meta"] = "Meta";
 keys[" "] = "space";
 
 //使いわますため（次のインデックスにするためのやつ）
-function substfunc(ind:num) {
-  code.correctcode = code.fullcode.substring(0,ind)
-  code.pointercode = code.fullcode.substring(ind,ind+1);
-  code.notyetcode = code.fullcode.substring(ind+1);
+function setNextIndexCode(index:number) {
+  code.correctcode = code.fullcode.substring(0,index)
+  code.pointercode = code.fullcode.substring(index,index+1);
+  code.notyetcode = code.fullcode.substring(index+1);
 }
 let index = 0;
 
@@ -138,7 +138,7 @@ const KeyDown = () => {
   if(code.correctcode === "" && event.key === " "){
     for(let i = 0; i < code.fullcode.length; i++){
         if(code.fullcode[i] === "<"){
-          substfunc(i)
+          setNextIndexCode(i)
           index = i + 1;
           break;
       }
@@ -147,7 +147,7 @@ const KeyDown = () => {
   //2: shiftが押されている時に打ったキーと文字が同じかどうか
   else if(event.shiftKey){
     if(event.key === code.pointercode){
-      substfunc(index)
+      setNextIndexCode(index)
       index += 1
       if(code.finishcode.length + 1 === index){
         console.log("finished");
@@ -156,7 +156,7 @@ const KeyDown = () => {
       else if(code.pointercode === "\n"){
         for(let i = index; i < code.fullcode.length; i++){
           if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
-            substfunc(i)
+            setNextIndexCode(i)
             index = i + 1;
             break
           }
@@ -166,7 +166,7 @@ const KeyDown = () => {
   }
   //3: ポインターと打ったキーが同じかどうかの判定
   else if(event.key === code.pointercode){
-    substfunc(index)
+    setNextIndexCode(index)
       index += 1
       if(code.finishcode.length + 1 === index){
         console.log("finished");
@@ -175,7 +175,7 @@ const KeyDown = () => {
       if(code.pointercode === "\n"){
         for(let i = index; i < code.fullcode.length; i++){
           if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
-            substfunc(i)
+            setNextIndexCode(i)
             index = i + 1;
             break
           }
@@ -198,26 +198,14 @@ const KeyDown = () => {
   }
 };
 const KeyUp = () => {
-  for (let key in keys) {
-    if (key === event.key) {
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.remove("bg-indigo-500");
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.add("bg-gray-100");
-    }
+  if(keys[event.key]){
+    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-indigo-500")
+    keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-gray-100")
   }
-  if (event.shiftKey) {
-    for (let key in keys) {
-      if (key === event.key) {
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-indigo-500");
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-gray-100");
-      }
+  if(event.shiftKey){
+    if(keys[event.key]){
+      keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-indigo-500")
+      keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.add("bg-gray-100")
     }
   }
 };
