@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MyCodeDialog from "../components/MyCodeDialog.vue";
-import { User } from "../views/HomeView.vue";
+import type{ User } from "../views/HomeView.vue";
 import { ref } from "vue";
 import { codeStore } from "../stores/code";
 import { storeToRefs } from "pinia";
