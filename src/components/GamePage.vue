@@ -4,6 +4,7 @@ import { ref, onMounted, Vue, reactive} from "vue"
 import { codeStore } from '../stores/code'
 
 const code = codeStore();
+const { setNextIndexCode, setControlIndex} = code;
 const keyboard = ref(null);
 const upper = ref(null);
 
@@ -125,66 +126,12 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-//使いわますため（次のインデックスにするためのやつ）
-function setNextIndexCode(index:number) {
-  code.correctcode = code.fullcode.substring(0,index)
-  code.pointercode = code.fullcode.substring(index,index+1);
-  code.notyetcode = code.fullcode.substring(index+1);
-}
-let index = 0;
-
 const KeyDown = () => {
-  //1: 最初にスペースを押したら始まる
-  if(code.correctcode === "" && event.key === " "){
-    for(let i = 0; i < code.fullcode.length; i++){
-        if(code.fullcode[i] === "<"){
-          setNextIndexCode(i)
-          index = i + 1;
-          break;
-      }
-    }
+  if(event.shiftKey){
+    setControlIndex(event.key,true)
   }
-  //2: shiftが押されている時に打ったキーと文字が同じかどうか
-  else if(event.shiftKey){
-    if(event.key === code.pointercode){
-      setNextIndexCode(index)
-      index += 1
-      if(code.finishcode.length + 1 === index){
-        console.log("finished");
-        return;
-      }
-      else if(code.pointercode === "\n"){
-        for(let i = index; i < code.fullcode.length; i++){
-          if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
-            setNextIndexCode(i)
-            index = i + 1;
-            break
-          }
-        }
-      }
-    }
-  }
-  //3: ポインターと打ったキーが同じかどうかの判定
-  else if(event.key === code.pointercode){
-    setNextIndexCode(index)
-      index += 1
-      if(code.finishcode.length + 1 === index){
-        console.log("finished");
-        return;
-      }
-      if(code.pointercode === "\n"){
-        for(let i = index; i < code.fullcode.length; i++){
-          if(code.fullcode[i] !== "\n" && code.fullcode[i] !== " "){
-            setNextIndexCode(i)
-            index = i + 1;
-            break
-          }
-        }
-      }
-  }
-  //4: 間違っていた場合の処理
   else{
-    console.log("you clicked wrong key");
+    setControlIndex(event.key, false)
   }
   if(keys[event.key]){
     keyboard.value.querySelectorAll("." + keys[event.key])[0].classList.remove("bg-gray-100")
