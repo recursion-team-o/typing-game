@@ -16,7 +16,7 @@ export const codeStore = defineStore({
     },
     getMyCode(state): string {
       return state.writeCode;
-    },
+    }
   },
   actions: {
     setSource(value: string): void {
@@ -30,15 +30,18 @@ export const codeStore = defineStore({
       this.pointercode = this.fullcode.substring(i, i + 1);
       this.notyetcode = this.fullcode.substring(i + 1);
     },
+    startgame(): void {
+      for (let i = 0; i < this.fullcode.length; i++) {
+        if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
+          this.setNextIndexCode(i)
+          this.index = i + 1
+          break;
+        }
+      }
+    },
     setControlIndex(events: string, shifted: boolean): void {
       if (this.correctcode === "" && events === " ") {
-        for (let i = 0; i < this.fullcode.length; i++) {
-          if (this.fullcode[i] === "<") {
-            this.setNextIndexCode(i)
-            this.index = i + 1
-            break;
-          }
-        }
+        this.startgame();
       }
       else if (shifted) {
         if (events === this.pointercode) {
