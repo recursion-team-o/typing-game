@@ -49,38 +49,15 @@ export const codeStore = defineStore({
         }
       }
     },
-    controlIndex(events: string, shifted: boolean): void {
-      if (this.correctcode === "" && events === " ") {
-        this.startgame();
+    moveIndex(): void {
+      this.setNextIndexCode(this.index)
+      this.index += 1;
+      if (this.finishcode.length + 1 === this.index) {
+        console.log("finished");
+        return;
       }
-      else if (shifted) {
-        if (events === this.pointercode) {
-          this.setNextIndexCode(this.index)
-          this.index += 1;
-          if (this.finishcode.length + 1 === this.index) {
-            console.log("finished");
-            return;
-          }
-          else if (this.pointercode === "\n") {
-            this.changeline();
-          }
-        }
-      }
-      //3: ポインターと打ったキーが同じかどうかの判定
-      else if (events === this.pointercode) {
-        this.setNextIndexCode(this.index)
-        this.index += 1
-        if (this.finishcode.length + 1 === this.index) {
-          console.log("finished");
-          return;
-        }
-        if (this.pointercode === "\n") {
-          this.changeline();
-        }
-      }
-      //4: 間違っていた場合の処理
-      else {
-        console.log("you clicked wrong key");
+      if (this.pointercode === "\n") {
+        this.changeline();
       }
     }
   },
