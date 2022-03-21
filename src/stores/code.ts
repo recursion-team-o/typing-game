@@ -5,8 +5,8 @@ export const codeStore = defineStore({
   state: () => ({
     fullcode: config.newcode,
     correctcode: "",
-    pointercode: config.newcode.substring(0, 1),
-    notyetcode: config.newcode.substring(1),
+    pointercode: "",
+    notyetcode: config.newcode.substring(0),
     //コード全体の最後にある空白を全て消す
     finishcode: config.newcode.replace(/\s+$/g, ""),
     index: 0
@@ -32,11 +32,17 @@ export const codeStore = defineStore({
       this.notyetcode = this.fullcode.substring(i + 1);
     },
     startgame(): void {
-      for (let i = 0; i < this.fullcode.length; i++) {
-        if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
-          this.setNextIndexCode(i)
-          this.index = i + 1
-          break;
+      if (this.fullcode[0] !== "\n" && this.fullcode[0] !== " ") {
+        this.setNextIndexCode(0)
+        this.index += 1;
+      }
+      else {
+        for (let i = 0; i < this.fullcode.length; i++) {
+          if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
+            this.setNextIndexCode(i)
+            this.index = i + 1
+            break;
+          }
         }
       }
     },
@@ -66,8 +72,7 @@ export const codeStore = defineStore({
 //仮のデータ
 const config = {
   newcode:
-    `
-      <HeaderAll />
+    `<HeaderAll />
       <div class=7box bg-yellow-400'>
       <div class=7box bg-yellow-400'>
           <div class='upperbox bg-white flex justify-center items-center'>
