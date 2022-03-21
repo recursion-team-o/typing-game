@@ -191,9 +191,7 @@ document.onkeyup = (event) => KeyUp();
     <!-- 上半分のHTML -->
     <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
       <div class="codearea overs flex justify-center items-center">
-        <pre class="codearea p-5">
-          <code class="language-html"><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code>
-        </pre>
+        <pre class="codearea p-5"><code class="language-html"><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code></pre>
       </div>
     </div>
 
