@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import LevelDialog from "../components/LevelDialog.vue";
-import { User } from "../views/HomeView.vue";
+import type { User } from "../views/HomeView.vue";
 import { ref } from "vue";
 
 let showLevelDialog = ref<boolean>(false);
