@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, Vue, reactive } from "vue";
 import { codeStore } from "../stores/code";
+import { timerStore } from "../stores/timer";
 
 const code = codeStore();
+const timer = timerStore();
+const { startTimer, stopTimer, resetTimer } = timer;
 const { moveIndex, startgame } = code;
 const keyboard = ref(null);
 const upper = ref(null);
@@ -129,6 +132,7 @@ const KeyDown = () => {
   //スタート
   if (code.correctcode === "" && event.key === " ") {
     startgame();
+    startTimer();
   }
   //ポインターとキーがあっているか
   else if (event.key === code.pointercode) {
