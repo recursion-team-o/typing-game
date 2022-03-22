@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+//import { stat } from "fs";
 
 export const userStore = defineStore({
   id: "user",
@@ -32,17 +33,16 @@ export const userStore = defineStore({
         return state.missTypes.get(key);
       };
       return missCount;
-    },
-    getNigate(state): string {
-      for (let key of state.missTypes.keys()) {
-        state.nigateString += key
-      }
-      return state.nigateString;
     }
   },
   actions: {
     setName(value: string): void {
       this.name = value;
+    },
+    getNigate(): void {
+      for (let key of this.missTypes.keys()) {
+        console.log(key);
+      }
     },
     setLang(value: string): void {
       this.lang = value;

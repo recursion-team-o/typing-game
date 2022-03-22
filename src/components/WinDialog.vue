@@ -57,7 +57,7 @@ const closeDialog = (): void => {
               <p class="text-3xl font-bold">時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</p>
               <p class="text-3xl font-bold">ミスタッチ数:{{ getMissCount }}</p>
               <p class="text-3xl font-bold">成功率:{{ getSuccessPer }}%</p>
-              <p class="text-3xl font-bold">苦手キー: {{ getMissCounts}}</p>
+              <p class="text-3xl font-bold">{{getNigate}}</p>
             </div>
 
             <div
