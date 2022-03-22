@@ -33,16 +33,14 @@ export const userStore = defineStore({
         return state.missTypes.get(key);
       };
       return missCount;
+    },
+    getMissObj(state): void {
+      return state.missTypes;
     }
   },
   actions: {
     setName(value: string): void {
       this.name = value;
-    },
-    getNigate(): void {
-      for (let key of this.missTypes.keys()) {
-        console.log(key);
-      }
     },
     setLang(value: string): void {
       this.lang = value;
@@ -56,13 +54,29 @@ export const userStore = defineStore({
     setScore(value: number): void {
       this.score = value;
     },
+    setNigate(): any {
+      let table = document.createElement("table");
+      this.missTypes.forEach((value: boolean, key: string) => {
+        let tr = document.createElement("p");
+        tr.innerHTML =
+          `
+        <tr>
+          <td>${key}</td><td>${value}</td>
+        </tr>
+        `;
+        table.append(tr);
+        //state.nigateString += ("key: " + key + ", 間違えた回数: " + value);
+      });
+      return table
+    },
     setMisses(key: string): void {
       const value = this.missTypes.get(key);
-      if (typeof value !== "number") {
+      if (!this.missTypes.has(key)) {
         this.missTypes.set(key, 1);
-        console.log("first set");
+        console.log("first miss of key " + key);
       } else {
         this.missTypes.set(key, value + 1);
+        console.log(this.missTypes.get(key))
       }
     },
   },

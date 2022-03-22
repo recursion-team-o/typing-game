@@ -2,10 +2,13 @@
 import { ref, onMounted, Vue, reactive } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
+import { userStore } from "../stores/user";
 import WinDialog from "../components/WinDialog.vue";
 
+const user = userStore();
 const code = codeStore();
 const timer = timerStore();
+const { setMisses } = user;
 const { startTimer, stopTimer, resetTimer, changeline } = timer;
 const { moveIndex, startgame, setMissCount } = code;
 const keyboard = ref(null);
@@ -177,6 +180,7 @@ const KeyDown = () => {
     }
   } else {
     setMissCount();
+    setMisses(event.key);
     console.log("you clicked wrong key");
     //setMisses(event.key);
   }

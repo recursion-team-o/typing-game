@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import HeaderAll from "@/components/HeaderAll.vue";
+import { timerStore } from "../stores/timer";
+import { storeToRefs } from "pinia";
+import { codeStore } from "../stores/code";
+import { userStore } from "../stores/user";
+const user = userStore();
+const code = codeStore();
+const timer = timerStore();
+const { getMinString, getSecString, getPointMsec, resetTimer } =
+  storeToRefs(timer);
+const { getSuccessPer, getMissCount } = storeToRefs(code);
+const { getNigate, getMissCounts, getMissObj, setNigate, resetCode } =
+  storeToRefs(user);
 </script>
 
 <template>
@@ -15,9 +27,10 @@ import HeaderAll from "@/components/HeaderAll.vue";
     <!--「時間」「ミスタイプ」「苦手キー」の箱-->
     <div class="pt-5 flex items-center justify-center">
       <ol class="result-box text-center">
-        <li class="text-2xl">時間: 3.23</li>
-        <li class="text-2xl">ミスタイプ数:</li>
-        <li class="text-2xl">苦手キー:</li>
+        <li class="text-2xl">時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</li>
+        <li class="text-2xl">ミスタイプ数: {{ getMissCount }}</li>
+        <li class="text-2xl nigate">苦手キー:</li>
+        <li v-for="(value, name) in user.missTypes">{{ value }}: {{ name }}</li>
       </ol>
     </div>
     <!--ツイッターでシェアの箱-->
@@ -36,13 +49,12 @@ import HeaderAll from "@/components/HeaderAll.vue";
         <RouterLink
           class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
           to="/"
-          >メインに戻る</RouterLink
-        >
-        <a
-          href="#"
+        >メインに戻る</RouterLink>
+        <RouterLink
+          @click="code.resetCode(); timer.resetTimer()"
           class="inline-block px-20 py-3 rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
-          >リスタート</a
-        >
+          to="/game"
+        >リスタート</RouterLink>
       </div>
     </div>
   </div>

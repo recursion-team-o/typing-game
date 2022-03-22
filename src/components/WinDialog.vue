@@ -10,7 +10,7 @@ const code = codeStore();
 const user = userStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getSuccessPer, getMissCount } = storeToRefs(code);
-const { getNigate, getMissCounts } = storeToRefs(user);
+const { getNigate, getMissCounts, getMissObj } = storeToRefs(user);
 
 defineProps<{
   showMyCodeDialog: boolean;
@@ -54,10 +54,12 @@ const closeDialog = (): void => {
             <div
               class="modal-body results relative flex flex-col justify-around items-center h-32 px-4 pb-4"
             >
-              <p class="text-3xl font-bold">時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</p>
-              <p class="text-3xl font-bold">ミスタッチ数:{{ getMissCount }}</p>
-              <p class="text-3xl font-bold">成功率:{{ getSuccessPer }}%</p>
-              <p class="text-3xl font-bold">{{getNigate}}</p>
+              <p
+                class="text-3xl mb-2 font-bold"
+              >時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</p>
+              <p class="text-3xl mb-2 font-bold">ミスタッチ数: {{ getMissCount }}</p>
+              <p class="text-3xl font-bold">成功率: {{ getSuccessPer }}%</p>
+              <!-- <p class="text-3xl font-bold">{{getMissObj}}</p> -->
             </div>
 
             <div
@@ -86,6 +88,6 @@ const closeDialog = (): void => {
   @apply rounded-r-lg flex-1 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 shadow-sm text-base;
 }
 .modal-content {
-  @apply border-none shadow-lg relative flex flex-col justify-around w-5/12 max-w-3xl h-[400px] pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
+  @apply border-none shadow-lg relative flex flex-col justify-around w-5/12 max-w-3xl h-[500px] pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
 }
 </style>

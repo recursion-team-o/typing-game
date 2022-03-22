@@ -87,6 +87,13 @@ export const codeStore = defineStore({
     },
     setMissCount(): void {
       this.missCount += 1;
+    },
+    resetCode(): void {
+      this.correctcode = "";
+      this.pointercode = "";
+      this.notyetcode = config.newcode.substring(0);
+      this.index = 0;
+      this.missCount = 0
     }
   },
 });
