@@ -181,6 +181,7 @@ const KeyDown = () => {
   } else {
     setMissCount();
     setMisses(event.key);
+    user.setScore();
     console.log("you clicked wrong key");
     //setMisses(event.key);
   }

@@ -8,7 +8,7 @@ export const userStore = defineStore({
     lang: "" as string,
     level: 0 as number,
     time: 0 as number,
-    score: 0 as number,
+    score: 100 as number,
     missTypes: new Map<string, number>(),
     nigateString: "" as string
   }),
@@ -51,8 +51,8 @@ export const userStore = defineStore({
     setTime(value: number): void {
       this.time = value;
     },
-    setScore(value: number): void {
-      this.score = value;
+    setScore(): void {
+      this.score -= 1;
     },
     setNigate(): any {
       let table = document.createElement("table");

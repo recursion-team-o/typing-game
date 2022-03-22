@@ -22,7 +22,7 @@ const { getNigate, getMissCounts, getMissObj, setNigate, resetCode } =
   <div class="box bg-yellow-500 pt-20">
     <!--スコアの箱-->
     <div class="pt-20 flex items-center justify-center pb-10">
-      <p class="text-6xl font-bold">スコア : 100</p>
+      <p class="text-6xl font-bold">スコア : {{user.score}}</p>
     </div>
     <!--「時間」「ミスタイプ」「苦手キー」の箱-->
     <div class="pt-5 flex items-center justify-center">
