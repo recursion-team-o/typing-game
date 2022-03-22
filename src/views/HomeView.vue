@@ -2,7 +2,7 @@
 import HeaderAll from "@/components/HeaderAll.vue";
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
-import { reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 
 export interface User {
   name: string;
@@ -14,12 +14,19 @@ const user = reactive<User>({
   selectLang: "",
   selectLevel: "",
 });
+const headerRef = ref<InstanceType<typeof HeaderAll>>();
+let homeHeightStyle = ref<string>();
+onMounted(() => {
+  const headerHeight = ref<number>(headerRef.value.$el.clientHeight);
+  const headerHeightVh = ref<number>((headerHeight.value * 100) / 1000);
+  homeHeightStyle.value = 100 - headerHeightVh.value + "vh";
+});
 </script>
 
 <template>
   <main>
-    <HeaderAll />
-    <div class="h-screen bg-yellow-300">
+    <HeaderAll ref="headerRef" />
+    <div :style="{ height: homeHeightStyle }" class="h-[84.8vh] bg-yellow-300">
       <div class="flex flex-col justify-center text-center h-1/2">
         <p>A website focused on improving your coding skills</p>
         <h2 class="text-5xl my-4">CODE-TYPING</h2>
@@ -47,3 +54,9 @@ const user = reactive<User>({
     </div>
   </main>
 </template>
+
+<style scoped>
+.home-height {
+  height: v-bind("headerHeight") px;
+}
+</style>

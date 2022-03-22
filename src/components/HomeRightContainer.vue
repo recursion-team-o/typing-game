@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import MyCodeDialog from "../components/MyCodeDialog.vue";
-import { User } from "../views/HomeView.vue";
+import type{ User } from "../views/HomeView.vue";
 import { ref } from "vue";
+import { codeStore } from "../stores/code";
+import { storeToRefs } from "pinia";
 
 defineProps<{
   user: User;
 }>();
 let showMyCodeDialog = ref<boolean>(false);
-let myCode = ref<string>(
-  "function getLowestTemperature(x, y) { return x - y; }"
-);
+const code = codeStore();
+const { sampleCode } = storeToRefs(code);
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
@@ -26,7 +27,7 @@ const closeDialog = (): void => {
       <h3 class="py-6 font-semibold text-2xl">自分のソースコード練習</h3>
       <div class="w-7/12 mb-4">
         <textarea
-          v-model="myCode"
+          v-model.trim="sampleCode"
           class="mycode-textarea"
           id="exampleFormControlTextarea1"
           rows="3"
@@ -42,7 +43,6 @@ const closeDialog = (): void => {
   </div>
   <MyCodeDialog
     :user="user"
-    :myCode="myCode"
     :showMyCodeDialog="showMyCodeDialog"
     @closeDialog="closeDialog"
   />
