@@ -35,9 +35,7 @@ const goToGamePage = () => router.push("/game");
         class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-50"
         v-show="showMyCodeDialog"
       >
-        <div
-          class="flex items-start justify-center min-h-screen pt-24 text-center"
-        >
+        <div class="flex items-start justify-center min-h-screen pt-24 text-center">
           <div
             class="modal-content"
             role="dialog"
@@ -54,16 +52,14 @@ const goToGamePage = () => router.push("/game");
               class="modal-body relative flex flex-col justify-around items-center h-72 px-4 pb-4"
             >
               <div class="flex relative w-10/12 max-w-sm">
-                <span class="menu-item"> UserName </span>
+                <span class="menu-item">UserName</span>
                 <div type="text" class="menu-content">
                   <p>{{ user.name }}</p>
                 </div>
               </div>
               <div
                 class="flex relative mt-4 w-10/12 max-w-2xl rounded-md border overflow-y-scroll h-60"
-              >
-                {{ getSampleCode }}
-              </div>
+              >{{ getSampleCode }}</div>
             </div>
             <div
               class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between py-4 px-8 border-t border-gray-200 rounded-b-md"
@@ -73,9 +69,7 @@ const goToGamePage = () => router.push("/game");
                 type="button"
                 class="btn bg-purple-600"
                 data-bs-dismiss="modal"
-              >
-                Close
-              </button>
+              >Close</button>
               <button
                 type="button"
                 class="btn bg-blue-600"
@@ -83,9 +77,7 @@ const goToGamePage = () => router.push("/game");
                   code.setJustCode();
                   goToGamePage();
                 "
-              >
-                start
-              </button>
+              >start</button>
             </div>
           </div>
         </div>

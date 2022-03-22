@@ -2,9 +2,16 @@
 import { User } from "../views/HomeView.vue";
 import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
+import { codeStore } from "../stores/code";
+import { userStore } from "../stores/user";
 
 const timer = timerStore();
+const code = codeStore();
+const user = userStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
+const { getSuccessPer, getMissCount } = storeToRefs(code);
+const { getNigate, getMissCounts } = storeToRefs(user);
+
 defineProps<{
   showMyCodeDialog: boolean;
 }>();
@@ -48,7 +55,9 @@ const closeDialog = (): void => {
               class="modal-body results relative flex flex-col justify-around items-center h-32 px-4 pb-4"
             >
               <p class="text-3xl font-bold">時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</p>
-              <p></p>
+              <p class="text-3xl font-bold">ミスタッチ数:{{ getMissCount }}</p>
+              <p class="text-3xl font-bold">成功率:{{ getSuccessPer }}%</p>
+              <p class="text-3xl font-bold">苦手キー: {{ getMissCounts}}</p>
             </div>
 
             <div

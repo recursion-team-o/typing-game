@@ -7,7 +7,7 @@ import WinDialog from "../components/WinDialog.vue";
 const code = codeStore();
 const timer = timerStore();
 const { startTimer, stopTimer, resetTimer, changeline } = timer;
-const { moveIndex, startgame } = code;
+const { moveIndex, startgame, setMissCount } = code;
 const keyboard = ref(null);
 const upper = ref(null);
 let showMyCodeDialog = ref<boolean>(false);
@@ -176,6 +176,7 @@ const KeyDown = () => {
         .classList.add("bg-indigo-500");
     }
   } else {
+    setMissCount();
     console.log("you clicked wrong key");
     //setMisses(event.key);
   }

@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+//import { stat } from "fs";
 
 export const codeStore = defineStore({
   id: "code",
@@ -9,7 +10,9 @@ export const codeStore = defineStore({
     notyetcode: config.newcode.substring(0),
     //コード全体の最後にある空白を全て消す
     finishcode: config.newcode.replace(/\s+$/g, ""),
-    index: 0
+    actualString: config.newcode.replace(/^\s+|\s+$/g, ""),
+    index: 0,
+    missCount: 0
   }),
   getters: {
     getSource(state): string {
@@ -17,6 +20,14 @@ export const codeStore = defineStore({
     },
     getMyCode(state): string {
       return state.writeCode;
+    },
+    getSuccessPer(state): number {
+      let actual = state.actualString.length;
+      let totalTouch = actual + state.missCount;
+      return actual / totalTouch * 100;
+    },
+    getMissCount(state): number {
+      return state.missCount
     }
   },
   actions: {
@@ -73,6 +84,9 @@ export const codeStore = defineStore({
     moveIndex(): void {
       this.setNextIndexCode(this.index)
       this.index += 1;
+    },
+    setMissCount(): void {
+      this.missCount += 1;
     }
   },
 });

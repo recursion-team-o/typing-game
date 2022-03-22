@@ -9,6 +9,7 @@ export const userStore = defineStore({
     time: 0 as number,
     score: 0 as number,
     missTypes: new Map<string, number>(),
+    nigateString: "" as string
   }),
   getters: {
     getName(state): string {
@@ -26,12 +27,18 @@ export const userStore = defineStore({
     getScore(state): number {
       return state.score;
     },
-    getMissCount(state): any {
+    getMissCounts(state): any {
       const missCount = (key: string) => {
         return state.missTypes.get(key);
       };
       return missCount;
     },
+    getNigate(state): string {
+      for (let key of state.missTypes.keys()) {
+        state.nigateString += key
+      }
+      return state.nigateString;
+    }
   },
   actions: {
     setName(value: string): void {
