@@ -5,7 +5,7 @@ import { timerStore } from "../stores/timer";
 
 const code = codeStore();
 const timer = timerStore();
-const { startTimer, stopTimer, resetTimer } = timer;
+const { startTimer, stopTimer, resetTimer, changeline } = timer;
 const { moveIndex, startgame } = code;
 const keyboard = ref(null);
 const upper = ref(null);
@@ -137,11 +137,25 @@ const KeyDown = () => {
   //ポインターとキーがあっているか
   else if (event.key === code.pointercode) {
     moveIndex();
+    if (code.finishcode.length + 1 === code.index) {
+      stopTimer();
+      return;
+    }
+    if (code.pointercode === "\n") {
+      changeline();
+    }
   }
   //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
   else if (event.shiftKey) {
     if (event.key === code.pointercode) {
       moveIndex();
+      if (code.finishcode.length + 1 === code.index) {
+        stopTimer();
+        return;
+      }
+      if (code.pointercode === "\n") {
+        changeline();
+      }
     }
     if (keys[event.key]) {
       keyboard.value

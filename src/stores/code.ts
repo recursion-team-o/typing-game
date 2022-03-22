@@ -73,13 +73,6 @@ export const codeStore = defineStore({
     moveIndex(): void {
       this.setNextIndexCode(this.index)
       this.index += 1;
-      if (this.finishcode.length + 1 === this.index) {
-        console.log("finished");
-        return;
-      }
-      if (this.pointercode === "\n") {
-        this.changeline();
-      }
     }
   },
 });
@@ -88,22 +81,5 @@ export const codeStore = defineStore({
 const config = {
   newcode:
     `<HeaderAll />
-
-      <div class=7box bg-yellow-400'>
-      <div class=7box bg-yellow-400'>
-          <div class='upperbox bg-white flex justify-center items-center'>
-            <div class='codearea flex justify-center items-center '>
-              <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-            </div>
-          </div>
-        </div>
-        <div class=7box bg-yellow-400'>
-          <div class='upperbox bg-white flex justify-center items-center'>
-            <div class='codearea flex justify-center items-center '>
-              <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-            </div>
-          </div>
-        </div>
-      </div>
     `,
 };
