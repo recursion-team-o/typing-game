@@ -2,6 +2,7 @@
 import { ref, onMounted, Vue, reactive } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
+import WinDialog from "../components/WinDialog.vue";
 
 const code = codeStore();
 const timer = timerStore();
@@ -9,6 +10,13 @@ const { startTimer, stopTimer, resetTimer, changeline } = timer;
 const { moveIndex, startgame } = code;
 const keyboard = ref(null);
 const upper = ref(null);
+let showMyCodeDialog = ref<boolean>(false);
+const openDialog = (): void => {
+  showMyCodeDialog.value = true;
+};
+const closeDialog = (): void => {
+  showMyCodeDialog.value = false;
+};
 
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
@@ -139,6 +147,7 @@ const KeyDown = () => {
     moveIndex();
     if (code.finishcode.length + 1 === code.index) {
       stopTimer();
+      openDialog();
       return;
     }
     if (code.pointercode === "\n") {
@@ -151,6 +160,7 @@ const KeyDown = () => {
       moveIndex();
       if (code.finishcode.length + 1 === code.index) {
         stopTimer();
+        openDialog();
         return;
       }
       if (code.pointercode === "\n") {
@@ -690,6 +700,7 @@ document.onkeyup = (event) => KeyUp();
       </div>
     </div>
   </div>
+  <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style>
 .box {
