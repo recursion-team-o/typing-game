@@ -56,10 +56,8 @@ export const userStore = defineStore({
       const value = this.missTypes.get(key);
       if (!this.missTypes.has(key)) {
         this.missTypes.set(key, 1);
-        console.log("first miss of key " + key);
       } else {
         this.missTypes.set(key, value + 1);
-        console.log(this.missTypes.get(key));
       }
     },
     setGameFalse(): void {
