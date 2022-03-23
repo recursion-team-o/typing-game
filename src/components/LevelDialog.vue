@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { User } from "./views/HomeView.vue";
 defineProps<{
   user: User;
   showLevelDialog: boolean;

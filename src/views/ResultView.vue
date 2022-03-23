@@ -1,6 +1,15 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
 import HeaderAll from "@/components/HeaderAll.vue";
+import { timerStore } from "../stores/timer";
+import { storeToRefs } from "pinia";
+import { codeStore } from "../stores/code";
+import { userStore } from "../stores/user";
+const user = userStore();
+const code = codeStore();
+const timer = timerStore();
+const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
+const { getMissCount } = storeToRefs(code);
 </script>
 
 <template>
@@ -10,14 +19,17 @@ import HeaderAll from "@/components/HeaderAll.vue";
   <div class="box bg-yellow-500 pt-20">
     <!--スコアの箱-->
     <div class="pt-20 flex items-center justify-center pb-10">
-      <p class="text-6xl font-bold">スコア : 100</p>
+      <p class="text-6xl font-bold">スコア : {{ user.score }}</p>
     </div>
     <!--「時間」「ミスタイプ」「苦手キー」の箱-->
     <div class="pt-5 flex items-center justify-center">
       <ol class="result-box text-center">
-        <li class="text-2xl">時間: 3.23</li>
-        <li class="text-2xl">ミスタイプ数:</li>
-        <li class="text-2xl">苦手キー:</li>
+        <li class="text-2xl">
+          時間: {{ getMinString }}:{{ getSecString }}:{{ getPointMsec }}
+        </li>
+        <li class="text-2xl">ミスタイプ数: {{ getMissCount }}</li>
+        <li class="text-2xl nigate">苦手キー:</li>
+        <li v-for="value in user.missTypes">{{ value[0] }}: {{ value[1] }}</li>
       </ol>
     </div>
     <!--ツイッターでシェアの箱-->
@@ -38,10 +50,14 @@ import HeaderAll from "@/components/HeaderAll.vue";
           to="/"
           >メインに戻る</RouterLink
         >
-        <a
-          href="#"
+        <RouterLink
+          @click="
+            code.resetCode();
+            timer.resetTimer();
+          "
           class="inline-block px-20 py-3 rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
-          >リスタート</a
+          to="/game"
+          >リスタート</RouterLink
         >
       </div>
     </div>
@@ -56,6 +72,7 @@ import HeaderAll from "@/components/HeaderAll.vue";
 }
 .result-box {
   width: 250px;
+  height: 200px;
 }
 .twitter-box {
   width: 350px;
