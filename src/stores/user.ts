@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-//import { stat } from "fs";
 
 export const userStore = defineStore({
   id: "user",
@@ -10,7 +9,6 @@ export const userStore = defineStore({
     time: 0 as number,
     score: 100 as number,
     missTypes: new Map<string, number>(),
-    nigateString: "" as string,
     canStartGame: true as boolean,
   }),
   getters: {
