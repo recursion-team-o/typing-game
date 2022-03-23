@@ -221,16 +221,14 @@ const KeyUp = () => {
 document.onkeydown = (event) => {
   if (user.canStartGame) {
     KeyDown();
-  } else {
-    return;
   }
+  return;
 };
 document.onkeyup = (event) => {
   if (user.canStartGame) {
     KeyUp();
-  } else {
-    return;
   }
+  return;
 };
 </script>
 
