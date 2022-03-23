@@ -8,11 +8,8 @@ import { userStore } from "../stores/user";
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
-const { getMinString, getSecString, getPointMsec, resetTimer } =
-  storeToRefs(timer);
-const { getSuccessPer, getMissCount } = storeToRefs(code);
-const { getNigate, getMissCounts, getMissObj, setNigate, resetCode } =
-  storeToRefs(user);
+const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
+const { getMissCount } = storeToRefs(code);
 </script>
 
 <template>
@@ -22,15 +19,17 @@ const { getNigate, getMissCounts, getMissObj, setNigate, resetCode } =
   <div class="box bg-yellow-500 pt-20">
     <!--スコアの箱-->
     <div class="pt-20 flex items-center justify-center pb-10">
-      <p class="text-6xl font-bold">スコア : {{user.score}}</p>
+      <p class="text-6xl font-bold">スコア : {{ user.score }}</p>
     </div>
     <!--「時間」「ミスタイプ」「苦手キー」の箱-->
     <div class="pt-5 flex items-center justify-center">
       <ol class="result-box text-center">
-        <li class="text-2xl">時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</li>
+        <li class="text-2xl">
+          時間: {{ getMinString }}:{{ getSecString }}:{{ getPointMsec }}
+        </li>
         <li class="text-2xl">ミスタイプ数: {{ getMissCount }}</li>
         <li class="text-2xl nigate">苦手キー:</li>
-        <li v-for="(value, name) in user.missTypes">{{ value }}: {{ name }}</li>
+        <li v-for="value in user.missTypes">{{ value[0] }}: {{ value[1] }}</li>
       </ol>
     </div>
     <!--ツイッターでシェアの箱-->
@@ -49,12 +48,17 @@ const { getNigate, getMissCounts, getMissObj, setNigate, resetCode } =
         <RouterLink
           class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
           to="/"
-        >メインに戻る</RouterLink>
+          >メインに戻る</RouterLink
+        >
         <RouterLink
-          @click="code.resetCode(); timer.resetTimer()"
+          @click="
+            code.resetCode();
+            timer.resetTimer();
+          "
           class="inline-block px-20 py-3 rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
           to="/game"
-        >リスタート</RouterLink>
+          >リスタート</RouterLink
+        >
       </div>
     </div>
   </div>

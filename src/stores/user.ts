@@ -10,7 +10,7 @@ export const userStore = defineStore({
     time: 0 as number,
     score: 100 as number,
     missTypes: new Map<string, number>(),
-    nigateString: "" as string
+    nigateString: "" as string,
   }),
   getters: {
     getName(state): string {
@@ -34,9 +34,6 @@ export const userStore = defineStore({
       };
       return missCount;
     },
-    getMissObj(state): void {
-      return state.missTypes;
-    }
   },
   actions: {
     setName(value: string): void {
@@ -54,21 +51,6 @@ export const userStore = defineStore({
     setScore(): void {
       this.score -= 1;
     },
-    setNigate(): any {
-      let table = document.createElement("table");
-      this.missTypes.forEach((value: boolean, key: string) => {
-        let tr = document.createElement("p");
-        tr.innerHTML =
-          `
-        <tr>
-          <td>${key}</td><td>${value}</td>
-        </tr>
-        `;
-        table.append(tr);
-        //state.nigateString += ("key: " + key + ", 間違えた回数: " + value);
-      });
-      return table
-    },
     setMisses(key: string): void {
       const value = this.missTypes.get(key);
       if (!this.missTypes.has(key)) {
@@ -76,7 +58,7 @@ export const userStore = defineStore({
         console.log("first miss of key " + key);
       } else {
         this.missTypes.set(key, value + 1);
-        console.log(this.missTypes.get(key))
+        console.log(this.missTypes.get(key));
       }
     },
   },

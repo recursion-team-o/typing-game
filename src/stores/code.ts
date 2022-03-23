@@ -12,7 +12,7 @@ export const codeStore = defineStore({
     finishcode: config.newcode.replace(/\s+$/g, ""),
     actualString: config.newcode.replace(/^\s+|\s+$/g, ""),
     index: 0,
-    missCount: 0
+    missCount: 0,
   }),
   getters: {
     getSource(state): string {
@@ -22,13 +22,13 @@ export const codeStore = defineStore({
       return state.writeCode;
     },
     getSuccessPer(state): number {
-      let actual = state.actualString.length;
-      let totalTouch = actual + state.missCount;
-      return actual / totalTouch * 100;
+      const actual = state.actualString.length;
+      const totalTouch = actual + state.missCount;
+      return (actual / totalTouch) * 100;
     },
     getMissCount(state): number {
-      return state.missCount
-    }
+      return state.missCount;
+    },
   },
   actions: {
     setFullCode(value: string): void {
@@ -59,14 +59,13 @@ export const codeStore = defineStore({
     },
     startgame(): void {
       if (this.fullcode[0] !== "\n" && this.fullcode[0] !== " ") {
-        this.setNextIndexCode(0)
+        this.setNextIndexCode(0);
         this.index += 1;
-      }
-      else {
+      } else {
         for (let i = 0; i < this.fullcode.length; i++) {
           if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
-            this.setNextIndexCode(i)
-            this.index = i + 1
+            this.setNextIndexCode(i);
+            this.index = i + 1;
             break;
           }
         }
@@ -75,14 +74,14 @@ export const codeStore = defineStore({
     changeline(): void {
       for (let i = this.index; i < this.fullcode.length; i++) {
         if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
-          this.setNextIndexCode(i)
+          this.setNextIndexCode(i);
           this.index = i + 1;
-          break
+          break;
         }
       }
     },
     moveIndex(): void {
-      this.setNextIndexCode(this.index)
+      this.setNextIndexCode(this.index);
       this.index += 1;
     },
     setMissCount(): void {
@@ -93,21 +92,15 @@ export const codeStore = defineStore({
       this.pointercode = "";
       this.notyetcode = config.newcode.substring(0);
       this.index = 0;
-      this.missCount = 0
-    }
+      this.missCount = 0;
+    },
   },
 });
 
 //仮のデータ
 const config = {
-  newcode:
-    `
+  newcode: `
     <template>
-    <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
-      <div class="codearea overs flex justify-center items-center">
-        <pre class="codearea p-5"><code class="language-html"><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code></pre>
-      </div>
-    </div>
-    </template>
+    <div ref="upper" class="upperbox mt-2"></div>
     `,
 };

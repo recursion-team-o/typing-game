@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import { User } from "../views/HomeView.vue";
 import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
-import { userStore } from "../stores/user";
 
 const timer = timerStore();
 const code = codeStore();
-const user = userStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getSuccessPer, getMissCount } = storeToRefs(code);
-const { getNigate, getMissCounts, getMissObj } = storeToRefs(user);
 
 defineProps<{
   showMyCodeDialog: boolean;
 }>();
-const emit = defineEmits<{
-  (event: "closeDialog"): void;
-}>();
-const closeDialog = (): void => {
-  emit("closeDialog");
-};
 </script>
 
 <template>
@@ -38,7 +28,9 @@ const closeDialog = (): void => {
         class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-50"
         v-show="showMyCodeDialog"
       >
-        <div class="flex items-start justify-center min-h-screen pt-24 text-center">
+        <div
+          class="flex items-start justify-center min-h-screen pt-24 text-center"
+        >
           <div
             class="modal-content"
             role="dialog"
@@ -49,15 +41,19 @@ const closeDialog = (): void => {
             <div
               class="modal-header flex flex-shrink-0 items-center justify-center p-4 border-b border-gray-200 rounded-t-md"
             >
-              <p class="text-4xl text-cyan-600 font-bold">おめでとうございます！</p>
+              <p class="text-4xl text-cyan-600 font-bold">
+                おめでとうございます！
+              </p>
             </div>
             <div
               class="modal-body results relative flex flex-col justify-around items-center h-32 px-4 pb-4"
             >
-              <p
-                class="text-3xl mb-2 font-bold"
-              >時間: {{ getMinString }}:{{getSecString}}:{{getPointMsec}}</p>
-              <p class="text-3xl mb-2 font-bold">ミスタッチ数: {{ getMissCount }}</p>
+              <p class="text-3xl mb-2 font-bold">
+                時間: {{ getMinString }}:{{ getSecString }}:{{ getPointMsec }}
+              </p>
+              <p class="text-3xl mb-2 font-bold">
+                ミスタッチ数: {{ getMissCount }}
+              </p>
               <p class="text-3xl font-bold">成功率: {{ getSuccessPer }}%</p>
               <!-- <p class="text-3xl font-bold">{{getMissObj}}</p> -->
             </div>
@@ -68,7 +64,8 @@ const closeDialog = (): void => {
               <RouterLink
                 class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
                 to="/result"
-              >結果画面へ</RouterLink>
+                >結果画面へ</RouterLink
+              >
             </div>
           </div>
         </div>
