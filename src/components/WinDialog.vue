@@ -55,7 +55,6 @@ defineProps<{
                 ミスタッチ数: {{ getMissCount }}
               </p>
               <p class="text-3xl font-bold">成功率: {{ getSuccessPer }}%</p>
-              <!-- <p class="text-3xl font-bold">{{getMissObj}}</p> -->
             </div>
 
             <div

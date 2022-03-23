@@ -4,15 +4,16 @@ import { defineStore } from "pinia";
 export const codeStore = defineStore({
   id: "code",
   state: () => ({
-    fullcode: config.newcode,
-    correctcode: "",
-    pointercode: "",
-    notyetcode: config.newcode.substring(0),
+    fullCode: config.newCode,
+    correctCode: "",
+    pointerCode: "",
+    notYetCode: config.newCode.substring(0),
     //コード全体の最後にある空白を全て消す
-    finishcode: config.newcode.replace(/\s+$/g, ""),
-    actualString: config.newcode.replace(/^\s+|\s+$/g, ""),
+    finishCode: config.newCode.replace(/\s+$/g, ""),
+    actualString: config.newCode.replace(/^\s+|\s+$/g, ""),
     index: 0,
     missCount: 0,
+    sampleCode: "",
   }),
   getters: {
     getSource(state): string {
@@ -32,16 +33,16 @@ export const codeStore = defineStore({
   },
   actions: {
     setFullCode(value: string): void {
-      this.fullcode = value;
+      this.fullCode = value;
     },
     setPointerCode(value: string): void {
-      this.pointercode = value;
+      this.pointerCode = value;
     },
     setNotYetCode(value: string): void {
-      this.notyetcode = value;
+      this.notYetCode = value;
     },
     setFinishCode(value: string): void {
-      this.finishcode = value;
+      this.finishCode = value;
     },
     setSampleCode(value: string): void {
       this.sampleCode = value;
@@ -53,17 +54,17 @@ export const codeStore = defineStore({
       this.setFinishCode(this.getSampleCode.replace(/\s+$/g, ""));
     },
     setNextIndexCode(i: number): void {
-      this.correctcode = this.fullcode.substring(0, i);
-      this.pointercode = this.fullcode.substring(i, i + 1);
-      this.notyetcode = this.fullcode.substring(i + 1);
+      this.correctCode = this.fullCode.substring(0, i);
+      this.pointerCode = this.fullCode.substring(i, i + 1);
+      this.notYetCode = this.fullCode.substring(i + 1);
     },
-    startgame(): void {
-      if (this.fullcode[0] !== "\n" && this.fullcode[0] !== " ") {
+    startGame(): void {
+      if (this.fullCode[0] !== "\n" && this.fullCode[0] !== " ") {
         this.setNextIndexCode(0);
         this.index += 1;
       } else {
-        for (let i = 0; i < this.fullcode.length; i++) {
-          if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
+        for (let i = 0; i < this.fullCode.length; i++) {
+          if (this.fullCode[i] !== "\n" && this.fullCode[i] !== " ") {
             this.setNextIndexCode(i);
             this.index = i + 1;
             break;
@@ -71,9 +72,9 @@ export const codeStore = defineStore({
         }
       }
     },
-    changeline(): void {
-      for (let i = this.index; i < this.fullcode.length; i++) {
-        if (this.fullcode[i] !== "\n" && this.fullcode[i] !== " ") {
+    changeLine(): void {
+      for (let i = this.index; i < this.fullCode.length; i++) {
+        if (this.fullCode[i] !== "\n" && this.fullCode[i] !== " ") {
           this.setNextIndexCode(i);
           this.index = i + 1;
           break;
@@ -88,9 +89,9 @@ export const codeStore = defineStore({
       this.missCount += 1;
     },
     resetCode(): void {
-      this.correctcode = "";
-      this.pointercode = "";
-      this.notyetcode = config.newcode.substring(0);
+      this.correctCode = "";
+      this.pointerCode = "";
+      this.notYetCode = config.newCode.substring(0);
       this.index = 0;
       this.missCount = 0;
     },
@@ -99,8 +100,8 @@ export const codeStore = defineStore({
 
 //仮のデータ
 const config = {
-  newcode: `
+  newCode: `
     <template>
-    <div ref="upper" class="upperbox mt-2"></div>
+    <div ref="upper"></div>
     `,
 };

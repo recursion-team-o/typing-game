@@ -11,6 +11,7 @@ export const userStore = defineStore({
     score: 100 as number,
     missTypes: new Map<string, number>(),
     nigateString: "" as string,
+    canStartGame: true as boolean,
   }),
   getters: {
     getName(state): string {
@@ -60,6 +61,9 @@ export const userStore = defineStore({
         this.missTypes.set(key, value + 1);
         console.log(this.missTypes.get(key));
       }
+    },
+    setGameFalse(): void {
+      this.canStartGame = false;
     },
   },
 });

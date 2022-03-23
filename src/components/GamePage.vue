@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, Vue, reactive } from "vue";
+import { ref } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -8,9 +8,9 @@ import WinDialog from "../components/WinDialog.vue";
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
-const { setMisses } = user;
-const { startTimer, stopTimer, resetTimer } = timer;
-const { moveIndex, startgame, setMissCount, changeline } = code;
+const { setMisses, setGameFalse } = user;
+const { startTimer, stopTimer } = timer;
+const { moveIndex, startGame, setMissCount, changeLine } = code;
 const keyboard = ref(null);
 const upper = ref(null);
 let showMyCodeDialog = ref<boolean>(false);
@@ -141,33 +141,35 @@ keys[" "] = "space";
 
 const KeyDown = () => {
   //スタート
-  if (code.correctcode === "" && event.key === " ") {
-    startgame();
+  if (code.correctCode === "" && event.key === " ") {
+    startGame();
     startTimer();
   }
   //ポインターとキーがあっているか
-  else if (event.key === code.pointercode) {
+  else if (event.key === code.pointerCode) {
     moveIndex();
-    if (code.finishcode.length + 1 === code.index) {
+    if (code.finishCode.length + 1 === code.index) {
       stopTimer();
+      setGameFalse();
       openDialog();
       return;
     }
-    if (code.pointercode === "\n") {
-      changeline();
+    if (code.pointerCode === "\n") {
+      changeLine();
     }
   }
   //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
   else if (event.shiftKey) {
-    if (event.key === code.pointercode) {
+    if (event.key === code.pointerCode) {
       moveIndex();
-      if (code.finishcode.length + 1 === code.index) {
+      if (code.finishCode.length + 1 === code.index) {
         stopTimer();
+        setGameFalse();
         openDialog();
         return;
       }
-      if (code.pointercode === "\n") {
-        changeline();
+      if (code.pointerCode === "\n") {
+        changeLine();
       }
     }
     if (keys[event.key]) {
@@ -216,16 +218,33 @@ const KeyUp = () => {
   }
 };
 //ページ全体を開いている時にどこを押してもkeyeventが起こる
-document.onkeydown = (event) => KeyDown();
-document.onkeyup = (event) => KeyUp();
+document.onkeydown = (event) => {
+  if (user.canStartGame) {
+    KeyDown();
+  } else {
+    return;
+  }
+};
+document.onkeyup = (event) => {
+  if (user.canStartGame) {
+    KeyUp();
+  } else {
+    return;
+  }
+};
 </script>
 
 <template class="box">
   <div>
     <!-- 上半分のHTML -->
-    <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
+    <div
+      ref="upper"
+      class="upperbox mt-2 mb-2 bg-white flex justify-around items-center"
+    >
       <div class="codearea overs flex justify-center items-center">
-        <pre class="codearea p-5"><code class="language-html"><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code></pre>
+        <pre
+          class="codearea p-5"
+        ><code class="language-html"><span id="correct">{{code.correctCode}}</span><span id="that">{{code.pointerCode}}</span>{{code.notYetCode}}</code></pre>
       </div>
     </div>
 
@@ -340,7 +359,9 @@ document.onkeyup = (event) => KeyUp();
             </div>
           </div>
           <div class="bg-gray-600 onesix flex justify-center items-center">
-            <div class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div
+              class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>
                 <br />
               </div>
@@ -440,19 +461,25 @@ document.onkeyup = (event) => KeyUp();
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div
+              class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>`</div>
               <div>@</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div
+              class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>{</div>
               <div>[</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div
+              class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>}</div>
               <div>]</div>
             </div>
@@ -462,7 +489,9 @@ document.onkeyup = (event) => KeyUp();
         <!-- 3行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 oneseven flex justify-center items-center">
-            <div class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div
+              class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>
                 <br />
               </div>
@@ -632,7 +661,8 @@ document.onkeyup = (event) => KeyUp();
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>&lt;</div>
-              <div>,</div>&gt;
+              <div>,</div>
+              &gt;
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
@@ -683,8 +713,13 @@ document.onkeyup = (event) => KeyUp();
               <div>command</div>
             </div>
           </div>
-          <div id="space" class="bg-gray-600 spacebar flex justify-center items-center">
-            <div class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"></div>
+          <div
+            id="space"
+            class="bg-gray-600 spacebar flex justify-center items-center"
+          >
+            <div
+              class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"
+            ></div>
           </div>
           <div class="bg-gray-600 oneten flex justify-center items-center">
             <div class="Meta bg-gray-100 p-2 innerbuttons">

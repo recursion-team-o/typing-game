@@ -72,6 +72,7 @@ const { getMissCount } = storeToRefs(code);
 }
 .result-box {
   width: 250px;
+  height: 200px;
 }
 .twitter-box {
   width: 350px;
