@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import LevelDialog from "../components/LevelDialog.vue";
-import type { User } from "../views/HomeView.vue";
 import { ref } from "vue";
-
+import { storeToRefs } from "pinia";
+import { userStore } from "../stores/user";
 let showLevelDialog = ref<boolean>(false);
-const langMenu: string[] = ["JavaSpript", "Java", "PHP"];
-const levelMenu: number[] = [1, 2, 3];
-defineProps<{
-  user: User;
-}>();
+const langMenu: string[] = ["JavaScript", "Java"];
+const levelMenu: string[] = ["初級", "中級", "上級"];
 const openDialog = (): void => {
   showLevelDialog.value = true;
 };
 const closeDialog = (): void => {
   showLevelDialog.value = false;
 };
+const user = userStore();
+const { lang, level } = storeToRefs(user);
 </script>
 
 <template>
@@ -26,7 +25,7 @@ const closeDialog = (): void => {
       <div class="relative inline-block w-7/12 mb-4 text-gray-700">
         <select
           class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
-          v-model="user.selectLang"
+          v-model="lang"
         >
           <option disabled value="">言語を選択してください</option>
           <option v-for="(lang, index) in langMenu" :key="index" :value="lang">
@@ -48,7 +47,7 @@ const closeDialog = (): void => {
       <div class="relative inline-block w-7/12 my-2 text-gray-700">
         <select
           class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
-          v-model.number="user.selectLevel"
+          v-model="level"
         >
           <option disabled value="">レベルを選んでください</option>
           <option
@@ -79,7 +78,6 @@ const closeDialog = (): void => {
     </div>
   </div>
   <LevelDialog
-    :user="user"
     :showLevelDialog="showLevelDialog"
     @closeDialog="closeDialog()"
   />

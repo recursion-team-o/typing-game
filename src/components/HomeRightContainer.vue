@@ -1,13 +1,9 @@
 <script setup lang="ts">
 import MyCodeDialog from "../components/MyCodeDialog.vue";
-import type{ User } from "../views/HomeView.vue";
 import { ref } from "vue";
 import { codeStore } from "../stores/code";
 import { storeToRefs } from "pinia";
 
-defineProps<{
-  user: User;
-}>();
 let showMyCodeDialog = ref<boolean>(false);
 const code = codeStore();
 const { sampleCode } = storeToRefs(code);
@@ -42,7 +38,6 @@ const closeDialog = (): void => {
     </div>
   </div>
   <MyCodeDialog
-    :user="user"
     :showMyCodeDialog="showMyCodeDialog"
     @closeDialog="closeDialog"
   />
