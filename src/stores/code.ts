@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-//import { stat } from "fs";
+import { codeBoxStore } from "./codeBox";
 
 export const codeStore = defineStore({
   id: "code",
@@ -16,11 +16,8 @@ export const codeStore = defineStore({
     sampleCode: "",
   }),
   getters: {
-    getSource(state): string {
-      return state.sampleCode;
-    },
-    getMyCode(state): string {
-      return state.writeCode;
+    getSampleCode(state): string {
+      return `${state.sampleCode}`;
     },
     getSuccessPer(state): number {
       const actual = state.actualString.length;
@@ -44,14 +41,14 @@ export const codeStore = defineStore({
     setFinishCode(value: string): void {
       this.finishCode = value;
     },
-    setSampleCode(value: string): void {
-      this.sampleCode = value;
+    setSampleCode(): void {
+      this.setJustCode(this.getSampleCode);
     },
-    setJustCode(): void {
-      this.setFullCode(this.getSampleCode);
-      this.setPointerCode(this.getSampleCode.substring(0, 1));
-      this.setNotYetCode(this.getSampleCode.substring(1));
-      this.setFinishCode(this.getSampleCode.replace(/\s+$/g, ""));
+    setJustCode(code: string): void {
+      this.setFullCode(code);
+      this.setPointerCode(code.substring(0, 1));
+      this.setNotYetCode(code.substring(1));
+      this.setFinishCode(code.replace(/\s+$/g, ""));
     },
     setNextIndexCode(i: number): void {
       this.correctCode = this.fullCode.substring(0, i);
@@ -84,6 +81,31 @@ export const codeStore = defineStore({
     moveIndex(): void {
       this.setNextIndexCode(this.index);
       this.index += 1;
+      if (this.finishCode.length + 1 === this.index) {
+        console.log("finished");
+        return;
+      }
+      if (this.pointerCode === "\n") {
+        this.changeLine();
+      }
+    },
+    setSelectCode(): void {
+      console.log("select level lang");
+      const codeBox = codeBoxStore();
+      codeBox.setSelectCode();
+      console.log(codeBox.getSelectCode);
+      const selectCode = codeBox.getSelectCode;
+      this.setJustCode(selectCode);
+    },
+    setMissCount(): void {
+      this.missCount += 1;
+    },
+    resetCode(): void {
+      this.correctCode = "";
+      this.pointerCode = "";
+      this.notYetCode = config.newCode.substring(0);
+      this.index = 0;
+      this.missCount = 0;
     },
     setMissCount(): void {
       this.missCount += 1;

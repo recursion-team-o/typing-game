@@ -5,7 +5,7 @@ export const userStore = defineStore({
   state: () => ({
     name: "" as string,
     lang: "" as string,
-    level: 0 as number,
+    level: "" as string,
     time: 0 as number,
     score: 100 as number,
     missTypes: new Map<string, number>(),
@@ -18,7 +18,7 @@ export const userStore = defineStore({
     getLang(state): string {
       return state.lang;
     },
-    getLevel(state): number {
+    getLevel(state): string {
       return state.level;
     },
     getTime(state): number {
@@ -41,7 +41,7 @@ export const userStore = defineStore({
     setLang(value: string): void {
       this.lang = value;
     },
-    setLevel(value: number): void {
+    setLevel(value: string): void {
       this.level = value;
     },
     setTime(value: number): void {

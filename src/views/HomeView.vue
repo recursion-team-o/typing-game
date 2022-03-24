@@ -2,18 +2,12 @@
 import HeaderAll from "@/components/HeaderAll.vue";
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
-import { ref, reactive, onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import { userStore } from "../stores/user";
+import { storeToRefs } from "pinia";
 
-export interface User {
-  name: string;
-  selectLang: string;
-  selectLevel: number | string;
-}
-const user = reactive<User>({
-  name: "",
-  selectLang: "",
-  selectLevel: "",
-});
+const user = userStore();
+const { name } = storeToRefs(user);
 const headerRef = ref<InstanceType<typeof HeaderAll>>();
 let homeHeightStyle = ref<string>();
 onMounted(() => {
@@ -38,7 +32,7 @@ onMounted(() => {
               UserName
             </span>
             <input
-              v-model="user.name"
+              v-model="name"
               type="text"
               class="rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base"
               name="userName"
@@ -48,8 +42,8 @@ onMounted(() => {
         </div>
       </div>
       <div class="flex h-1/2">
-        <HomeLeftContainer :user="user" />
-        <HomeRightContainer :user="user" />
+        <HomeLeftContainer />
+        <HomeRightContainer />
       </div>
     </div>
   </main>

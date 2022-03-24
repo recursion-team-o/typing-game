@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { userStore } from "../stores/user";
+import { codeStore } from "../stores/code";
+import { storeToRefs } from "pinia";
+import { useRouter } from "vue-router";
+
 defineProps<{
-  user: User;
   showLevelDialog: boolean;
 }>();
 const emit = defineEmits<{
@@ -9,6 +13,11 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
+const code = codeStore();
+const user = userStore();
+const { getName, getLang, getLevel } = storeToRefs(user);
+const router = useRouter();
+const goToGamePage = () => router.push("/game");
 </script>
 
 <template>
@@ -47,19 +56,19 @@ const closeDialog = (): void => {
               <div class="flex relative w-10/12 max-w-sm">
                 <span class="menu-item"> UserName </span>
                 <div type="text" class="menu-content">
-                  <p>{{ user.name }}</p>
+                  <p>{{ getName }}</p>
                 </div>
               </div>
               <div class="flex relative w-10/12 max-w-sm">
                 <span class="menu-item"> 使用言語 </span>
                 <div type="text" class="menu-content">
-                  <p>{{ user.selectLang }}</p>
+                  <p>{{ getLang }}</p>
                 </div>
               </div>
               <div class="flex relative w-10/12 max-w-sm">
                 <span class="menu-item"> レベル </span>
                 <div type="text" class="menu-content">
-                  <p>{{ user.selectLevel }}</p>
+                  <p>{{ getLevel }}</p>
                 </div>
               </div>
             </div>
@@ -74,7 +83,16 @@ const closeDialog = (): void => {
               >
                 Close
               </button>
-              <button type="button" class="btn bg-blue-600">start</button>
+              <button
+                @click="
+                  code.setSelectCode();
+                  goToGamePage();
+                "
+                type="button"
+                class="btn bg-blue-600"
+              >
+                start
+              </button>
             </div>
           </div>
         </div>

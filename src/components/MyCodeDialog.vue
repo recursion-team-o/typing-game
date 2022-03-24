@@ -1,11 +1,10 @@
 <script setup lang="ts">
-import { User } from "../views/HomeView.vue";
 import { useRouter } from "vue-router";
+import { userStore } from "../stores/user";
 import { codeStore } from "../stores/code";
 import { storeToRefs } from "pinia";
 
 defineProps<{
-  user: User;
   showMyCodeDialog: boolean;
 }>();
 const emit = defineEmits<{
@@ -14,6 +13,8 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
+const user = userStore();
+const { getName } = storeToRefs(user);
 const code = codeStore();
 const { getSampleCode } = storeToRefs(code);
 const router = useRouter();
@@ -54,7 +55,7 @@ const goToGamePage = () => router.push("/game");
               <div class="flex relative w-10/12 max-w-sm">
                 <span class="menu-item">UserName</span>
                 <div type="text" class="menu-content">
-                  <p>{{ user.name }}</p>
+                  <p>{{ getName }}</p>
                 </div>
               </div>
               <div
@@ -74,7 +75,7 @@ const goToGamePage = () => router.push("/game");
                 type="button"
                 class="btn bg-blue-600"
                 @click="
-                  code.setJustCode();
+                  code.setSampleCode();
                   goToGamePage();
                 "
               >start</button>
