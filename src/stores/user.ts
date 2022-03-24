@@ -7,8 +7,9 @@ export const userStore = defineStore({
     lang: "" as string,
     level: "" as string,
     time: 0 as number,
-    score: 0 as number,
+    score: 100 as number,
     missTypes: new Map<string, number>(),
+    canStartGame: true as boolean,
   }),
   getters: {
     getName(state): string {
@@ -26,7 +27,7 @@ export const userStore = defineStore({
     getScore(state): number {
       return state.score;
     },
-    getMissCount(state): any {
+    getMissCounts(state): any {
       const missCount = (key: string) => {
         return state.missTypes.get(key);
       };
@@ -46,17 +47,19 @@ export const userStore = defineStore({
     setTime(value: number): void {
       this.time = value;
     },
-    setScore(value: number): void {
-      this.score = value;
+    setScore(): void {
+      this.score -= 1;
     },
     setMisses(key: string): void {
       const value = this.missTypes.get(key);
-      if (typeof value !== "number") {
+      if (!this.missTypes.has(key)) {
         this.missTypes.set(key, 1);
-        console.log("first set");
       } else {
         this.missTypes.set(key, value + 1);
       }
+    },
+    setGameFalse(): void {
+      this.canStartGame = false;
     },
   },
 });

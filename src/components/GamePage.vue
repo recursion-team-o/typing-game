@@ -1,11 +1,25 @@
 <script setup lang="ts">
+import { ref } from "vue";
+import { codeStore } from "../stores/code";
+import { timerStore } from "../stores/timer";
+import { userStore } from "../stores/user";
+import WinDialog from "../components/WinDialog.vue";
 
-import { ref, onMounted, Vue, reactive} from "vue"
-import { codeStore } from '../stores/code'
-
+const user = userStore();
 const code = codeStore();
+const timer = timerStore();
+const { setMisses, setGameFalse } = user;
+const { startTimer, stopTimer } = timer;
+const { moveIndex, startGame, setMissCount, changeLine } = code;
 const keyboard = ref(null);
 const upper = ref(null);
+let showMyCodeDialog = ref<boolean>(false);
+const openDialog = (): void => {
+  showMyCodeDialog.value = true;
+};
+const closeDialog = (): void => {
+  showMyCodeDialog.value = false;
+};
 
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
@@ -125,110 +139,110 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-
-let index = 0;
-
 const KeyDown = () => {
-  if(code.finishcode.length === index){
-    console.log("finished");
-    return;
+  //スタート
+  if (code.correctCode === "" && event.key === " ") {
+    startGame();
+    startTimer();
   }
-  console.log(KeyboardEvent.keyCode)
-  //1: 最初にスペースを押したら始まる
-  if(code.correctcode === "" && event.key === " "){
-    for(let i = 0; i < code.fullcode.length; i++){
-        if(code.fullcode[i] === "<"){
-          code.correctcode = code.fullcode.substring(0,i)
-          code.pointercode = code.fullcode.substring(i,i+1);
-          code.notyetcode = code.fullcode.substring(i+1);
-          index = i;
-          break;
+  //ポインターとキーがあっているか
+  else if (event.key === code.pointerCode) {
+    moveIndex();
+    if (code.finishCode.length + 1 === code.index) {
+      stopTimer();
+      setGameFalse();
+      openDialog();
+      return;
+    }
+    if (code.pointerCode === "\n") {
+      changeLine();
+    }
+  }
+  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
+  else if (event.shiftKey) {
+    if (event.key === code.pointerCode) {
+      moveIndex();
+      if (code.finishCode.length + 1 === code.index) {
+        stopTimer();
+        setGameFalse();
+        openDialog();
+        return;
+      }
+      if (code.pointerCode === "\n") {
+        changeLine();
       }
     }
-  }
-  //2: ポインターと打ったキーが同じかどうかの判定
-  else if(event.key === code.pointercode){
-    //2-1: もしも">"だったら次の"<"までインデックスをスキップ
-    if(event.key === ">"){
-      code.correctcode = code.fullcode.substring(0,index);
-      //今のindex以降で次にある"<"
-      for(let i = index; i < code.fullcode.length; i++){
-        if(code.fullcode[i] === "<"){
-          code.correctcode = code.fullcode.substring(0,i)
-          code.pointercode = code.fullcode.substring(i,i+1);
-          code.notyetcode = code.fullcode.substring(i+1);
-          index = i;
-          //見つかり次第終了
-          break;
-        }
-      }
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-gray-100");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-indigo-500");
     }
-    //2-2: もしも">"ではなく普通に一致したら次のindexへ
-    else{
-      code.correctcode = code.fullcode.substring(0,index)
-      code.pointercode = code.fullcode.substring(index,index+1);
-      code.notyetcode = code.fullcode.substring(index+1);
-      index += 1
-    }
-  }
-  //3: 間違っていた場合の処理
-  else{
+  } else {
+    setMissCount();
+    setMisses(event.key);
+    user.setScore();
     console.log("you clicked wrong key");
+    //setMisses(event.key);
   }
-  for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
-      }
-    }
-  if(event.shiftKey){
-    for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
-
-      }
-    }
+  if (keys[event.key]) {
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.remove("bg-gray-100");
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.add("bg-indigo-500");
   }
 };
+
 const KeyUp = () => {
-  for (let key in keys) {
-    if (key === event.key) {
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.remove("bg-indigo-500");
-      keyboard.value
-        .querySelectorAll("." + keys[key])[0]
-        .classList.add("bg-gray-100");
-    }
+  if (keys[event.key]) {
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.remove("bg-indigo-500");
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.add("bg-gray-100");
   }
   if (event.shiftKey) {
-    for (let key in keys) {
-      if (key === event.key) {
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-indigo-500");
-        keyboard.value
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-gray-100");
-      }
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-indigo-500");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-gray-100");
     }
   }
 };
 //ページ全体を開いている時にどこを押してもkeyeventが起こる
-document.onkeydown = event => KeyDown();
-document.onkeyup = event => KeyUp();
-
+document.onkeydown = (event) => {
+  if (user.canStartGame) {
+    KeyDown();
+  }
+  return;
+};
+document.onkeyup = (event) => {
+  if (user.canStartGame) {
+    KeyUp();
+  }
+  return;
+};
 </script>
 
 <template class="box">
   <div>
     <!-- 上半分のHTML -->
-    <div ref="upper" class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
-      <div class="codearea overs flex justify-center  items-center ">
-        <pre class="codearea p-5">
-          <code class="language-html "><span id="correct">{{code.correctcode}}</span><span id="that">{{code.pointercode}}</span>{{code.notyetcode}}</code>
-        </pre>
+    <div
+      ref="upper"
+      class="upperbox mt-2 mb-2 bg-white flex justify-around items-center"
+    >
+      <div class="codearea overs flex justify-center items-center">
+        <pre
+          class="codearea p-5"
+        ><code class="language-html"><span id="correct">{{code.correctCode}}</span><span id="that">{{code.pointerCode}}</span>{{code.notYetCode}}</code></pre>
       </div>
     </div>
 
@@ -256,7 +270,7 @@ document.onkeyup = event => KeyUp();
       10
       12421
 
-      以下キーボードのHTML-->
+    以下キーボードのHTML-->
 
     <div class="bottombox flex justify-center items-center bg-gray-900">
       <div ref="keyboard" class="boardarea bg-gray-200 p-1">
@@ -318,7 +332,9 @@ document.onkeyup = event => KeyUp();
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>0</div>
             </div>
           </div>
@@ -344,7 +360,9 @@ document.onkeyup = event => KeyUp();
             <div
               class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
             >
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>backspace</div>
             </div>
           </div>
@@ -354,67 +372,89 @@ document.onkeyup = event => KeyUp();
         <div class="oneline flex">
           <div class="bg-gray-600 onefive flex justify-center items-center">
             <div class="tabs bg-gray-100 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="q bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Q</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="w bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>W</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="e bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>E</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="r bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>R</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="t bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>T</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="y bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Y</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="u bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>U</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="i bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>I</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="o bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>O</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="p bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>P</div>
             </div>
           </div>
@@ -450,61 +490,81 @@ document.onkeyup = event => KeyUp();
             <div
               class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
             >
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>control</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="a bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>A</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="s bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>S</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="d bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>D</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="f bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>F</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="g bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>G</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="h bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>H</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="j bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>J</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="k bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>K</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="l bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>L</div>
             </div>
           </div>
@@ -522,7 +582,9 @@ document.onkeyup = event => KeyUp();
           </div>
           <div class="bg-gray-600 oneseven flex justify-center items-center">
             <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Enter</div>
             </div>
           </div>
@@ -532,49 +594,65 @@ document.onkeyup = event => KeyUp();
         <div class="oneline flex">
           <div class="bg-gray-600 onefive flex justify-center items-center">
             <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Shift</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="z bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Z</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="x bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>x</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="c bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>C</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="v bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>V</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="b bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>B</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="n bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>N</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="m bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>M</div>
             </div>
           </div>
@@ -599,13 +677,17 @@ document.onkeyup = event => KeyUp();
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
             <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>_</div>
             </div>
           </div>
           <div class="bg-gray-600 oneeight flex justify-center items-center">
             <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>Shift</div>
             </div>
           </div>
@@ -615,13 +697,17 @@ document.onkeyup = event => KeyUp();
         <div class="oneline flex">
           <div class="bg-gray-600 onefour flex justify-center items-center">
             <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>option</div>
             </div>
           </div>
           <div class="bg-gray-600 oneten flex justify-center items-center">
             <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div>command</div>
             </div>
           </div>
@@ -635,13 +721,17 @@ document.onkeyup = event => KeyUp();
           </div>
           <div class="bg-gray-600 oneten flex justify-center items-center">
             <div class="Meta bg-gray-100 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
           <div class="bg-gray-600 onefour flex justify-center items-center">
             <div class="bg-gray-100 p-2 innerbuttons">
-              <div><br /></div>
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
@@ -649,6 +739,7 @@ document.onkeyup = event => KeyUp();
       </div>
     </div>
   </div>
+  <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style>
 .box {
@@ -661,10 +752,9 @@ document.onkeyup = event => KeyUp();
 .upperbox {
   height: 45vh;
 }
-.codearea{
+.codearea {
   width: 80%;
-  height: 100%
-
+  height: 100%;
 }
 .bottombox {
   width: 100%;
@@ -710,33 +800,34 @@ document.onkeyup = event => KeyUp();
   width: 194px;
   height: 66px;
 }
-.overs{
+.overs {
   overflow: scroll;
 }
-.spacebar{
+.spacebar {
   width: 400px;
   height: 66px;
 }
-.makeit{
-  word-wrap:break-word;
+.makeit {
+  word-wrap: break-word;
 }
 textarea::selection {
   background: #fff;
   color: #ff0000;
 }
 
-#correct{
-  color: #0000FF;
+#correct {
+  color: #0000ff;
 }
-#that{
+#that {
   animation: flash 1s linear infinite;
   background: #808080;
 }
-#wrong{
+#wrong {
   color: #ff0000;
 }
 @keyframes flash {
-  0%,100% {
+  0%,
+  100% {
     opacity: 1;
   }
 
@@ -744,5 +835,4 @@ textarea::selection {
     opacity: 0;
   }
 }
-
 </style>
