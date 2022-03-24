@@ -84,8 +84,15 @@ const goToGamePage = () => router.push("/game");
                 Close
               </button>
               <button
-              @click="code.setJustSelectCode();goToGamePage();"
-              type="button" class="btn bg-blue-600">start</button>
+                @click="
+                  code.setSelectCode();
+                  goToGamePage();
+                "
+                type="button"
+                class="btn bg-blue-600"
+              >
+                start
+              </button>
             </div>
           </div>
         </div>

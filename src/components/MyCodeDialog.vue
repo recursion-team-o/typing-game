@@ -75,7 +75,7 @@ const goToGamePage = () => router.push("/game");
                 type="button"
                 class="btn bg-blue-600"
                 @click="
-                  code.setJustCode();
+                  code.setSampleCode();
                   goToGamePage();
                 "
               >start</button>
