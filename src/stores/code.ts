@@ -19,9 +19,6 @@ export const codeStore = defineStore({
     getSampleCode(state): string {
       return `${state.sampleCode}`;
     },
-    getMyCode(state): string {
-      return state.writeCode;
-    },
     getSuccessPer(state): number {
       const actual = state.actualString.length;
       const totalTouch = actual + state.missCount;
