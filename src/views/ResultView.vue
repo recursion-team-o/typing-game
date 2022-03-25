@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { RouterLink } from "vue-router";
-import HeaderAll from "@/components/HeaderAll.vue";
 import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
@@ -13,8 +12,6 @@ const { getMissCount } = storeToRefs(code);
 </script>
 
 <template>
-  <!-- ヘッダーの追加 -->
-  <HeaderAll />
   <!--背景が黄色の一番大本の箱-->
   <div class="box bg-yellow-500 pt-20">
     <!--スコアの箱-->
@@ -67,7 +64,6 @@ const { getMissCount } = storeToRefs(code);
 <style>
 .box {
   width: 100%;
-  height: 92.1vh;
   background-position: center;
 }
 .result-box {
