@@ -3,6 +3,10 @@ import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
 import { userStore } from "../stores/user";
 import { storeToRefs } from "pinia";
+import { timerShowStore } from "../stores/timerShow";
+
+const timerShow = timerShowStore();
+timerShow.setShowState();
 
 const user = userStore();
 const { name } = storeToRefs(user);

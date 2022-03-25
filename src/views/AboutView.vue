@@ -1,4 +1,9 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { timerShowStore } from "../stores/timerShow";
+
+const timerShow = timerShowStore();
+timerShow.setShowState();
+</script>
 
 <template>
   <div class="top">

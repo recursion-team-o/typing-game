@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import StopWatch from "./StopWatch.vue";
+import { timerShowStore } from "../stores/timerShow";
+import { storeToRefs } from "pinia";
+
+const timerShow = timerShowStore();
+const { getShowState } = storeToRefs(timerShow);
 </script>
 
 <template>
   <div class="flex px-4 py-4 bg-gray-400 items-center justify-between">
     <div class="px-2 font-bold text-2xl">CODE-TYPING</div>
-    <StopWatch />
+    <StopWatch v-show="getShowState" />
     <div class="px-2 flex items-center">
       <RouterLink class="px-2" to="/">ホーム画面</RouterLink>
       <RouterLink class="px-2" to="/about">説明画面</RouterLink>
