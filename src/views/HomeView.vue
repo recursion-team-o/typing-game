@@ -1,26 +1,16 @@
 <script setup lang="ts">
-import HeaderAll from "@/components/HeaderAll.vue";
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
-import { ref, onMounted } from "vue";
 import { userStore } from "../stores/user";
 import { storeToRefs } from "pinia";
 
 const user = userStore();
 const { name } = storeToRefs(user);
-const headerRef = ref<InstanceType<typeof HeaderAll>>();
-let homeHeightStyle = ref<string>();
-onMounted(() => {
-  const headerHeight = ref<number>(headerRef.value.$el.clientHeight);
-  const headerHeightVh = ref<number>((headerHeight.value * 100) / 1000);
-  homeHeightStyle.value = 100 - headerHeightVh.value + "vh";
-});
 </script>
 
 <template>
   <main>
-    <HeaderAll ref="headerRef" />
-    <div :style="{ height: homeHeightStyle }" class="h-[84.8vh] bg-yellow-300">
+    <div class="h-full bg-yellow-300">
       <div class="flex flex-col justify-center text-center h-1/2">
         <p>A website focused on improving your coding skills</p>
         <h2 class="text-5xl my-4">CODE-TYPING</h2>
@@ -48,9 +38,3 @@ onMounted(() => {
     </div>
   </main>
 </template>
-
-<style scoped>
-.home-height {
-  height: v-bind("headerHeight") px;
-}
-</style>

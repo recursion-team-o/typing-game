@@ -232,8 +232,7 @@ document.onkeyup = (event) => {
 };
 </script>
 
-<template class="box">
-  <div>
+<template>
     <!-- 上半分のHTML -->
     <div
       ref="upper"
@@ -738,19 +737,15 @@ document.onkeyup = (event) => {
         </div>
       </div>
     </div>
-  </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style>
-.box {
-  height: 100vh;
-  width: 100%;
-}
 .mass {
   width: 100%;
 }
 .upperbox {
-  height: 45vh;
+  height: 45%;
+  margin: 0;
 }
 .codearea {
   width: 80%;
@@ -758,7 +753,7 @@ document.onkeyup = (event) => {
 }
 .bottombox {
   width: 100%;
-  height: 45.3vh;
+  height: 55%;
 }
 .boardarea {
   width: 978px;
