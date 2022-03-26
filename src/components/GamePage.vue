@@ -1,8 +1,26 @@
 <script setup lang="ts">
-import { ref, onMounted, Vue, reactive} from "vue"
+import { ref } from "vue";
+import { codeStore } from "../stores/code";
+import { timerStore } from "../stores/timer";
+import { userStore } from "../stores/user";
+import WinDialog from "../components/WinDialog.vue";
 
-const keyboard = ref(null)
-const inputs = ref('') 
+const user = userStore();
+const code = codeStore();
+const timer = timerStore();
+const { setMisses, setGameFalse } = user;
+const { startTimer, stopTimer } = timer;
+const { moveIndex, startGame, setMissCount, changeLine } = code;
+const keyboard = ref(null);
+const upper = ref(null);
+let showMyCodeDialog = ref<boolean>(false);
+const openDialog = (): void => {
+  showMyCodeDialog.value = true;
+};
+const closeDialog = (): void => {
+  showMyCodeDialog.value = false;
+};
+
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -121,124 +139,111 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-//キーボード押したらひかる
-//ロジックとしては押したボタンのkey.valueを取得する。"."+key.valueというクラスリストを持つノードを探す。（それぞれに対応するクラスの名前はあらかじめひつ一つのclasslistに書いてある。そのノードに光る要素を加える。keyupしたらremove。
 const KeyDown = () => {
-  for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
-      }
+  //スタート
+  if (code.correctCode === "" && event.key === " ") {
+    startGame();
+    startTimer();
+  }
+  //ポインターとキーがあっているか
+  else if (event.key === code.pointerCode) {
+    moveIndex();
+    if (code.finishCode.length + 1 === code.index) {
+      stopTimer();
+      setGameFalse();
+      openDialog();
+      return;
     }
-  if(event.shiftKey){
-    console.log("shift is clicked");
-    console.log(event.key);
-    for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-gray-100")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-indigo-500")
-      }
+    if (code.pointerCode === "\n") {
+      changeLine();
     }
   }
+  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
+  else if (event.shiftKey) {
+    if (event.key === code.pointerCode) {
+      moveIndex();
+      if (code.finishCode.length + 1 === code.index) {
+        stopTimer();
+        setGameFalse();
+        openDialog();
+        return;
+      }
+      if (code.pointerCode === "\n") {
+        changeLine();
+      }
+    }
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-gray-100");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-indigo-500");
+    }
+  } else {
+    setMissCount();
+    setMisses(event.key);
+    user.setScore();
+    console.log("you clicked wrong key");
+    //setMisses(event.key);
+  }
+  if (keys[event.key]) {
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.remove("bg-gray-100");
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.add("bg-indigo-500");
+  }
 };
+
 const KeyUp = () => {
-  for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
-      }
-    }
-  if(event.shiftKey){
-    for(let key in keys){
-      if(key === event.key){
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.remove("bg-indigo-500")
-        keyboard.value.querySelectorAll("." + keys[key])[0].classList.add("bg-gray-100")
-      }
+  if (keys[event.key]) {
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.remove("bg-indigo-500");
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.add("bg-gray-100");
+  }
+  if (event.shiftKey) {
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-indigo-500");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-gray-100");
     }
   }
 };
-
-//中身をrefresh
-const refreshes = () => {
-  inputs.value = ""
-}
-
+//ページ全体を開いている時にどこを押してもkeyeventが起こる
+document.onkeydown = (event) => {
+  if (user.canStartGame) {
+    KeyDown();
+  }
+  return;
+};
+document.onkeyup = (event) => {
+  if (user.canStartGame) {
+    KeyUp();
+  }
+  return;
+};
 </script>
 
-<template class="box">
-  <div>
+<template>
     <!-- 上半分のHTML -->
-    <div class="upperbox mt-2 mb-2 bg-white flex justify-around items-center">
-      <div class="codearea flex justify-center  items-center ">
-        <textarea
-          cols="55" rows="55"
+    <div
+      ref="upper"
+      class="upperbox mt-2 mb-2 bg-white flex justify-around items-center"
+    >
+      <div class="codearea overs flex justify-center items-center">
+        <pre
           class="codearea p-5"
-          type="textarea"
-          placeholder="
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          <script setup lang='ts'>
-          import { RouterLink, RouterView } from 'vue-router'
-          import HeaderAll from '@/components/HeaderAll.vue';
-          </script>
-          
-          <template>
-            <HeaderAll />
-            <div class=7box bg-yellow-400'>
-              <div class='upperbox bg-white flex justify-center items-center'>
-                <div class='codearea flex justify-center items-center '>
-                  <input class='codearea p-5' type='textarea' placeholder='hello' disabled>
-                </div>
-              </div>
-            </div>
-          </template>
-          "
-          disabled></textarea>
+        ><code class="language-html"><span id="correct">{{code.correctCode}}</span><span id="that">{{code.pointerCode}}</span>{{code.notYetCode}}</code></pre>
       </div>
-
-      <div class="codearea flex-col justify-center  items-center">
-        <textarea
-          v-on:keydown="KeyDown()"
-          v-on:keyup="KeyUp()"
-          cols="55" rows="55"
-          class="codearea p-5"
-          type="textarea"
-          v-model="inputs"
-          
-          ></textarea>
-          <button v-on:click="refreshes()" class="hover:bg-indigo-400 lg-rounded bg-gray-400">refresh</button>
-      </div>
-      
     </div>
-    
 
     <!--キーボードの設計
     - 縦五行である。
@@ -263,12 +268,11 @@ const refreshes = () => {
 
       10
       12421
-      
-      以下キーボードのHTML-->
+
+    以下キーボードのHTML-->
 
     <div class="bottombox flex justify-center items-center bg-gray-900">
       <div ref="keyboard" class="boardarea bg-gray-200 p-1">
-
         <!-- １行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 buttons flex justify-center items-center">
@@ -290,68 +294,74 @@ const refreshes = () => {
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num4 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num4 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>$</div>
               <div>4</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num5 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num5 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>%</div>
               <div>5</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num6 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num6 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>&amp;</div>
               <div>6</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num7 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num7 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>'</div>
               <div>7</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num8 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num8 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>(</div>
               <div>8</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num9 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="num9 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>)</div>
               <div>9</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>0</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bar bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="bar bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>=</div>
               <div>-</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="hat bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="hat bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>^</div>
               <div>~</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="¥ bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="¥ bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>¥</div>
               <div>|</div>
             </div>
           </div>
           <div class="bg-gray-600 onesix flex justify-center items-center">
-            <div class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div
+              class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
+              <div>
+                <br />
+              </div>
               <div>backspace</div>
             </div>
           </div>
@@ -360,85 +370,113 @@ const refreshes = () => {
         <!-- 2行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 onefive flex justify-center items-center">
-            <div class="tabs bg-gray-100 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="tabs bg-gray-100 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="q bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="q bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Q</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="w bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="w bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>W</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="e bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="e bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>E</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-           <div class="r bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="r bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>R</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="t bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="t bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>T</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="y bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="y bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Y</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="u bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="u bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>U</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="i bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="i bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>I</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="o bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="o bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>O</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="p bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="p bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>P</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div
+              class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>`</div>
               <div>@</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div
+              class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>{</div>
               <div>[</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div
+              class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
               <div>}</div>
               <div>]</div>
             </div>
@@ -448,80 +486,104 @@ const refreshes = () => {
         <!-- 3行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 oneseven flex justify-center items-center">
-            <div class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div
+              class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+            >
+              <div>
+                <br />
+              </div>
               <div>control</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="a bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="a bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>A</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="s bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="s bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>S</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="d bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="d bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>D</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="f bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="f bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>F</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="g bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="g bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>G</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="h bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="h bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>H</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="j bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="j bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>J</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="k bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="k bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>K</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="l bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="l bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>L</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="semi bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="semi bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>+</div>
               <div>;</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="coron bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="coron bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>*</div>
               <div>:</div>
             </div>
           </div>
           <div class="bg-gray-600 oneseven flex justify-center items-center">
-            <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Enter</div>
             </div>
           </div>
@@ -530,80 +592,101 @@ const refreshes = () => {
         <!-- 4行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 onefive flex justify-center items-center">
-            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Shift</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="z bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="z bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Z</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="x bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="x bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>x</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="c bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="c bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>C</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="v bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="v bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>V</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="b bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="b bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>B</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="n bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="n bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>N</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="m bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="m bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>M</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>&lt;</div>
-              <div>,</div>&gt;
+              <div>,</div>
+              &gt;
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="peri bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="peri bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>&gt;</div>
               <div>.</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="slash bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
+            <div class="slash bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
               <div>?</div>
               <div>/</div>
             </div>
           </div>
           <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>_</div>
             </div>
           </div>
           <div class="bg-gray-600 oneeight flex justify-center items-center">
-            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>Shift</div>
             </div>
           </div>
@@ -612,103 +695,139 @@ const refreshes = () => {
         <!-- 5行目　-->
         <div class="oneline flex">
           <div class="bg-gray-600 onefour flex justify-center items-center">
-            <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>option</div>
             </div>
           </div>
           <div class="bg-gray-600 oneten flex justify-center items-center">
-            <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div>command</div>
             </div>
           </div>
-          <div id="space" class="bg-gray-600 spacebar flex justify-center items-center">
-            <div class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"></div>
+          <div
+            id="space"
+            class="bg-gray-600 spacebar flex justify-center items-center"
+          >
+            <div
+              class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"
+            ></div>
           </div>
           <div class="bg-gray-600 oneten flex justify-center items-center">
-            <div class="Meta bg-gray-100 p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="Meta bg-gray-100 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
           <div class="bg-gray-600 onefour flex justify-center items-center">
-            <div class="bg-gray-100  p-2 innerbuttons"> 
-              <div><br/></div>
+            <div class="bg-gray-100 p-2 innerbuttons">
+              <div>
+                <br />
+              </div>
               <div></div>
             </div>
           </div>
         </div>
-
-
       </div>
     </div>
-  </div>
-
+  <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
-
 <style>
-.box{
-  height: 100vh;
+.mass {
   width: 100%;
 }
-.mass{
-  width: 100%
+.upperbox {
+  height: 45%;
+  margin: 0;
 }
-.upperbox{
-  height: 45vh
+.codearea {
+  width: 80%;
+  height: 100%;
 }
-.codearea{
-  width: 90%;
-  height: 100%
-}
-.bottombox{
+.bottombox {
   width: 100%;
-  height: 45.3vh
+  height: 55%;
 }
-.boardarea{
+.boardarea {
   width: 978px;
-  height: 338px
+  height: 338px;
 }
-.oneline{
+.oneline {
   height: 66px;
-  width: 100%
+  width: 100%;
 }
-.buttons{
+.buttons {
   width: 66px;
-  height: 66px
+  height: 66px;
 }
-.innerbuttons{
+.innerbuttons {
   width: 97%;
-  height: 97%
+  height: 97%;
 }
-.onefour{
-  width:97px;
-  height:66px
+.onefour {
+  width: 97px;
+  height: 66px;
 }
-.onefive{
+.onefive {
   width: 107px;
-  height: 66px
+  height: 66px;
 }
-.onesix{
+.onesix {
   width: 112px;
-  height: 66px
+  height: 66px;
 }
-.oneseven{
+.oneseven {
   width: 122px;
-  height: 66px
+  height: 66px;
 }
-.oneeight{
-  width:155px;
-  height:66px
+.oneeight {
+  width: 155px;
+  height: 66px;
 }
-.oneten{
+.oneten {
   width: 194px;
-  height: 66px
+  height: 66px;
 }
-.spacebar{
+.overs {
+  overflow: scroll;
+}
+.spacebar {
   width: 400px;
-  height:66px
+  height: 66px;
+}
+.makeit {
+  word-wrap: break-word;
+}
+textarea::selection {
+  background: #fff;
+  color: #ff0000;
 }
 
+#correct {
+  color: #0000ff;
+}
+#that {
+  animation: flash 1s linear infinite;
+  background: #808080;
+}
+#wrong {
+  color: #ff0000;
+}
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
 </style>

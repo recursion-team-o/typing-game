@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { User } from "../views/HomeView.vue";
+import { useRouter } from "vue-router";
+import { userStore } from "../stores/user";
+import { codeStore } from "../stores/code";
+import { storeToRefs } from "pinia";
+
 defineProps<{
-  user: User;
-  myCode: string;
   showMyCodeDialog: boolean;
 }>();
 const emit = defineEmits<{
@@ -11,6 +13,12 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
+const user = userStore();
+const { getName } = storeToRefs(user);
+const code = codeStore();
+const { getSampleCode } = storeToRefs(code);
+const router = useRouter();
+const goToGamePage = () => router.push("/game");
 </script>
 
 <template>
@@ -47,15 +55,15 @@ const closeDialog = (): void => {
               class="modal-body relative flex flex-col justify-around items-center h-72 px-4 pb-4"
             >
               <div class="flex relative w-10/12 max-w-sm">
-                <span class="menu-item"> UserName </span>
+                <span class="menu-item">UserName</span>
                 <div type="text" class="menu-content">
-                  <p>{{ user.name }}</p>
+                  <p>{{ getName }}</p>
                 </div>
               </div>
               <div
                 class="flex relative mt-4 w-10/12 max-w-2xl rounded-md border overflow-y-scroll h-60"
               >
-                {{ myCode }}
+                {{ getSampleCode }}
               </div>
             </div>
             <div
@@ -69,7 +77,16 @@ const closeDialog = (): void => {
               >
                 Close
               </button>
-              <button type="button" class="btn bg-blue-600">start</button>
+              <button
+                type="button"
+                class="btn bg-blue-600"
+                @click="
+                  code.setSampleCode();
+                  goToGamePage();
+                "
+              >
+                start
+              </button>
             </div>
           </div>
         </div>
