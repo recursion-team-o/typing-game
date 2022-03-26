@@ -4,14 +4,11 @@ import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
 import { userStore } from "../stores/user";
-import { timerShowStore } from "../stores/timerShow";
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount } = storeToRefs(code);
-const timerShow = timerShowStore();
-timerShow.setShowState();
 </script>
 
 <template>
