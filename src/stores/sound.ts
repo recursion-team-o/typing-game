@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import test1 from "@/assets/sound/yoru no zattou.mp3";
 import success from "@/assets/sound/success.mp3";
 import miss from "@/assets/sound/miss.mp3";
-import { Howl } from "howler";
+import { Howl, Howler } from "howler";
 
 export const soundStore = defineStore({
   id: "sound",
@@ -12,7 +12,7 @@ export const soundStore = defineStore({
       loop: true,
       volume: 0.5,
       format: ["mp3"],
-    }) as any,
+    }) as Howl,
     success: new Howl({
       src: [success],
       volume: 0.3,

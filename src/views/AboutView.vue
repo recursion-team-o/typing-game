@@ -4,10 +4,6 @@ import { soundStore } from "../stores/sound";
 import { storeToRefs } from "pinia";
 
 const sound = soundStore();
-sound.$subscribe((mutation, state) => {
-  const newVol = mutation.events.newValue;
-  sound.setVol(newVol);
-});
 const { getMuteStatus, vol } = storeToRefs(sound);
 </script>
 
@@ -49,6 +45,7 @@ const { getMuteStatus, vol } = storeToRefs(sound);
       <div class="w-1/2">
         <label for="step" class="font-bold text-gray-600">Volume range</label>
         <input
+          @change="sound.setVol(vol)"
           type="range"
           min="0"
           step="0.1"
