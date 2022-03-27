@@ -8,7 +8,7 @@ sound.$subscribe((mutation, state) => {
   const newVol = mutation.events.newValue;
   sound.setVol(newVol);
 });
-const {getMuteStatus, vol} = storeToRefs(sound);
+const { getMuteStatus, vol } = storeToRefs(sound);
 </script>
 
 <template>
@@ -47,9 +47,16 @@ const {getMuteStatus, vol} = storeToRefs(sound);
         miss
       </button>
       <div class="w-1/2">
-  <label for="step" class="font-bold text-gray-600">Volume range</label>
-  <input type="range" min="0" step="0.1" max="0.5" v-model.number="vol" class="w-full h-2 bg-blue-100 appearance-none" />
-</div>
+        <label for="step" class="font-bold text-gray-600">Volume range</label>
+        <input
+          type="range"
+          min="0"
+          step="0.1"
+          max="0.5"
+          v-model.number="vol"
+          class="w-full h-2 bg-blue-100 appearance-none"
+        />
+      </div>
     </div>
     <!--背景が黄色の一番大本の箱-->
     <div class="box h-full sm:bg-yellow-500">
