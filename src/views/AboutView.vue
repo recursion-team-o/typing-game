@@ -1,7 +1,56 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import test1 from "@/assets/sound/yoru no zattou.mp3";
+import { soundStore } from "../stores/sound";
+import { storeToRefs } from "pinia";
+
+const sound = soundStore();
+sound.$subscribe((mutation, state) => {
+  const newVol = mutation.events.newValue;
+  sound.setVol(newVol);
+});
+const {getMuteStatus, vol} = storeToRefs(sound);
+</script>
 
 <template>
   <div class="top">
+    <div class="flex flex-col justify-center items-center">
+      <button
+        class="border w-24 mb-2 bg-red-200 rounded-lg uppercase shadow hover:border-red-400"
+        @click="sound.onSound()"
+      >
+        start
+      </button>
+      <button
+        class="border w-24 bg-purple-400 rounded-lg uppercase shadow hover:border-blue-400"
+        v-show="!getMuteStatus"
+        @click="sound.toggleMute()"
+      >
+        onミュート
+      </button>
+      <button
+        class="border w-24 bg-lime-400 rounded-lg uppercase shadow hover:border-blue-400"
+        v-show="getMuteStatus"
+        @click="sound.toggleMute()"
+      >
+        offミュート
+      </button>
+      <button
+        class="border w-24 bg-lime-400 rounded-lg uppercase shadow hover:border-blue-400"
+        @click="sound.onSuccess()"
+      >
+        success
+      </button>
+      <button
+        class="border w-24 bg-yellow-400 rounded-lg uppercase shadow hover:border-blue-400"
+        @click="sound.onMiss()"
+      >
+        miss
+      </button>
+      <div class="w-1/2">
+  <label for="step" class="font-bold text-gray-600">Volume range</label>
+  <input type="range" min="0" step="0.1" max="0.5" v-model.number="vol" class="w-full h-2 bg-blue-100 appearance-none" />
+</div>
+    </div>
     <!--背景が黄色の一番大本の箱-->
     <div class="box h-full sm:bg-yellow-500">
       <!--welcome userと言語、レベルをいれるための箱。（ここは横並びのためflexboxの利用)-->
