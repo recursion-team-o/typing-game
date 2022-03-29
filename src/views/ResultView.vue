@@ -556,16 +556,85 @@ const { getMissCount } = storeToRefs(code);
 <style>
 .box {
   width: 100%;
-  background-position: center;
+  height: 100%;
 }
-.result-box {
-  width: 250px;
-  height: 200px;
+.upper-box {
+  height: 50%;
+  width: 100%;
 }
-.twitter-box {
-  width: 350px;
+.bottom-box {
+  width: 100%;
+  height: 50%;
 }
-.button-box {
-  width: 800px;
+.nigate-box {
+  height: 80%;
+  width: 100%;
 }
+.left-box {
+  width: 40%;
+  height: 100%;
+}
+.right-box {
+  width: 60%;
+  height: 100%;
+}
+.s-button {
+  width: 270px;
+}
+.nigate-keys {
+  font-family: Georgia;
+}
+.result-card {
+  width: 80%;
+}
+.board-area {
+  width: 746px;
+  height: 258px;
+}
+.one-line {
+  height: 50px;
+  width: 100%;
+}
+.buttons {
+  width: 50px;
+  height: 50px;
+}
+.inner-buttons {
+  width: 97%;
+  height: 97%;
+}
+.one-four {
+  width: 73px;
+  height: 50px;
+}
+.one-five {
+  width: 81px;
+  height: 50px;
+}
+.one-six {
+  width: 85px;
+  height: 50px;
+}
+.one-seven {
+  width: 92px;
+  height: 50px;
+}
+.one-eight {
+  width: 117px;
+  height: 50px;
+}
+.one-ten {
+  width: 146px;
+  height: 50px;
+}
+.overs {
+  overflow: scroll;
+}
+.space-bar {
+  width: 303px;
+  height: 50px;
+}
+/* .makeit {
+  word-wrap: break-word;
+} */
 </style>
