@@ -193,22 +193,27 @@ function makeItRed(): void {
         </div>
 
         <div class="flex justify-center items-center">
-          <a
+          <RouterLink
+            @click="
+              code.resetCode();
+              timer.resetTimer();
+              setGameTrue();
+            "
             class="inline-block mt-5 px-2 py-3 text-center s-button hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
-            href="/"
-            >メインに戻る</a
+            to="/"
+            >メインに戻る</RouterLink
           >
         </div>
         <div class="flex justify-center items-center">
-          <a
+          <RouterLink
             @click="
               code.resetCode();
               timer.resetTimer();
               setGameTrue();
             "
             class="inline-block mt-5 px-2 py-3 s-button text-center rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
-            href="/game"
-            >リスタート</a
+            to="/game"
+            >リスタート</RouterLink
           >
         </div>
       </div>
@@ -706,7 +711,7 @@ function makeItRed(): void {
   </div>
 </template>
 
-<style>
+<style scoped>
 .box {
   width: 100%;
   height: 100%;

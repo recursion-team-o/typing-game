@@ -140,45 +140,6 @@ keys["Meta"] = "Meta";
 keys[" "] = "space";
 
 const KeyDown = () => {
-  //スタート
-  if (code.correctCode === "" && event.key === " ") {
-    startGame();
-    startTimer();
-  }
-  //ポインターとキーがあっているか
-  else if (event.key === code.pointerCode) {
-    moveIndex();
-    if (code.finishCode.length + 1 === code.index) {
-      stopTimer();
-      setGameFalse();
-      openDialog();
-      return;
-    }
-    if (code.pointerCode === "\n") {
-      changeLine();
-    }
-  }
-  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
-  else if (event.shiftKey) {
-    if (event.key === code.pointerCode) {
-      moveIndex();
-      if (code.finishCode.length + 1 === code.index) {
-        stopTimer();
-        setGameFalse();
-        openDialog();
-        return;
-      }
-      if (code.pointerCode === "\n") {
-        changeLine();
-      }
-    }
-  } else {
-    setMissCount();
-    setMisses(event.key);
-    user.setScore();
-    console.log("you clicked wrong key");
-    //setMisses(event.key);
-  }
   if (keys[event.key]) {
     keyboard.value
       .querySelectorAll("." + keys[event.key])[0]
@@ -196,6 +157,65 @@ const KeyDown = () => {
         .querySelectorAll("." + keys[event.key])[0]
         .classList.add("bg-indigo-500");
     }
+  }
+  //スタート
+  if (code.correctCode === "" && event.key === " ") {
+    startGame();
+    startTimer();
+  }
+  //ポインターとキーがあっているか
+  else if (event.key === code.pointerCode) {
+    moveIndex();
+    if (code.finishCode.length + 1 === code.index) {
+      stopTimer();
+      setGameFalse();
+      if (keys[event.key]) {
+        keyboard.value
+          .querySelectorAll("." + keys[event.key])[0]
+          .classList.remove("bg-indigo-500");
+        keyboard.value
+          .querySelectorAll("." + keys[event.key])[0]
+          .classList.add("bg-gray-100");
+      }
+      keyboard.value
+        .querySelectorAll(".Shift")[0]
+        .classList.remove("bg-indigo-500");
+      keyboard.value.querySelectorAll(".Shift")[0].classList.add("bg-gray-100");
+      console.log("color dismissed");
+      openDialog();
+      return;
+    }
+    if (code.pointerCode === "\n") {
+      changeLine();
+    }
+  }
+  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
+  else if (event.shiftKey) {
+    if (event.key === code.pointerCode) {
+      moveIndex();
+
+      if (code.finishCode.length + 1 === code.index) {
+        stopTimer();
+        keyboard.value
+          .querySelectorAll(".Shift")[0]
+          .classList.remove("bg-indigo-500");
+        keyboard.value
+          .querySelectorAll(".Shift")[0]
+          .classList.add("bg-gray-100");
+        setGameFalse();
+        openDialog();
+        return;
+      }
+      if (code.pointerCode === "\n") {
+        changeLine();
+      }
+    }
+  } else {
+    setMissCount();
+    setMisses(event.key);
+    user.setScore();
+    console.log("you clicked wrong key");
+    //setMisses(event.key);
   }
 };
 
@@ -743,7 +763,7 @@ document.onkeyup = () => {
   </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
-<style>
+<style scoped>
 .mass {
   width: 100%;
 }
