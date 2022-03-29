@@ -172,14 +172,6 @@ const KeyDown = () => {
         changeLine();
       }
     }
-    if (keys[event.key]) {
-      keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
-        .classList.remove("bg-gray-100");
-      keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
-        .classList.add("bg-indigo-500");
-    }
   } else {
     setMissCount();
     setMisses(event.key);
@@ -194,6 +186,16 @@ const KeyDown = () => {
     keyboard.value
       .querySelectorAll("." + keys[event.key])[0]
       .classList.add("bg-indigo-500");
+  }
+  if (event.shiftKey) {
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-gray-100");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-indigo-500");
+    }
   }
 };
 

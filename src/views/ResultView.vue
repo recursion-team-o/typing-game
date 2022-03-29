@@ -17,6 +17,7 @@ const keys: { [name: string]: string } = {};
 onMounted(() => {
   makeItRed();
 });
+
 //1
 keys["1"] = "num1";
 keys["2"] = "num2";
@@ -193,22 +194,22 @@ function makeItRed(): void {
         </div>
 
         <div class="flex justify-center items-center">
-          <RouterLink
+          <a
             class="inline-block mt-5 px-2 py-3 text-center s-button hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
-            to="/"
-            >メインに戻る</RouterLink
+            href="/"
+            >メインに戻る</a
           >
         </div>
         <div class="flex justify-center items-center">
-          <RouterLink
+          <a
             @click="
               code.resetCode();
               timer.resetTimer();
               setGameTrue();
             "
             class="inline-block mt-5 px-2 py-3 s-button text-center rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
-            to="/game"
-            >リスタート</RouterLink
+            href="/game"
+            >リスタート</a
           >
         </div>
       </div>
