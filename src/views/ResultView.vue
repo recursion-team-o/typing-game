@@ -11,6 +11,7 @@ const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount, getSuccessPer } = storeToRefs(code);
 const { lang, level } = storeToRefs(user);
+const { setGameTrue } = user;
 const keyboard = ref(null);
 const keys: { [name: string]: string } = {};
 onMounted(() => {
@@ -203,6 +204,7 @@ function makeItRed(): void {
             @click="
               code.resetCode();
               timer.resetTimer();
+              setGameTrue();
             "
             class="inline-block mt-5 px-2 py-3 s-button text-center rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
             to="/game"
@@ -324,7 +326,7 @@ function makeItRed(): void {
               </div>
             </div>
 
-            <!-- 2行目　-->
+            <!-- 2行目 -->
             <div class="one-line flex">
               <div
                 class="bg-gray-600 one-five flex justify-center items-center"
@@ -544,7 +546,7 @@ function makeItRed(): void {
               </div>
             </div>
 
-            <!-- 4行目　-->
+            <!-- 4行目 -->
             <div class="one-line flex">
               <div
                 class="bg-gray-600 one-five flex justify-center items-center"
@@ -642,16 +644,16 @@ function makeItRed(): void {
               <div
                 class="bg-gray-600 one-eight flex justify-center items-center"
               >
-                <div class="Shift bg-gray-100 p-1 inner-buttons">
+                <div class="bg-gray-100 p-1 inner-buttons">
                   <div>
                     <br />
                   </div>
-                  <div>Shift</div>
+                  <div></div>
                 </div>
               </div>
             </div>
 
-            <!-- 5行目　-->
+            <!-- 5行目 -->
             <div class="one-line flex">
               <div
                 class="bg-gray-600 one-four flex justify-center items-center"

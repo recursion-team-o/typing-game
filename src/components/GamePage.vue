@@ -591,7 +591,9 @@ document.onkeyup = () => {
 
       <!-- 4行目 -->
       <div class="one-line flex">
-        <div class="bg-gray-600 one-five flex justify-center items-center">
+        <div
+          class="bg-gray-600 buttons one-five flex justify-center items-center"
+        >
           <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>
               <br />
@@ -683,11 +685,11 @@ document.onkeyup = () => {
           </div>
         </div>
         <div class="bg-gray-600 one-eight flex justify-center items-center">
-          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
+          <div class="bg-gray-100 p-2 inner-buttons">
             <div>
               <br />
             </div>
-            <div>Shift</div>
+            <div></div>
           </div>
         </div>
       </div>
