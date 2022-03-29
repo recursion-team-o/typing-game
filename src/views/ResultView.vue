@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterLink } from "vue-router";
 import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
