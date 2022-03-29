@@ -129,6 +129,37 @@ keys["?"] = "slash";
 keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
+
+function makeItRed(): void {
+  console.log("make it red");
+  user.missTypes.forEach((index, key) => {
+    console.log(index + " , " + key);
+    if (keys[key]) {
+      if (index < 3) {
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.remove("bg-gray-100");
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.add("bg-red-200");
+      } else if (index < 7) {
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.remove("bg-gray-100");
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.add("bg-red-500");
+      } else {
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.remove("bg-gray-100");
+        document
+          .querySelectorAll("." + keys[key])[0]
+          .classList.add("bg-red-900");
+      }
+    }
+  });
+}
 </script>
 
 <template>
