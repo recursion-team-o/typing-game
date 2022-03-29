@@ -11,8 +11,8 @@ const timer = timerStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
-const keyboard = ref<HTMLImageElement>();
-const upper = ref<HTMLImageElement>();
+const keyboard = ref<HTMLElement>();
+const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
@@ -175,11 +175,12 @@ const KeyDown = (event: KeyboardEvent) => {
       }
     }
     if (keys[event.key]) {
+      console.log(keyboard.value);
       keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
+        ?.getElementsByClassName(event.code)[0]
         .classList.remove("bg-gray-100");
       keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
+        ?.getElementsByClassName(event.code)[0]
         .classList.add("bg-indigo-500");
     }
   } else {
@@ -191,35 +192,39 @@ const KeyDown = (event: KeyboardEvent) => {
   }
 
   if (keys[event.key]) {
+    console.log(event.code);
+
     keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
+      ?.getElementsByClassName(event.code)[0]
       .classList.remove("bg-gray-100");
     keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
+      ?.getElementsByClassName(event.code)[0]
       .classList.add("bg-indigo-500");
   }
+  console.log(event.code + " " + event.key);
 };
 
 const KeyUp = (event: KeyboardEvent) => {
   if (keys[event.key]) {
     keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
+      ?.getElementsByClassName(event.code)[0]
       .classList.remove("bg-indigo-500");
     keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
+      ?.getElementsByClassName(event.code)[0]
       .classList.add("bg-gray-100");
   }
   if (event.shiftKey) {
     if (keys[event.key]) {
       keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
+        ?.getElementsByClassName(event.code)[0]
         .classList.remove("bg-indigo-500");
       keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
+        ?.getElementsByClassName(event.code)[0]
         .classList.add("bg-gray-100");
     }
   }
 };
+
 onMounted(() => {
   //ページ全体を開いている時にどこを押してもkeyEventが起こる
   document.onkeydown = (event: KeyboardEvent) => {
@@ -229,6 +234,28 @@ onMounted(() => {
     if (user.canStartGame) KeyUp(event);
   };
 });
+
+const keyBoardOneLineKeys: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+}[] = [
+  { top: "~", bottom: "`", keyCode: "Backquote" },
+  { top: "!", bottom: "1", keyCode: "Digit1" },
+  { top: "@", bottom: "2", keyCode: "Digit2" },
+  { top: "#", bottom: "3", keyCode: "Digit3" },
+  { top: "$", bottom: "4", keyCode: "Digit4" },
+  { top: "%", bottom: "5", keyCode: "Digit5" },
+  { top: "^", bottom: "6", keyCode: "Digit6" },
+  { top: "&", bottom: "7", keyCode: "Digit7" },
+  { top: "*", bottom: "8", keyCode: "Digit8" },
+  { top: "(", bottom: "9", keyCode: "Digit9" },
+  { top: ")", bottom: "0", keyCode: "Digit0" },
+  { top: "_", bottom: "-", keyCode: "Minus" },
+  { top: "+", bottom: "=", keyCode: "Equal" },
+];
+
+console.log(keyboard.value);
 </script>
 
 <template>
@@ -274,8 +301,21 @@ onMounted(() => {
     <div ref="keyboard" class="board-area bg-gray-200 p-1">
       <!-- １行目 -->
       <div class="one-line flex">
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner_buttons">
+        <div
+          v-for="(keyBoardOneLineKey, index) in keyBoardOneLineKeys"
+          :key="index"
+          class="bg-gray-600 buttons flex justify-center items-center"
+        >
+          <div
+            :class="keyBoardOneLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+          >
+            <div>{{ keyBoardOneLineKey.top }}</div>
+            <div>{{ keyBoardOneLineKey.bottom }}</div>
+          </div>
+        </div>
+        <!-- <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>!</div>
             <div>1</div>
           </div>
@@ -353,7 +393,7 @@ onMounted(() => {
             <div>¥</div>
             <div>|</div>
           </div>
-        </div>
+        </div> -->
         <div class="bg-gray-600 one-six flex justify-center items-center">
           <div
             class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
@@ -788,7 +828,7 @@ onMounted(() => {
   width: 155px;
   height: 66px;
 }
-.one-four {
+.one-ten {
   width: 194px;
   height: 66px;
 }
