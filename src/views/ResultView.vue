@@ -183,7 +183,7 @@ function makeItRed(): void {
         </ol>
         <div class="flex justify-center items-center">
           <a
-            href="http://twitter.com/share?url=[シェアするURL]&text=[ツイート内テキスト]&via=[ツイート内に含むユーザ名]&related=[ツイート後に表示されるユーザー]&hashtags=[ハッシュタグ]"
+            href="http://twitter.com/share?url=https://recursionist.io/&text=Code Typing クリアしました"
             class="flex mt-3 items-center s-button inline-block hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center text-2xl text-center"
             target="_blank"
           >
