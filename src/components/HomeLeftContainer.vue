@@ -1,19 +1,45 @@
 <script setup lang="ts">
 import LevelDialog from "../components/LevelDialog.vue";
-import { ref } from "vue";
+import { ref, reactive, computed } from "vue";
 import { storeToRefs } from "pinia";
 import { userStore } from "../stores/user";
 let showLevelDialog = ref<boolean>(false);
 const langMenu: string[] = ["JavaScript", "Java"];
 const levelMenu: string[] = ["初級", "中級", "上級"];
+const user = userStore();
+const { lang, checkLang, level, checkLevel } = storeToRefs(user);
+let langStatus = ref<boolean>(false);
+let levelStatus = ref<boolean>(false);
+const langInput = computed({
+  get: () => langStatus.value,
+  set: (value: boolean) => (langStatus.value = value),
+});
+const levelInput = computed({
+  get: () => levelStatus.value,
+  set: (value: boolean) => (levelStatus.value = value),
+});
+const checkInput = (check: any): boolean => {
+  if (!check.value) return true;
+  else return false;
+};
 const openDialog = (): void => {
+  if (checkInput(checkLang) || checkInput(checkLevel)) {
+    langInput.value = checkInput(checkLang);
+    levelInput.value = checkInput(checkLevel);
+    alert("必須項目を入力してください");
+    return;
+  }
   showLevelDialog.value = true;
 };
 const closeDialog = (): void => {
   showLevelDialog.value = false;
 };
-const user = userStore();
-const { lang, level } = storeToRefs(user);
+let errorClass = reactive({
+  error: langInput,
+});
+let errorLevelClass = reactive({
+  error: levelInput,
+});
 </script>
 
 <template>
@@ -24,6 +50,8 @@ const { lang, level } = storeToRefs(user);
       <h3 class="py-6 font-semibold text-2xl">レベル別練習</h3>
       <div class="relative inline-block w-7/12 mb-4 text-gray-700">
         <select
+          @change="langInput = false"
+          :class="errorClass"
           class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
           v-model="lang"
         >
@@ -35,17 +63,13 @@ const { lang, level } = storeToRefs(user);
         <div
           class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
         >
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-            <path
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-              fill-rule="evenodd"
-            ></path>
-          </svg>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"></svg>
         </div>
       </div>
       <div class="relative inline-block w-7/12 my-2 text-gray-700">
         <select
+          @change="levelInput = false"
+          :class="errorLevelClass"
           class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
           v-model="level"
         >
@@ -61,13 +85,7 @@ const { lang, level } = storeToRefs(user);
         <div
           class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
         >
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20">
-            <path
-              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-              fill-rule="evenodd"
-            ></path>
-          </svg>
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"></svg>
         </div>
       </div>
       <div class="w-10/12 my-4 flex space-x-2 justify-center">
@@ -86,5 +104,8 @@ const { lang, level } = storeToRefs(user);
 <style scoped>
 .btn {
   @apply inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md;
+}
+.error {
+  @apply bg-red-50 border-2 border-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 transition-all duration-200;
 }
 </style>

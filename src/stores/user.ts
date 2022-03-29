@@ -33,6 +33,12 @@ export const userStore = defineStore({
       };
       return missCount;
     },
+    checkLang(): boolean {
+      return this.getLang != "";
+    },
+    checkLevel(): boolean {
+      return this.getLevel != "";
+    },
   },
   actions: {
     setName(value: string): void {

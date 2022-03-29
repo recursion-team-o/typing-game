@@ -27,6 +27,9 @@ export const codeStore = defineStore({
     getMissCount(state): number {
       return state.missCount;
     },
+    checkSampleCode(state): boolean {
+      return state.sampleCode != "";
+    },
   },
   actions: {
     setFullCode(value: string): void {
