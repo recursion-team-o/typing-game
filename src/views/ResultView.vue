@@ -4,12 +4,14 @@ import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
 import { userStore } from "../stores/user";
+import { ref, onMounted } from "vue";
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
-const { getMissCount } = storeToRefs(code);
-const keys: { [name: string]: string } = {};
+const { getMissCount, getSuccessPer } = storeToRefs(code);
+const { lang, level } = storeToRefs(user);
+const keyboard = ref(null);
 //1
 keys["1"] = "num1";
 keys["2"] = "num2";
