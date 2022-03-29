@@ -12,6 +12,9 @@ const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount, getSuccessPer } = storeToRefs(code);
 const { lang, level } = storeToRefs(user);
 const keyboard = ref(null);
+onMounted(() => {
+  makeItRed();
+});
 //1
 keys["1"] = "num1";
 keys["2"] = "num2";
