@@ -9,7 +9,7 @@ const code = codeStore();
 const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount } = storeToRefs(code);
-
+const keys: { [name: string]: string } = {};
 //1
 keys["1"] = "num1";
 keys["2"] = "num2";
