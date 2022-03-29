@@ -674,9 +674,7 @@ function makeItRed(): void {
                 id="space"
                 class="bg-gray-600 space-bar flex justify-center items-center"
               >
-                <div
-                  class="space bg-gray-100 p-1 hover:bg-indigo-400 inner-buttons"
-                ></div>
+                <div class="space bg-gray-100 p-1 inner-buttons"></div>
               </div>
               <div class="bg-gray-600 one-ten flex justify-center items-center">
                 <div class="Meta bg-gray-100 p-1 inner-buttons">

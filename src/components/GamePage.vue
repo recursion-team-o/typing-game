@@ -233,19 +233,19 @@ document.onkeyup = (event) => {
 </script>
 
 <template>
-    <!-- 上半分のHTML -->
-    <div
-      ref="upper"
-      class="upperbox mt-2 mb-2 bg-white flex justify-around items-center"
-    >
-      <div class="codearea overs flex justify-center items-center">
-        <pre
-          class="codearea p-5"
-        ><code class="language-html"><span id="correct">{{code.correctCode}}</span><span id="that">{{code.pointerCode}}</span>{{code.notYetCode}}</code></pre>
-      </div>
+  <!-- 上半分のHTML -->
+  <div
+    ref="upper"
+    class="upperbox mt-2 mb-2 bg-white flex justify-around items-center"
+  >
+    <div class="codearea overs flex justify-center items-center">
+      <pre
+        class="codearea p-5"
+      ><code class="language-html"><span id="correct">{{code.correctCode}}</span><span id="that">{{code.pointerCode}}</span>{{code.notYetCode}}</code></pre>
     </div>
+  </div>
 
-    <!--キーボードの設計
+  <!--キーボードの設計
     - 縦五行である。
       - １４(割合: 13が同サイズ、一番右約1.6倍)
       - １４(割合: 13が同サイズ、一番ひだり約1.5倍...これは見た目の調整的に1.6ではなく1.5）
@@ -271,472 +271,468 @@ document.onkeyup = (event) => {
 
     以下キーボードのHTML-->
 
-    <div class="bottombox flex justify-center items-center bg-gray-900">
-      <div ref="keyboard" class="boardarea bg-gray-200 p-1">
-        <!-- １行目　-->
-        <div class="oneline flex">
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>!</div>
-              <div>1</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num2 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>"</div>
-              <div>2</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num3 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>#</div>
-              <div>3</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num4 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>$</div>
-              <div>4</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num5 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>%</div>
-              <div>5</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num6 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>&amp;</div>
-              <div>6</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num7 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>'</div>
-              <div>7</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num8 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>(</div>
-              <div>8</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num9 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>)</div>
-              <div>9</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>0</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="bar bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>=</div>
-              <div>-</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="hat bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>^</div>
-              <div>~</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="¥ bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>¥</div>
-              <div>|</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 onesix flex justify-center items-center">
-            <div
-              class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
-            >
-              <div>
-                <br />
-              </div>
-              <div>backspace</div>
-            </div>
+  <div class="bottombox flex justify-center items-center bg-gray-900">
+    <div ref="keyboard" class="boardarea bg-gray-200 p-1">
+      <!-- １行目　-->
+      <div class="oneline flex">
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>!</div>
+            <div>1</div>
           </div>
         </div>
-
-        <!-- 2行目　-->
-        <div class="oneline flex">
-          <div class="bg-gray-600 onefive flex justify-center items-center">
-            <div class="tabs bg-gray-100 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div></div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="q bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Q</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="w bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>W</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="e bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>E</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="r bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>R</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="t bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>T</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="y bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Y</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="u bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>U</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="i bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>I</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="o bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>O</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="p bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>P</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div
-              class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
-            >
-              <div>`</div>
-              <div>@</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div
-              class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
-            >
-              <div>{</div>
-              <div>[</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div
-              class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
-            >
-              <div>}</div>
-              <div>]</div>
-            </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num2 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>"</div>
+            <div>2</div>
           </div>
         </div>
-
-        <!-- 3行目　-->
-        <div class="oneline flex">
-          <div class="bg-gray-600 oneseven flex justify-center items-center">
-            <div
-              class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
-            >
-              <div>
-                <br />
-              </div>
-              <div>control</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="a bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>A</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="s bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>S</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="d bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>D</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="f bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>F</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="g bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>G</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="h bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>H</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="j bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>J</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="k bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>K</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="l bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>L</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="semi bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>+</div>
-              <div>;</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="coron bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>*</div>
-              <div>:</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 oneseven flex justify-center items-center">
-            <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Enter</div>
-            </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num3 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>#</div>
+            <div>3</div>
           </div>
         </div>
-
-        <!-- 4行目　-->
-        <div class="oneline flex">
-          <div class="bg-gray-600 onefive flex justify-center items-center">
-            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Shift</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="z bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Z</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="x bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>x</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="c bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>C</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="v bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>V</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="b bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>B</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="n bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>N</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="m bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>M</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>&lt;</div>
-              <div>,</div>
-              &gt;
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="peri bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>&gt;</div>
-              <div>.</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="slash bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>?</div>
-              <div>/</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 buttons flex justify-center items-center">
-            <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>_</div>
-            </div>
-          </div>
-          <div class="bg-gray-600 oneeight flex justify-center items-center">
-            <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>Shift</div>
-            </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num4 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>$</div>
+            <div>4</div>
           </div>
         </div>
-
-        <!-- 5行目　-->
-        <div class="oneline flex">
-          <div class="bg-gray-600 onefour flex justify-center items-center">
-            <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>option</div>
-            </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num5 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>%</div>
+            <div>5</div>
           </div>
-          <div class="bg-gray-600 oneten flex justify-center items-center">
-            <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div>command</div>
-            </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num6 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>&amp;</div>
+            <div>6</div>
           </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num7 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>'</div>
+            <div>7</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num8 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>(</div>
+            <div>8</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num9 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>)</div>
+            <div>9</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>0</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="bar bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>=</div>
+            <div>-</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="hat bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>^</div>
+            <div>~</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="¥ bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>¥</div>
+            <div>|</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 onesix flex justify-center items-center">
           <div
-            id="space"
-            class="bg-gray-600 spacebar flex justify-center items-center"
+            class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
           >
-            <div
-              class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"
-            ></div>
-          </div>
-          <div class="bg-gray-600 oneten flex justify-center items-center">
-            <div class="Meta bg-gray-100 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div></div>
+            <div>
+              <br />
             </div>
+            <div>backspace</div>
           </div>
-          <div class="bg-gray-600 onefour flex justify-center items-center">
-            <div class="bg-gray-100 p-2 innerbuttons">
-              <div>
-                <br />
-              </div>
-              <div></div>
+        </div>
+      </div>
+
+      <!-- 2行目　-->
+      <div class="oneline flex">
+        <div class="bg-gray-600 onefive flex justify-center items-center">
+          <div class="tabs bg-gray-100 p-2 innerbuttons">
+            <div>
+              <br />
             </div>
+            <div></div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="q bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Q</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="w bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>W</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="e bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>E</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="r bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>R</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="t bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>T</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="y bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Y</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="u bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>U</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="i bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>I</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="o bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>O</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="p bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>P</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="atmark bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>`</div>
+            <div>@</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div
+            class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+          >
+            <div>{</div>
+            <div>[</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div
+            class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons"
+          >
+            <div>}</div>
+            <div>]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3行目　-->
+      <div class="oneline flex">
+        <div class="bg-gray-600 oneseven flex justify-center items-center">
+          <div class="Control bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>control</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="a bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>A</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="s bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>S</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="d bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>D</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="f bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>F</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="g bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>G</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="h bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>H</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="j bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>J</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="k bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>K</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="l bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>L</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="semi bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>+</div>
+            <div>;</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="coron bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>*</div>
+            <div>:</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 oneseven flex justify-center items-center">
+          <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Enter</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4行目　-->
+      <div class="oneline flex">
+        <div class="bg-gray-600 onefive flex justify-center items-center">
+          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Shift</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="z bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Z</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="x bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>x</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="c bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>C</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="v bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>V</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="b bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>B</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="n bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>N</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="m bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>M</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>&lt;</div>
+            <div>,</div>
+            &gt;
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="peri bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>&gt;</div>
+            <div>.</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="slash bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>?</div>
+            <div>/</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 buttons flex justify-center items-center">
+          <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>_</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 oneeight flex justify-center items-center">
+          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>Shift</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5行目　-->
+      <div class="oneline flex">
+        <div class="bg-gray-600 onefour flex justify-center items-center">
+          <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>option</div>
+          </div>
+        </div>
+        <div class="bg-gray-600 oneten flex justify-center items-center">
+          <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div>command</div>
+          </div>
+        </div>
+        <div
+          id="space"
+          class="bg-gray-600 spacebar flex justify-center items-center"
+        >
+          <div
+            class="space bg-gray-100 p-2 hover:bg-indigo-400 innerbuttons"
+          ></div>
+        </div>
+        <div class="bg-gray-600 oneten flex justify-center items-center">
+          <div class="Meta bg-gray-100 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div></div>
+          </div>
+        </div>
+        <div class="bg-gray-600 onefour flex justify-center items-center">
+          <div class="bg-gray-100 p-2 innerbuttons">
+            <div>
+              <br />
+            </div>
+            <div></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style>
