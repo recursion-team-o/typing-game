@@ -184,7 +184,7 @@ function makeItRed(): void {
         <div class="flex justify-center items-center">
           <a
             href="http://twitter.com/share?url=https://recursionist.io/&text=Code Typing クリアしました"
-            class="flex mt-3 items-center s-button inline-block hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center text-2xl text-center"
+            class="flex mt-3 items-center s-button hover:bg-sky-200 px-5 py-3 rounded-lg shadow-lg bg-white text-sky-600 justify-center text-2xl text-center"
             target="_blank"
           >
             Twitterでシェア
@@ -227,7 +227,10 @@ function makeItRed(): void {
         </div>
         <div>
           <div class="text-3xl nigate-box m-2 flex flex-wrap">
-            <span class="text-3xl m-2" v-for="value in user.missTypes"
+            <span
+              class="text-3xl m-2"
+              v-for="value in user.missTypes"
+              :key="value[0]"
               >[ "{{ value[0] }}"=> {{ value[1] }}回 ]</span
             >
           </div>
@@ -238,7 +241,7 @@ function makeItRed(): void {
         <div
           class="bottom-box mt-10 flex justify-center items-center bg-gray-800"
         >
-          <div ref="keyboard" class="board-area bg-gray-200 p-1">
+          <div ref="keyboard" class="font-size board-area bg-gray-200 p-1">
             <!-- １行目 -->
             <div class="one-line flex">
               <div class="bg-gray-600 buttons flex justify-center items-center">
@@ -443,7 +446,7 @@ function makeItRed(): void {
               </div>
             </div>
 
-            <!-- 3行目　-->
+            <!-- 3行目 -->
             <div class="one-line flex">
               <div
                 class="bg-gray-600 one-seven flex justify-center items-center"
@@ -787,6 +790,9 @@ function makeItRed(): void {
 }
 .overs {
   overflow: scroll;
+}
+.font-size {
+  font-size: 14px;
 }
 .space-bar {
   width: 303px;

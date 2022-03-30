@@ -389,7 +389,7 @@ document.onkeyup = () => {
         </div>
       </div>
 
-      <!-- 2行目　-->
+      <!-- 2行目 -->
       <div class="one-line flex">
         <div class="bg-gray-600 one-five flex justify-center items-center">
           <div class="tabs bg-gray-100 p-2 inner-buttons">
@@ -505,7 +505,7 @@ document.onkeyup = () => {
         </div>
       </div>
 
-      <!-- 3行目　-->
+      <!-- 3行目 -->
       <div class="one-line flex">
         <div class="bg-gray-600 one-seven flex justify-center items-center">
           <div
