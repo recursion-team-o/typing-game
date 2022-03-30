@@ -167,8 +167,8 @@ function makeItRed(): void {
 <template>
   <!-- ヘッダーの追加 -->
   <div class="bg-gray-800 box flex">
-    <div class="left-box flex justify-center items-center">
-      <div class="bg-white p-8 result-card rounded-lg">
+    <div class="left-box p-10 flex-col overs justify-center">
+      <div class="bg-white p-8 m-4 ml-10 mt-10 result-card rounded-lg">
         <div class="text-5xl mt-5 font-bold text-center">
           スコア: {{ user.score }}
         </div>
