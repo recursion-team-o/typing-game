@@ -192,7 +192,7 @@ const KeyDown = (event: KeyboardEvent) => {
   }
 
   if (keys[event.key]) {
-    console.log(event.code);
+    console.log(event.code + " " + event.key);
 
     keyboard.value
       ?.getElementsByClassName(event.code)[0]
@@ -235,24 +235,48 @@ onMounted(() => {
   };
 });
 
-const keyBoardOneLineKeys: {
+const keyBoardFirstLineKeys: {
   top: string;
   bottom: string;
   keyCode: string;
+  class: string;
 }[] = [
-  { top: "~", bottom: "`", keyCode: "Backquote" },
-  { top: "!", bottom: "1", keyCode: "Digit1" },
-  { top: "@", bottom: "2", keyCode: "Digit2" },
-  { top: "#", bottom: "3", keyCode: "Digit3" },
-  { top: "$", bottom: "4", keyCode: "Digit4" },
-  { top: "%", bottom: "5", keyCode: "Digit5" },
-  { top: "^", bottom: "6", keyCode: "Digit6" },
-  { top: "&", bottom: "7", keyCode: "Digit7" },
-  { top: "*", bottom: "8", keyCode: "Digit8" },
-  { top: "(", bottom: "9", keyCode: "Digit9" },
-  { top: ")", bottom: "0", keyCode: "Digit0" },
-  { top: "_", bottom: "-", keyCode: "Minus" },
-  { top: "+", bottom: "=", keyCode: "Equal" },
+  { top: "~", bottom: "`", keyCode: "Backquote", class: "" },
+  { top: "!", bottom: "1", keyCode: "Digit1", class: "" },
+  { top: "@", bottom: "2", keyCode: "Digit2", class: "" },
+  { top: "#", bottom: "3", keyCode: "Digit3", class: "" },
+  { top: "$", bottom: "4", keyCode: "Digit4", class: "" },
+  { top: "%", bottom: "5", keyCode: "Digit5", class: "" },
+  { top: "^", bottom: "6", keyCode: "Digit6", class: "" },
+  { top: "&", bottom: "7", keyCode: "Digit7", class: "" },
+  { top: "*", bottom: "8", keyCode: "Digit8", class: "" },
+  { top: "(", bottom: "9", keyCode: "Digit9", class: "" },
+  { top: ")", bottom: "0", keyCode: "Digit0", class: "" },
+  { top: "_", bottom: "-", keyCode: "Minus", class: "" },
+  { top: "+", bottom: "=", keyCode: "Equal", class: "" },
+  { top: "", bottom: "Backspace", keyCode: "Backspace", class: "one-six" },
+];
+
+const keyBoardSecondLineKeys: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+  class: string;
+}[] = [
+  { top: "", bottom: "", keyCode: "Tab", class: "one-five" },
+  { top: "Q", bottom: "", keyCode: "KeyQ", class: "" },
+  { top: "W", bottom: "", keyCode: "KeyW", class: "" },
+  { top: "E", bottom: "", keyCode: "KeyE", class: "" },
+  { top: "R", bottom: "", keyCode: "KeyR", class: "" },
+  { top: "T", bottom: "", keyCode: "KeyT", class: "" },
+  { top: "Y", bottom: "", keyCode: "KeyY", class: "" },
+  { top: "U", bottom: "", keyCode: "KeyU", class: "" },
+  { top: "I", bottom: "", keyCode: "KeyI", class: "" },
+  { top: "O", bottom: "", keyCode: "KeyO", class: "" },
+  { top: "P", bottom: "", keyCode: "KeyP", class: "" },
+  { top: "{", bottom: "[", keyCode: "BracketLeft", class: "" },
+  { top: "}", bottom: "]", keyCode: "BracketRight", class: "" },
+  { top: "|", bottom: "￥", keyCode: "Backslash", class: "" },
 ];
 
 console.log(keyboard.value);
@@ -262,7 +286,7 @@ console.log(keyboard.value);
   <!-- 上半分のHTML -->
   <div
     ref="upper"
-    class="upperNox mt-2 mb-2 bg-white flex justify-around items-center"
+    class="upper-box mt-2 mb-2 bg-white flex justify-around items-center"
   >
     <div class="code-area overs flex justify-center items-center">
       <pre
@@ -302,18 +326,20 @@ console.log(keyboard.value);
       <!-- １行目 -->
       <div class="one-line flex">
         <div
-          v-for="(keyBoardOneLineKey, index) in keyBoardOneLineKeys"
+          v-for="(keyBoardFirstLineKey, index) in keyBoardFirstLineKeys"
           :key="index"
+          :class="keyBoardFirstLineKey.class"
           class="bg-gray-600 buttons flex justify-center items-center"
         >
           <div
-            :class="keyBoardOneLineKey.keyCode"
-            class="bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+            :class="keyBoardFirstLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
           >
-            <div>{{ keyBoardOneLineKey.top }}</div>
-            <div>{{ keyBoardOneLineKey.bottom }}</div>
+            <div>{{ keyBoardFirstLineKey.top }}</div>
+            <div>{{ keyBoardFirstLineKey.bottom }}</div>
           </div>
         </div>
+
         <!-- <div class="bg-gray-600 buttons flex justify-center items-center">
           <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>!</div>
@@ -394,7 +420,7 @@ console.log(keyboard.value);
             <div>|</div>
           </div>
         </div> -->
-        <div class="bg-gray-600 one-six flex justify-center items-center">
+        <!-- <div class="bg-gray-600 one-six flex justify-center items-center">
           <div
             class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
           >
@@ -403,12 +429,26 @@ console.log(keyboard.value);
             </div>
             <div>backspace</div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- 2行目 -->
       <div class="oneLine flex">
-        <div class="bg-gray-600 one-five flex justify-center items-center">
+        <div
+          v-for="(keyBoardSecondLineKey, index) in keyBoardSecondLineKeys"
+          :key="index"
+          :class="keyBoardSecondLineKey.class"
+          class="bg-gray-600 buttons flex justify-center items-center"
+        >
+          <div
+            :class="keyBoardSecondLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
+          >
+            <div>{{ keyBoardSecondLineKey.top }}</div>
+            <div>{{ keyBoardSecondLineKey.bottom }}</div>
+          </div>
+        </div>
+        <!-- <div class="bg-gray-600 one-five flex justify-center items-center">
           <div class="tabs bg-gray-100 p-2 inner-buttons">
             <div>
               <br />
@@ -517,7 +557,7 @@ console.log(keyboard.value);
             <div>}</div>
             <div>]</div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <!-- 3行目 -->
