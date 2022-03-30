@@ -178,17 +178,16 @@ const KeyDown = (event: KeyboardEvent) => {
       console.log(keyboard.value);
       keyboard.value
         ?.getElementsByClassName(event.code)[0]
-        .classList.remove("bg-gray-100");
+        ?.classList.remove("bg-gray-100");
       keyboard.value
         ?.getElementsByClassName(event.code)[0]
-        .classList.add("bg-indigo-500");
+        ?.classList.add("bg-indigo-500");
     }
   } else {
     setMissCount();
     setMisses(event.key);
     user.setScore();
     console.log("you clicked wrong key");
-    //setMisses(event.key);
   }
 
   if (keys[event.key]) {
@@ -196,10 +195,10 @@ const KeyDown = (event: KeyboardEvent) => {
 
     keyboard.value
       ?.getElementsByClassName(event.code)[0]
-      .classList.remove("bg-gray-100");
+      ?.classList.remove("bg-gray-100");
     keyboard.value
       ?.getElementsByClassName(event.code)[0]
-      .classList.add("bg-indigo-500");
+      ?.classList.add("bg-indigo-500");
   }
   console.log(event.code + " " + event.key);
 };
@@ -208,19 +207,19 @@ const KeyUp = (event: KeyboardEvent) => {
   if (keys[event.key]) {
     keyboard.value
       ?.getElementsByClassName(event.code)[0]
-      .classList.remove("bg-indigo-500");
+      ?.classList.remove("bg-indigo-500");
     keyboard.value
       ?.getElementsByClassName(event.code)[0]
-      .classList.add("bg-gray-100");
+      ?.classList.add("bg-gray-100");
   }
   if (event.shiftKey) {
     if (keys[event.key]) {
       keyboard.value
         ?.getElementsByClassName(event.code)[0]
-        .classList.remove("bg-indigo-500");
+        ?.classList.remove("bg-indigo-500");
       keyboard.value
         ?.getElementsByClassName(event.code)[0]
-        .classList.add("bg-gray-100");
+        ?.classList.add("bg-gray-100");
     }
   }
 };
@@ -278,8 +277,53 @@ const keyBoardSecondLineKeys: {
   { top: "}", bottom: "]", keyCode: "BracketRight", class: "" },
   { top: "|", bottom: "￥", keyCode: "Backslash", class: "" },
 ];
+const keyBoardThirdLineKeys: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+  class: string;
+}[] = [
+  { top: "Caps lock", bottom: "", keyCode: "ControlRight", class: "one-seven" },
+  { top: "A", bottom: "", keyCode: "KeyA", class: "" },
+  { top: "S", bottom: "", keyCode: "KeyS", class: "" },
+  { top: "D", bottom: "", keyCode: "KeyD", class: "" },
+  { top: "F", bottom: "", keyCode: "KeyF", class: "" },
+  { top: "G", bottom: "", keyCode: "KeyG", class: "" },
+  { top: "H", bottom: "", keyCode: "KeyH", class: "" },
+  { top: "J", bottom: "", keyCode: "KeyJ", class: "" },
+  { top: "K", bottom: "", keyCode: "KeyK", class: "" },
+  { top: "L", bottom: "", keyCode: "KeyL", class: "" },
+  { top: ":", bottom: ";", keyCode: "Semicolon", class: "" },
+  { top: '"', bottom: "'", keyCode: "Quote", class: "" },
+  { top: "Enter", bottom: "", keyCode: "Enter", class: "one-seven" },
+];
 
-console.log(keyboard.value);
+const keyBoardFourthLineKeys: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+  class: string;
+}[] = [
+  { top: "Shift", bottom: "", keyCode: "ShiftLeft", class: "one-eight" },
+  { top: "Z", bottom: "", keyCode: "KeyZ", class: "" },
+  { top: "X", bottom: "", keyCode: "KeyX", class: "" },
+  { top: "C", bottom: "", keyCode: "KeyC", class: "" },
+  { top: "V", bottom: "", keyCode: "KeyV", class: "" },
+  { top: "B", bottom: "", keyCode: "KeyB", class: "" },
+  { top: "N", bottom: "", keyCode: "KeyN", class: "" },
+  { top: "M", bottom: "", keyCode: "KeyM", class: "" },
+  { top: "<", bottom: ",", keyCode: "Comma", class: "" },
+  { top: ">", bottom: ".", keyCode: "Period", class: "" },
+  { top: "?", bottom: "/", keyCode: "Slash", class: "" },
+  { top: "Shift", bottom: "", keyCode: "ShiftRight", class: "one-eight" },
+];
+
+const keyBoardFifthLineKeys: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+  class: string;
+}[] = [{ top: "Enter", bottom: "", keyCode: "Space", class: "space-bar" }];
 </script>
 
 <template>
@@ -324,7 +368,7 @@ console.log(keyboard.value);
   <div class="bottom-box flex justify-center items-center bg-gray-900">
     <div ref="keyboard" class="board-area bg-gray-200 p-1">
       <!-- １行目 -->
-      <div class="one-line flex">
+      <div class="one-line flex justify-center">
         <div
           v-for="(keyBoardFirstLineKey, index) in keyBoardFirstLineKeys"
           :key="index"
@@ -339,101 +383,10 @@ console.log(keyboard.value);
             <div>{{ keyBoardFirstLineKey.bottom }}</div>
           </div>
         </div>
-
-        <!-- <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>!</div>
-            <div>1</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num2 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>"</div>
-            <div>2</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num3 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>#</div>
-            <div>3</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num4 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>$</div>
-            <div>4</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num5 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>%</div>
-            <div>5</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num6 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>&amp;</div>
-            <div>6</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num7 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>'</div>
-            <div>7</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num8 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>(</div>
-            <div>8</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num9 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>)</div>
-            <div>9</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num0 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>0</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="bar bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>=</div>
-            <div>-</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="hat bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>^</div>
-            <div>~</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="¥ bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>¥</div>
-            <div>|</div>
-          </div>
-        </div> -->
-        <!-- <div class="bg-gray-600 one-six flex justify-center items-center">
-          <div
-            class="Backspace bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
-          >
-            <div>
-              <br />
-            </div>
-            <div>backspace</div>
-          </div>
-        </div> -->
       </div>
 
       <!-- 2行目 -->
-      <div class="oneLine flex">
+      <div class="oneLine flex justify-center">
         <div
           v-for="(keyBoardSecondLineKey, index) in keyBoardSecondLineKeys"
           :key="index"
@@ -448,367 +401,58 @@ console.log(keyboard.value);
             <div>{{ keyBoardSecondLineKey.bottom }}</div>
           </div>
         </div>
-        <!-- <div class="bg-gray-600 one-five flex justify-center items-center">
-          <div class="tabs bg-gray-100 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div></div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="q bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Q</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="w bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>W</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="e bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>E</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="r bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>R</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="t bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>T</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="y bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Y</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="u bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>U</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="i bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>I</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="o bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>O</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="p bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>P</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="atmark bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>`</div>
-            <div>@</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div
-            class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
-          >
-            <div>{</div>
-            <div>[</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div
-            class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
-          >
-            <div>}</div>
-            <div>]</div>
-          </div>
-        </div> -->
       </div>
 
       <!-- 3行目 -->
-      <div class="oneLine flex">
-        <div class="bg-gray-600 one-seven flex justify-center items-center">
+      <div class="oneLine flex justify-center">
+        <div
+          v-for="(keyBoardThirdLineKey, index) in keyBoardThirdLineKeys"
+          :key="index"
+          :class="keyBoardThirdLineKey.class"
+          class="bg-gray-600 buttons flex justify-center items-center"
+        >
           <div
-            class="Control bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+            :class="keyBoardThirdLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
           >
-            <div>
-              <br />
-            </div>
-            <div>control</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="a bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>A</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="s bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>S</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="d bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>D</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="f bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>F</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="g bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>G</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="h bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>H</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="j bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>J</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="k bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>K</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="l bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>L</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="semi bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>+</div>
-            <div>;</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="coron bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>*</div>
-            <div>:</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 one-seven flex justify-center items-center">
-          <div class="Enter bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Enter</div>
+            <div>{{ keyBoardThirdLineKey.top }}</div>
+            <div>{{ keyBoardThirdLineKey.bottom }}</div>
           </div>
         </div>
       </div>
 
       <!-- 4行目 -->
-      <div class="oneLine flex">
-        <div class="bg-gray-600 one-five flex justify-center items-center">
-          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Shift</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="z bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Z</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="x bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>x</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="c bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>C</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="v bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>V</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="b bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>B</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="n bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>N</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="m bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>M</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="hai bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>&lt;</div>
-            <div>,</div>
-            &gt;
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="peri bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>&gt;</div>
-            <div>.</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="slash bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>?</div>
-            <div>/</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="sub bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>_</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 one-eight flex justify-center items-center">
-          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>Shift</div>
+      <div class="oneLine flex justify-center">
+        <div
+          v-for="(keyBoardFourthLineKey, index) in keyBoardFourthLineKeys"
+          :key="index"
+          :class="keyBoardFourthLineKey.class"
+          class="bg-gray-600 buttons flex justify-center items-center"
+        >
+          <div
+            :class="keyBoardFourthLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
+          >
+            <div>{{ keyBoardFourthLineKey.top }}</div>
+            <div>{{ keyBoardFourthLineKey.bottom }}</div>
           </div>
         </div>
       </div>
 
       <!-- 5行目 -->
-      <div class="oneLine flex">
-        <div class="bg-gray-600 one-four flex justify-center items-center">
-          <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>option</div>
-          </div>
-        </div>
-        <div class="bg-gray-600 one-ten flex justify-center items-center">
-          <div class="Meta bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div>command</div>
-          </div>
-        </div>
+      <div class="oneLine flex justify-center">
         <div
-          id="space"
-          class="bg-gray-600 space-bar flex justify-center items-center"
+          v-for="(keyBoardFifthLineKey, index) in keyBoardFifthLineKeys"
+          :key="index"
+          :class="keyBoardFifthLineKey.class"
+          class="bg-gray-600 buttons flex justify-center items-center"
         >
           <div
-            class="space bg-gray-100 p-2 hover:bg-indigo-400 inner-buttons"
-          ></div>
-        </div>
-        <div class="bg-gray-600 one-ten flex justify-center items-center">
-          <div class="Meta bg-gray-100 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div></div>
-          </div>
-        </div>
-        <div class="bg-gray-600 one-four flex justify-center items-center">
-          <div class="bg-gray-100 p-2 inner-buttons">
-            <div>
-              <br />
-            </div>
-            <div></div>
+            :class="keyBoardFifthLineKey.keyCode"
+            class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
+          >
+            <div>{{ keyBoardFifthLineKey.top }}</div>
+            <div>{{ keyBoardFifthLineKey.bottom }}</div>
           </div>
         </div>
       </div>
@@ -817,9 +461,6 @@ console.log(keyboard.value);
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style>
-.mass {
-  width: 100%;
-}
 .upper-box {
   height: 45%;
   margin: 0;
@@ -845,8 +486,8 @@ console.log(keyboard.value);
   height: 66px;
 }
 .inner-buttons {
-  width: 97%;
-  height: 97%;
+  width: 98%;
+  height: 98%;
 }
 .one-four {
   width: 97px;
