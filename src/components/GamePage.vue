@@ -3,12 +3,14 @@ import { ref, onMounted } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
+import { soundStore } from "../stores/sound";
 import WinDialog from "../components/WinDialog.vue";
 import UsKeyboard from "../components/UsKeyboard.vue";
 
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
+const sound = soundStore();
 
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
@@ -50,10 +52,11 @@ const KeyDown = (event: KeyboardEvent) => {
   //ポインターとキーの照合
   else if (event.key === code.pointerCode) {
     moveIndex();
-    // 最後の文字の処理
+    sound.onSuccess();
     if (code.finishCode.length + 1 === code.index) {
       stopTimer();
       setGameFalse();
+      console.log("color dismissed");
       openDialog();
       return;
     }
@@ -69,6 +72,7 @@ const KeyDown = (event: KeyboardEvent) => {
     setMissCount();
     setMisses(event.key);
     user.setScore();
+    sound.onMiss();
     console.log("you clicked wrong key");
   }
 };
@@ -113,7 +117,6 @@ const KeyUp = (event: KeyboardEvent) => {
   width: 100%;
   height: 55%;
 }
-
 textarea::selection {
   background: #fff;
   color: #ff0000;

@@ -61,5 +61,8 @@ export const userStore = defineStore({
     setGameFalse(): void {
       this.canStartGame = false;
     },
+    setGameTrue(): void {
+      this.canStartGame = true;
+    },
   },
 });
