@@ -162,8 +162,27 @@ const KeyDown = () => {
   }
   //スタート
   if (code.correctCode === "" && event.key === " ") {
-    startGame();
-    startTimer();
+    var count = 4;
+    let container = document.getElementById("click-space");
+    const anim = () => {
+      if (count > 1) {
+        console.log(count);
+        container.innerHTML = "";
+        container.innerHTML = String(count - 1);
+        count--;
+        setTimeout(anim, 1000);
+      } else if (count === 1) {
+        container.innerHTML = "";
+        container.innerHTML = "START";
+        count--;
+        setTimeout(anim, 1000);
+      } else {
+        container?.classList.add("invisible");
+        startGame();
+        startTimer();
+      }
+    };
+    anim();
   }
   //ポインターとキーがあっているか
   else if (event.key === code.pointerCode) {
