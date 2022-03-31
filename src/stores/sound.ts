@@ -3,6 +3,7 @@ import test1 from "@/assets/sound/yoru no zattou.mp3";
 import success from "@/assets/sound/success.mp3";
 import miss from "@/assets/sound/miss.mp3";
 import countDown from "@/assets/sound/countDown.mp3";
+import finish from "@/assets/sound/finish.mp3";
 import { Howl, Howler } from "howler";
 
 export const soundStore = defineStore({
@@ -26,6 +27,11 @@ export const soundStore = defineStore({
     }),
     countDown: new Howl({
       src: [countDown],
+      volume: 0.3,
+      format: ["mp3"],
+    }),
+    finish: new Howl({
+      src: [finish],
       volume: 0.3,
       format: ["mp3"],
     }),
@@ -72,6 +78,9 @@ export const soundStore = defineStore({
     },
     onCountDown(): void {
       this.countDown.play();
+    },
+    onFinish(): void {
+      this.finish.play();
     },
     toggleVol(): void {
       this.volStatus = !this.volStatus;

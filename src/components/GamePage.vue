@@ -13,7 +13,7 @@ const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
-const { onCountDown } = sound;
+const { onCountDown, onFinish } = sound;
 const keyboard = ref(null);
 const upper = ref(null);
 let showMyCodeDialog = ref<boolean>(false);
@@ -191,6 +191,7 @@ const KeyDown = () => {
     moveIndex();
     sound.onSuccess();
     if (code.finishCode.length + 1 === code.index) {
+      onFinish();
       stopTimer();
       setGameFalse();
       if (keys[event.key]) {
@@ -219,6 +220,7 @@ const KeyDown = () => {
       moveIndex();
 
       if (code.finishCode.length + 1 === code.index) {
+        onFinish();
         stopTimer();
         keyboard.value
           .querySelectorAll(".Shift")[0]
@@ -880,7 +882,7 @@ textarea::selection {
   text-shadow: 3px 3px 3px black;
 }
 #correct {
-  color: #0000ff;
+  color: #a7a2a2;
 }
 #that {
   animation: flash 1s linear infinite;
