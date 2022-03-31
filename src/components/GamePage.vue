@@ -163,10 +163,10 @@ const KeyDown = () => {
   //スタート
   if (code.correctCode === "" && event.key === " ") {
     var count = 4;
-    let container = document.getElementById("click-space");
+    let container = document.getElementById("count-down");
+    container.classList.add("zoom-in");
     const anim = () => {
       if (count > 1) {
-        console.log(count);
         container.innerHTML = "";
         container.innerHTML = String(count - 1);
         count--;
@@ -177,7 +177,7 @@ const KeyDown = () => {
         count--;
         setTimeout(anim, 1000);
       } else {
-        container?.classList.add("invisible");
+        document.getElementById("click-space").classList.add("invisible");
         startGame();
         startTimer();
       }
@@ -787,10 +787,10 @@ document.onkeyup = () => {
   <div
     id="click-space"
     style="position: absolute; left: 0px; top: 0px"
-    class="click-space text-shadow start-box text-8xl flex justify-center text-white items-center"
+    class="click-space text-shadow text-8xl flex justify-center text-white items-center"
   >
     <!-- 文字（click space to start) -->
-    <p class="">click space-bar to start</p>
+    <p id="count-down">click space-bar to start</p>
   </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
@@ -871,6 +871,9 @@ textarea::selection {
   width: 100%;
   height: 100%;
 }
+.zoom-in {
+  animation: zoom-in-anim 4s;
+}
 .text-shadow {
   text-shadow: 3px 3px 3px black;
 }
@@ -892,6 +895,32 @@ textarea::selection {
 
   50% {
     opacity: 0;
+  }
+}
+@keyframes zoom-in-anim {
+  0% {
+    transform: scale(1);
+  }
+  24% {
+    transform: scale(2.5);
+  }
+  25% {
+    transform: scale(1);
+  }
+  49% {
+    transform: scale(2.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  74% {
+    transform: scale(2.5);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(2.5);
   }
 }
 </style>
