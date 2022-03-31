@@ -13,6 +13,7 @@ const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
+const { onCountDown } = sound;
 const keyboard = ref(null);
 const upper = ref(null);
 let showMyCodeDialog = ref<boolean>(false);
@@ -165,6 +166,7 @@ const KeyDown = () => {
     var count = 4;
     let container = document.getElementById("count-down");
     container.classList.add("zoom-in");
+    onCountDown();
     const anim = () => {
       if (count > 1) {
         container.innerHTML = "";

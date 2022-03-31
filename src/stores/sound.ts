@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import test1 from "@/assets/sound/yoru no zattou.mp3";
 import success from "@/assets/sound/success.mp3";
 import miss from "@/assets/sound/miss.mp3";
+import countDown from "@/assets/sound/countDown.mp3";
 import { Howl, Howler } from "howler";
 
 export const soundStore = defineStore({
@@ -20,6 +21,11 @@ export const soundStore = defineStore({
     }),
     miss: new Howl({
       src: [miss],
+      volume: 0.3,
+      format: ["mp3"],
+    }),
+    countDown: new Howl({
+      src: [countDown],
       volume: 0.3,
       format: ["mp3"],
     }),
@@ -63,6 +69,9 @@ export const soundStore = defineStore({
     },
     onMiss(): void {
       this.miss.play();
+    },
+    onCountDown(): void {
+      this.countDown.play();
     },
     toggleVol(): void {
       this.volStatus = !this.volStatus;
