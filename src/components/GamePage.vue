@@ -3,11 +3,13 @@ import { ref, onMounted } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
+import { soundStore } from "../stores/sound";
 import WinDialog from "../components/WinDialog.vue";
 
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
+const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
@@ -64,9 +66,9 @@ keys["u"] = "u";
 keys["i"] = "i";
 keys["o"] = "o";
 keys["p"] = "p";
-keys["@"] = "atmark";
-keys["["] = "bigparaini";
-keys["]"] = "bigparafini";
+keys["@"] = "at-mark";
+keys["["] = "big-para-ini";
+keys["]"] = "big-para-fini";
 //uppercase
 keys["Q"] = "q";
 keys["W"] = "w";
@@ -78,9 +80,9 @@ keys["U"] = "u";
 keys["I"] = "i";
 keys["O"] = "o";
 keys["P"] = "p";
-keys["`"] = "atmark";
-keys["{"] = "bigparaini";
-keys["}"] = "bigparafini";
+keys["`"] = "at-mark";
+keys["{"] = "big-para-ini";
+keys["}"] = "big-para-fini";
 
 //3
 keys["Control"] = "Control";
@@ -139,7 +141,25 @@ keys["Alt"] = "Alt";
 keys["Meta"] = "Meta";
 keys[" "] = "space";
 
-const KeyDown = (event: KeyboardEvent) => {
+const KeyDown = () => {
+  if (keys[event.key]) {
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.remove("bg-gray-100");
+    keyboard.value
+      .querySelectorAll("." + keys[event.key])[0]
+      .classList.add("bg-indigo-500");
+  }
+  if (event.shiftKey) {
+    if (keys[event.key]) {
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.remove("bg-gray-100");
+      keyboard.value
+        .querySelectorAll("." + keys[event.key])[0]
+        .classList.add("bg-indigo-500");
+    }
+  }
   //スタート
   if (code.correctCode === "" && event.key === " ") {
     startGame();
@@ -148,10 +168,23 @@ const KeyDown = (event: KeyboardEvent) => {
   //ポインターとキーの照合
   else if (event.key === code.pointerCode) {
     moveIndex();
-    // 最後の文字の処理
+    sound.onSuccess();
     if (code.finishCode.length + 1 === code.index) {
       stopTimer();
       setGameFalse();
+      if (keys[event.key]) {
+        keyboard.value
+          .querySelectorAll("." + keys[event.key])[0]
+          .classList.remove("bg-indigo-500");
+        keyboard.value
+          .querySelectorAll("." + keys[event.key])[0]
+          .classList.add("bg-gray-100");
+      }
+      keyboard.value
+        .querySelectorAll(".Shift")[0]
+        .classList.remove("bg-indigo-500");
+      keyboard.value.querySelectorAll(".Shift")[0].classList.add("bg-gray-100");
+      console.log("color dismissed");
       openDialog();
       return;
     }
@@ -164,8 +197,15 @@ const KeyDown = (event: KeyboardEvent) => {
   else if (event.shiftKey) {
     if (event.key === code.pointerCode) {
       moveIndex();
+
       if (code.finishCode.length + 1 === code.index) {
         stopTimer();
+        keyboard.value
+          .querySelectorAll(".Shift")[0]
+          .classList.remove("bg-indigo-500");
+        keyboard.value
+          .querySelectorAll(".Shift")[0]
+          .classList.add("bg-gray-100");
         setGameFalse();
         openDialog();
         return;
@@ -174,29 +214,12 @@ const KeyDown = (event: KeyboardEvent) => {
         changeLine();
       }
     }
-    if (keys[event.key]) {
-      keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
-        .classList.remove("bg-gray-100");
-      keyboard.value
-        ?.querySelectorAll("." + keys[event.key])[0]
-        .classList.add("bg-indigo-500");
-    }
   } else {
     setMissCount();
     setMisses(event.key);
     user.setScore();
+    sound.onMiss();
     console.log("you clicked wrong key");
-    //setMisses(event.key);
-  }
-
-  if (keys[event.key]) {
-    keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
-      .classList.remove("bg-gray-100");
-    keyboard.value
-      ?.querySelectorAll("." + keys[event.key])[0]
-      .classList.add("bg-indigo-500");
   }
 };
 
@@ -220,22 +243,26 @@ const KeyUp = (event: KeyboardEvent) => {
     }
   }
 };
-onMounted(() => {
-  //ページ全体を開いている時にどこを押してもkeyEventが起こる
-  document.onkeydown = (event: KeyboardEvent) => {
-    if (user.canStartGame) KeyDown(event);
-  };
-  document.onkeyup = (event: KeyboardEvent) => {
-    if (user.canStartGame) KeyUp(event);
-  };
-});
+//ページ全体を開いている時にどこを押してもkeyeventが起こる
+document.onkeydown = () => {
+  if (user.canStartGame) {
+    KeyDown();
+  }
+  return;
+};
+document.onkeyup = () => {
+  if (user.canStartGame) {
+    KeyUp();
+  }
+  return;
+};
 </script>
 
 <template>
   <!-- 上半分のHTML -->
   <div
     ref="upper"
-    class="upperNox mt-2 mb-2 bg-white flex justify-around items-center"
+    class="upper-box mt-2 mb-2 bg-white flex justify-around items-center"
   >
     <div class="code-area overs flex justify-center items-center">
       <pre
@@ -275,7 +302,7 @@ onMounted(() => {
       <!-- １行目 -->
       <div class="one-line flex">
         <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner_buttons">
+          <div class="num1 bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>!</div>
             <div>1</div>
           </div>
@@ -367,7 +394,7 @@ onMounted(() => {
       </div>
 
       <!-- 2行目 -->
-      <div class="oneLine flex">
+      <div class="one-line flex">
         <div class="bg-gray-600 one-five flex justify-center items-center">
           <div class="tabs bg-gray-100 p-2 inner-buttons">
             <div>
@@ -457,14 +484,16 @@ onMounted(() => {
           </div>
         </div>
         <div class="bg-gray-600 buttons flex justify-center items-center">
-          <div class="atmark bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
+          <div
+            class="at-mark bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+          >
             <div>`</div>
             <div>@</div>
           </div>
         </div>
         <div class="bg-gray-600 buttons flex justify-center items-center">
           <div
-            class="bigparaini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+            class="big-para-ini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
           >
             <div>{</div>
             <div>[</div>
@@ -472,7 +501,7 @@ onMounted(() => {
         </div>
         <div class="bg-gray-600 buttons flex justify-center items-center">
           <div
-            class="bigparafini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
+            class="big-para-fini bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
           >
             <div>}</div>
             <div>]</div>
@@ -481,7 +510,7 @@ onMounted(() => {
       </div>
 
       <!-- 3行目 -->
-      <div class="oneLine flex">
+      <div class="one-line flex">
         <div class="bg-gray-600 one-seven flex justify-center items-center">
           <div
             class="Control bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons"
@@ -587,8 +616,10 @@ onMounted(() => {
       </div>
 
       <!-- 4行目 -->
-      <div class="oneLine flex">
-        <div class="bg-gray-600 one-five flex justify-center items-center">
+      <div class="one-line flex">
+        <div
+          class="bg-gray-600 buttons one-five flex justify-center items-center"
+        >
           <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>
               <br />
@@ -680,17 +711,17 @@ onMounted(() => {
           </div>
         </div>
         <div class="bg-gray-600 one-eight flex justify-center items-center">
-          <div class="Shift bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
+          <div class="bg-gray-100 p-2 inner-buttons">
             <div>
               <br />
             </div>
-            <div>Shift</div>
+            <div></div>
           </div>
         </div>
       </div>
 
       <!-- 5行目 -->
-      <div class="oneLine flex">
+      <div class="one-line flex">
         <div class="bg-gray-600 one-four flex justify-center items-center">
           <div class="Alt bg-gray-100 hover:bg-indigo-400 p-2 inner-buttons">
             <div>
@@ -736,7 +767,7 @@ onMounted(() => {
   </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
-<style>
+<style scoped>
 .mass {
   width: 100%;
 }
@@ -788,7 +819,7 @@ onMounted(() => {
   width: 155px;
   height: 66px;
 }
-.one-four {
+.one-ten {
   width: 194px;
   height: 66px;
 }
@@ -799,7 +830,9 @@ onMounted(() => {
   width: 400px;
   height: 66px;
 }
-
+.make-it {
+  word-wrap: break-word;
+}
 textarea::selection {
   background: #fff;
   color: #ff0000;
