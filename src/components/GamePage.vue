@@ -764,6 +764,15 @@ document.onkeyup = () => {
       </div>
     </div>
   </div>
+  <!-- ここからスタート時のスペースばー対応 -->
+  <div
+    id="click-space"
+    style="position: absolute; left: 0px; top: 0px"
+    class="click-space text-shadow start-box text-8xl flex justify-center text-white items-center"
+  >
+    <!-- 文字（click space to start) -->
+    <p class="">click space-bar to start</p>
+  </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style scoped>
