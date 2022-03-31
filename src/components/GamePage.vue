@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -23,7 +23,6 @@ const openDialog = (): void => {
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
-
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -207,6 +206,7 @@ const KeyDown = () => {
         .classList.remove("bg-indigo-500");
       keyboard.value.querySelectorAll(".Shift")[0].classList.add("bg-gray-100");
       console.log("color dismissed");
+      document.getElementById("click-space").classList.remove("invisible");
       openDialog();
       return;
     }
@@ -229,6 +229,7 @@ const KeyDown = () => {
           .querySelectorAll(".Shift")[0]
           .classList.add("bg-gray-100");
         setGameFalse();
+        document.getElementById("click-space").classList.remove("invisible");
         openDialog();
         return;
       }
