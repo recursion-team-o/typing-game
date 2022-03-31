@@ -3,11 +3,13 @@ import { ref } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
+import { soundStore } from "../stores/sound";
 import WinDialog from "../components/WinDialog.vue";
 
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
+const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
@@ -166,6 +168,7 @@ const KeyDown = () => {
   //ポインターとキーがあっているか
   else if (event.key === code.pointerCode) {
     moveIndex();
+    sound.onSuccess();
     if (code.finishCode.length + 1 === code.index) {
       stopTimer();
       setGameFalse();
@@ -214,8 +217,8 @@ const KeyDown = () => {
     setMissCount();
     setMisses(event.key);
     user.setScore();
+    sound.onMiss();
     console.log("you clicked wrong key");
-    //setMisses(event.key);
   }
 };
 

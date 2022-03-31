@@ -24,12 +24,16 @@ export const soundStore = defineStore({
       format: ["mp3"],
     }),
     bgmStatus: false as boolean,
+    muteStatus: true as boolean,
     vol: 0.5 as number,
-    muteStatus: false as boolean,
+    volStatus: false as boolean,
   }),
   getters: {
     getMuteStatus(state): boolean {
       return state.muteStatus;
+    },
+    getVolStatus(state): boolean {
+      return state.volStatus;
     },
   },
   actions: {
@@ -59,6 +63,9 @@ export const soundStore = defineStore({
     },
     onMiss(): void {
       this.miss.play();
+    },
+    toggleVol(): void {
+      this.volStatus = !this.volStatus;
     },
   },
 });
