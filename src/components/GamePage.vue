@@ -807,6 +807,7 @@ document.onkeyup = () => {
   width: 97%;
   height: 97%;
 }
+
 .one-four {
   width: 97px;
   height: 66px;
@@ -845,7 +846,15 @@ textarea::selection {
   background: #fff;
   color: #ff0000;
 }
-
+.click-space {
+  opacity: 0.8;
+  background-color: gray;
+  width: 100%;
+  height: 100%;
+}
+.text-shadow {
+  text-shadow: 3px 3px 3px black;
+}
 #correct {
   color: #0000ff;
 }
