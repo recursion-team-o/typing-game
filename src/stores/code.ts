@@ -112,8 +112,5 @@ export const codeStore = defineStore({
 
 //仮のデータ
 const config = {
-  newCode: `
-    <template>
-    <div ref="upper"></div>
-    `,
+  newCode: `<template>\n  <div ref="upper">\n</div>`,
 };
