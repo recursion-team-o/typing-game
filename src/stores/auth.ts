@@ -29,6 +29,7 @@ export const authStore = defineStore("auth", {
       } catch (err) {
         if (err instanceof Error) {
           alert("適切なアカウントを選択してください");
+          console.log(err);
           return;
         }
         throw err;
