@@ -53,10 +53,11 @@ const KeyDown = (event: KeyboardEvent) => {
   else if (event.key === code.pointerCode) {
     moveIndex();
     sound.onSuccess();
+    //最後の文字の場合の処理
     if (code.finishCode.length + 1 === code.index) {
       stopTimer();
       setGameFalse();
-      console.log("color dismissed");
+      finishResetKeyBoardColor(event);
       openDialog();
       return;
     }
@@ -64,16 +65,15 @@ const KeyDown = (event: KeyboardEvent) => {
     if (code.pointerCode === "\n") {
       changeLine();
     }
-  }
-  //3: shiftの時、ポインターと打ったキーが同じかどうかの判定
-  else if (event.shiftKey) {
+  } else if (event.shiftKey) {
     return;
-  } else {
+  }
+  // miss
+  else {
     setMissCount();
     setMisses(event.key);
     user.setScore();
     sound.onMiss();
-    console.log("you clicked wrong key");
   }
 };
 
@@ -82,6 +82,24 @@ const KeyUp = (event: KeyboardEvent) => {
     .getElementsByClassName(event.code)[0]
     ?.classList.remove("bg-indigo-500");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-100");
+};
+
+const finishResetKeyBoardColor = (event: KeyboardEvent) => {
+  document
+    .getElementsByClassName(event.code)[0]
+    ?.classList.remove("bg-indigo-500");
+  document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-100");
+  if (event.shiftKey) {
+    let shiftArr = ["ShiftLeft", "ShiftRight"];
+    for (let i = 0; i < shiftArr.length; i++) {
+      document
+        .getElementsByClassName(shiftArr[i])[0]
+        ?.classList.remove("bg-indigo-500");
+      document
+        .getElementsByClassName(shiftArr[i])[0]
+        ?.classList.add("bg-gray-100");
+    }
+  }
 };
 </script>
 

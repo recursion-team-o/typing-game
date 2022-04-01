@@ -18,7 +18,7 @@ const keyBoardFirstLineKeys: {
   { top: ")", bottom: "0", keyCode: "Digit0", class: "" },
   { top: "_", bottom: "-", keyCode: "Minus", class: "" },
   { top: "+", bottom: "=", keyCode: "Equal", class: "" },
-  { top: "", bottom: "Backspace", keyCode: "Backspace", class: "one-six" },
+  { top: "", bottom: "", keyCode: "", class: "one-six" },
 ];
 
 const keyBoardSecondLineKeys: {
@@ -27,7 +27,7 @@ const keyBoardSecondLineKeys: {
   keyCode: string;
   class: string;
 }[] = [
-  { top: "", bottom: "", keyCode: "Tab", class: "one-five" },
+  { top: "", bottom: "", keyCode: "", class: "one-five" },
   { top: "Q", bottom: "", keyCode: "KeyQ", class: "" },
   { top: "W", bottom: "", keyCode: "KeyW", class: "" },
   { top: "E", bottom: "", keyCode: "KeyE", class: "" },
@@ -48,7 +48,7 @@ const keyBoardThirdLineKeys: {
   keyCode: string;
   class: string;
 }[] = [
-  { top: "Caps lock", bottom: "", keyCode: "ControlRight", class: "one-seven" },
+  { top: "", bottom: "", keyCode: "", class: "one-seven" },
   { top: "A", bottom: "", keyCode: "KeyA", class: "" },
   { top: "S", bottom: "", keyCode: "KeyS", class: "" },
   { top: "D", bottom: "", keyCode: "KeyD", class: "" },
@@ -89,6 +89,19 @@ const keyBoardFifthLineKeys: {
   keyCode: string;
   class: string;
 }[] = [{ top: "Enter", bottom: "", keyCode: "Space", class: "space-bar" }];
+
+const keyBoardLines: {
+  top: string;
+  bottom: string;
+  keyCode: string;
+  class: string;
+}[][] = [
+  keyBoardFirstLineKeys,
+  keyBoardSecondLineKeys,
+  keyBoardThirdLineKeys,
+  keyBoardFourthLineKeys,
+  keyBoardFifthLineKeys,
+];
 </script>
 <template>
   <!--キーボードの設計
@@ -117,92 +130,23 @@ const keyBoardFifthLineKeys: {
 
     以下キーボードのHTML-->
   <div class="board-area bg-gray-200 p-1">
-    <!-- １行目 -->
-    <div class="one-line flex justify-center">
+    <div
+      v-for="(keyBoardLine, index) in keyBoardLines"
+      :key="index"
+      class="one-line flex justify-center"
+    >
       <div
-        v-for="(keyBoardFirstLineKey, index) in keyBoardFirstLineKeys"
+        v-for="(keyBoardKeys, index) in keyBoardLine"
         :key="index"
-        :class="keyBoardFirstLineKey.class"
+        :class="keyBoardKeys.class"
         class="bg-gray-600 buttons flex justify-center items-center"
       >
         <div
-          :class="keyBoardFirstLineKey.keyCode"
+          :class="keyBoardKeys.keyCode"
           class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
         >
-          <div>{{ keyBoardFirstLineKey.top }}</div>
-          <div>{{ keyBoardFirstLineKey.bottom }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 2行目 -->
-    <div class="one-line flex justify-center">
-      <div
-        v-for="(keyBoardSecondLineKey, index) in keyBoardSecondLineKeys"
-        :key="index"
-        :class="keyBoardSecondLineKey.class"
-        class="bg-gray-600 buttons flex justify-center items-center"
-      >
-        <div
-          :class="keyBoardSecondLineKey.keyCode"
-          class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
-        >
-          <div>{{ keyBoardSecondLineKey.top }}</div>
-          <div>{{ keyBoardSecondLineKey.bottom }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3行目 -->
-    <div class="one-line flex justify-center">
-      <div
-        v-for="(keyBoardThirdLineKey, index) in keyBoardThirdLineKeys"
-        :key="index"
-        :class="keyBoardThirdLineKey.class"
-        class="bg-gray-600 buttons flex justify-center items-center"
-      >
-        <div
-          :class="keyBoardThirdLineKey.keyCode"
-          class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
-        >
-          <div>{{ keyBoardThirdLineKey.top }}</div>
-          <div>{{ keyBoardThirdLineKey.bottom }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 4行目 -->
-    <div class="one-line flex justify-center">
-      <div
-        v-for="(keyBoardFourthLineKey, index) in keyBoardFourthLineKeys"
-        :key="index"
-        :class="keyBoardFourthLineKey.class"
-        class="bg-gray-600 buttons flex justify-center items-center"
-      >
-        <div
-          :class="keyBoardFourthLineKey.keyCode"
-          class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
-        >
-          <div>{{ keyBoardFourthLineKey.top }}</div>
-          <div>{{ keyBoardFourthLineKey.bottom }}</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 5行目 -->
-    <div class="one-line flex justify-center">
-      <div
-        v-for="(keyBoardFifthLineKey, index) in keyBoardFifthLineKeys"
-        :key="index"
-        :class="keyBoardFifthLineKey.class"
-        class="bg-gray-600 buttons flex justify-center items-center"
-      >
-        <div
-          :class="keyBoardFifthLineKey.keyCode"
-          class="bg-gray-100 hover:bg-indigo-400 flex flex-col justify-center items-center inner-buttons"
-        >
-          <div>{{ keyBoardFifthLineKey.top }}</div>
-          <div>{{ keyBoardFifthLineKey.bottom }}</div>
+          <div>{{ keyBoardKeys.top }}</div>
+          <div>{{ keyBoardKeys.bottom }}</div>
         </div>
       </div>
     </div>
