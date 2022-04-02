@@ -12,6 +12,27 @@ const { getMuteStatus, vol, getVolStatus } = storeToRefs(sound);
     <div class="px-2 font-bold text-2xl">CODE-TYPING</div>
     <StopWatch v-show="$route.name == 'game'" />
     <div class="relative px-2 flex items-center">
+      <RouterLink class="px-2" to="/newHome">
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
+          >new
+        </span>
+        ホーム画面
+      </RouterLink>
+      <RouterLink class="px-2" to="/newGame">
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
+          >new
+        </span>
+        ゲーム画面
+      </RouterLink>
+      <RouterLink class="px-2" to="/newResult">
+        <span
+          class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
+          >new
+        </span>
+        結果画面
+      </RouterLink>
       <RouterLink class="px-2" to="/">ホーム画面</RouterLink>
       <RouterLink class="px-2" to="/about">説明画面</RouterLink>
       <RouterLink class="px-2" to="/game">ゲーム画面</RouterLink>

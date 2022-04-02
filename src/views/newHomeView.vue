@@ -1,4 +1,7 @@
 <script setup lang="ts">
+// todo
+// script内の記述未記入
+// Left Right飛ばない
 import HomeLeftContainer from "../components/HomeLeftContainer.vue";
 import HomeRightContainer from "../components/HomeRightContainer.vue";
 import { userStore } from "../stores/user";
@@ -72,9 +75,14 @@ const { name } = storeToRefs(user);
             class="p-4 mx-3 lg:w-2/5 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8"
           >
             <form class="space-y-6" action="#">
+              <span
+                class="bg-gray-300 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-300"
+                >BETA</span
+              >
               <h5 class="text-2xl font-bold text-gray-900 text-center">
                 Myコード練習
               </h5>
+
               <div>
                 <label
                   for="message"
