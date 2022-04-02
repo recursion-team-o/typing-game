@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 
-const keyboard = ref<HTMLElement>();
+const keyboard = ref<HTMLElement | undefined>();
 
 const keyBoardFirstLineKeys: {
   top: string;
@@ -107,8 +107,13 @@ const keyBoardLines: {
   keyBoardFifthLineKeys,
 ];
 
-// console.log(keyboard.value);
-// console.log(keyboard.value?.clientHeight);
+const keyHeight = (): string => {
+  if (Number(keyboard.value?.clientWidth) * 0.0672 < 66) {
+    return Number(keyboard.value?.clientWidth) * 0.0672 + "px";
+  } else {
+    return 66 + "px";
+  }
+};
 </script>
 <template>
   <!--キーボードの設計
@@ -145,26 +150,29 @@ const keyBoardLines: {
       <div
         v-for="(keyBoardKeys, index) in keyBoardLine"
         :key="index"
+        :style="{ height: keyHeight() }"
         :class="keyBoardKeys.class"
         class="buttons flex justify-center items-center"
       >
         <div
           :class="keyBoardKeys.keyCode"
-          class="bg-gray-100 hover:bg-gray-400 flex flex-col justify-center items-center inner-buttons border border-gray-800 rounded-lg"
+          class="bg-gray-100 hover:bg-gray-400 xl:text-sm lg:text-xs md:text-xs flex flex-col justify-center inner-buttons border border-gray-800 rounded-lg"
         >
-          <div>{{ keyBoardKeys.top }}</div>
-          <div>{{ keyBoardKeys.bottom }}</div>
+          <div class="leading-none h-full flex justify-center items-center">
+            {{ keyBoardKeys.top }}
+          </div>
+          <div
+            v-if="keyBoardKeys.bottom != ''"
+            class="leading-none h-full flex justify-center items-center"
+          >
+            {{ keyBoardKeys.bottom }}
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-.inner-buttons {
-  width: 100%;
-  height: 100%;
-}
-
 .buttons {
   width: 66px;
   height: 66px;
