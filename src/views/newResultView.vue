@@ -6,7 +6,7 @@ import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
 import { userStore } from "../stores/user";
-import { ref, onMounted } from "vue";
+import { onMounted } from "vue";
 import UsKeyboard from "../components/UsKeyboard.vue";
 
 const user = userStore();
@@ -143,25 +143,25 @@ function makeItRed(): void {
     if (keys[key]) {
       if (index < 3) {
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-gray-100");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.remove("bg-gray-100");
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-red-200");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.add("bg-red-200");
       } else if (index < 7) {
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-gray-100");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.remove("bg-gray-100");
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-red-500");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.add("bg-red-500");
       } else {
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.remove("bg-gray-100");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.remove("bg-gray-100");
         document
-          .querySelectorAll("." + keys[key])[0]
-          .classList.add("bg-red-900");
+          ?.querySelectorAll("." + keys[key])[0]
+          ?.classList.add("bg-red-900");
       }
     }
   });

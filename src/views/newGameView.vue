@@ -6,15 +6,20 @@ import { userStore } from "../stores/user";
 import { soundStore } from "../stores/sound";
 import WinDialog from "../components/WinDialog.vue";
 import UsKeyboard from "../components/UsKeyboard.vue";
+
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
 const sound = soundStore();
+
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
+const { onCountDown, onFinish } = sound;
+
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
+
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
@@ -37,8 +42,26 @@ const KeyDown = (event: KeyboardEvent) => {
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-400");
   //スタート
   if (code.correctCode === "" && event.key === " ") {
-    startGame();
-    startTimer();
+    let count = 3;
+    let container = document.getElementById("count-down");
+    container?.classList.add("zoom-in");
+    onCountDown();
+    const anim = () => {
+      if (count >= 1) {
+        if (container) container.innerHTML = String(count - 1);
+        count--;
+        setTimeout(anim, 1000);
+      } else if (count === 0) {
+        if (container) container.innerHTML = "START";
+        count--;
+        setTimeout(anim, 1000);
+      } else {
+        document.getElementById("click-space")?.classList.add("invisible");
+        startGame();
+        startTimer();
+      }
+    };
+    anim();
   }
   //ポインターとキーの照合
   else if (event.key === code.pointerCode) {
@@ -46,6 +69,7 @@ const KeyDown = (event: KeyboardEvent) => {
     sound.onSuccess();
     //最後の文字の場合の処理
     if (code.finishCode.length + 1 === code.index) {
+      onFinish();
       stopTimer();
       setGameFalse();
       finishResetKeyBoardColor(event);
@@ -73,12 +97,14 @@ const KeyDown = (event: KeyboardEvent) => {
     sound.onMiss();
   }
 };
+
 const KeyUp = (event: KeyboardEvent) => {
   document
     .getElementsByClassName(event.code)[0]
     ?.classList.remove("bg-gray-400");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-100");
 };
+
 const finishResetKeyBoardColor = (event: KeyboardEvent) => {
   document
     .getElementsByClassName(event.code)[0]
@@ -118,6 +144,15 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
       <div class="flex justify-center items-center p-4 bg-gray-200 rounded-lg">
         <UsKeyboard ref="keyboard" />
       </div>
+      <!-- ここからスタート時のスペースばー対応 -->
+      <div
+        id="click-space"
+        style="position: absolute; left: 0px; top: 0px"
+        class="click-space text-shadow text-8xl flex justify-center text-white items-center"
+      >
+        <!-- 文字（click space to start) -->
+        <p id="count-down">click space-bar to start</p>
+      </div>
       <WinDialog
         :showMyCodeDialog="showMyCodeDialog"
         @closeDialog="closeDialog"
@@ -129,10 +164,31 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
 #correct {
   color: #0000ff;
 }
+
 #that {
   animation: flash 1s linear infinite;
   background: #808080;
 }
+
+.click-space {
+  opacity: 0.8;
+  background-color: gray;
+  width: 100%;
+  height: 100%;
+}
+
+.zoom-in {
+  animation: zoom-in-anim 4s;
+}
+
+.text-shadow {
+  text-shadow: 3px 3px 3px black;
+}
+
+#correct {
+  color: #a7a2a2;
+}
+
 @keyframes flash {
   0%,
   100% {
@@ -141,6 +197,33 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
 
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes zoom-in-anim {
+  0% {
+    transform: scale(1);
+  }
+  24% {
+    transform: scale(2.5);
+  }
+  25% {
+    transform: scale(1);
+  }
+  49% {
+    transform: scale(2.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  74% {
+    transform: scale(2.5);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(2.5);
   }
 }
 </style>

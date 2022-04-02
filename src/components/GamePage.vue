@@ -250,7 +250,7 @@ const KeyDown = () => {
   }
 };
 
-const KeyUp = (event: KeyboardEvent) => {
+const KeyUp = () => {
   if (keys[event.key]) {
     keyboard.value
       ?.querySelectorAll("." + keys[event.key])[0]
