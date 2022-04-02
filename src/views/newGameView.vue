@@ -57,7 +57,13 @@ const KeyDown = (event: KeyboardEvent) => {
       changeLine();
     }
   } else if (event.shiftKey) {
-    return;
+    if (event.key == "Shift") return;
+    else {
+      setMissCount();
+      setMisses(event.key);
+      user.setScore();
+      sound.onMiss();
+    }
   }
   // miss
   else {
