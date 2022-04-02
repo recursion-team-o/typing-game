@@ -1,3 +1,4 @@
+import "./lib/firebase";
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import "./input.css";
