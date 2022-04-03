@@ -9,7 +9,7 @@ export const userStore = defineStore({
     time: 0 as number,
     score: 100 as number,
     missTypes: new Map<string, number>(),
-    canStartGame: true as boolean,
+    canStartGame: false as boolean,
   }),
   getters: {
     getName(state): string {

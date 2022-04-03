@@ -12,7 +12,7 @@ const code = codeStore();
 const timer = timerStore();
 const sound = soundStore();
 
-const { setMisses, setGameFalse } = user;
+const { setMisses, setGameFalse, setGameTrue } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
 const { onCountDown, onFinish, setSoundCount } = sound;
@@ -39,6 +39,32 @@ onMounted(() => {
     if (container) container.innerHTML = "click space-bar to start";
   }
   document.onkeydown = (event: KeyboardEvent) => {
+    if (code.correctCode === "" && event.key === " ") {
+      if (sound.soundCount === 0) {
+        sound.soundCount += 1;
+        let count = 4;
+        let container = document.getElementById("count-down");
+        container?.classList.add("zoom-in");
+        onCountDown();
+        const anim = () => {
+          if (count > 1) {
+            if (container) container.innerHTML = String(count - 1);
+            count--;
+            setTimeout(anim, 1000);
+          } else if (count === 1) {
+            if (container) container.innerHTML = "START";
+            count--;
+            setTimeout(anim, 1000);
+          } else {
+            document.getElementById("click-space")?.classList.add("invisible");
+            setGameTrue();
+            startGame();
+            startTimer();
+          }
+        };
+        anim();
+      }
+    }
     if (user.canStartGame) KeyDown(event);
   };
   document.onkeyup = (event: KeyboardEvent) => {
@@ -51,33 +77,9 @@ const KeyDown = (event: KeyboardEvent) => {
     ?.classList.remove("bg-gray-100");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-400");
   //スタート
-  if (code.correctCode === "" && event.key === " ") {
-    if (sound.soundCount === 0) {
-      sound.soundCount += 1;
-      let count = 4;
-      let container = document.getElementById("count-down");
-      container?.classList.add("zoom-in");
-      onCountDown();
-      const anim = () => {
-        if (count > 1) {
-          if (container) container.innerHTML = String(count - 1);
-          count--;
-          setTimeout(anim, 1000);
-        } else if (count === 1) {
-          if (container) container.innerHTML = "START";
-          count--;
-          setTimeout(anim, 1000);
-        } else {
-          document.getElementById("click-space")?.classList.add("invisible");
-          startGame();
-          startTimer();
-        }
-      };
-      anim();
-    }
-  }
+
   //ポインターとキーの照合
-  else if (event.key === code.pointerCode) {
+  if (event.key === code.pointerCode) {
     moveIndex();
     sound.onSuccess();
     //最後の文字の場合の処理

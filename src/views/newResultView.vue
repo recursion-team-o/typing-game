@@ -205,7 +205,6 @@ function makeItRed(): void {
             @click="
               code.resetCode();
               timer.resetTimer();
-              setGameTrue();
             "
             class="inline-block mr-4 px-2 py-3 text-center w-full hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
             to="/newHome"
@@ -216,7 +215,6 @@ function makeItRed(): void {
             @click="
               code.resetCode();
               timer.resetTimer();
-              setGameTrue();
             "
             class="inline-block ml-4 px-2 py-3 s-button text-center w-full rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
             to="/newGame"
