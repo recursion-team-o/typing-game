@@ -8,7 +8,7 @@ const screenHeight = ref<number>(window.innerHeight);
 let headerHeightStyle = ref<string>();
 let pageHeightStyle = ref<string>();
 onMounted(() => {
-  const headerHeight = ref<number>(headerRef.value.$el.clientHeight);
+  const headerHeight = ref<number>(headerRef.value?.$el.clientHeight);
   const headerHeightVh = ref<number>(
     (headerHeight.value / screenHeight.value) * 100
   );

@@ -13,9 +13,11 @@ const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
+
 const { onCountDown, onFinish } = sound;
 const keyboard = ref(null);
 const upper = ref(null);
+
 let showMyCodeDialog = ref<boolean>(false);
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
@@ -185,10 +187,11 @@ const KeyDown = () => {
     };
     anim();
   }
-  //ポインターとキーがあっているか
+  //ポインターとキーの照合
   else if (event.key === code.pointerCode) {
     moveIndex();
     sound.onSuccess();
+
     if (code.finishCode.length + 1 === code.index) {
       onFinish();
       stopTimer();
@@ -210,6 +213,7 @@ const KeyDown = () => {
       openDialog();
       return;
     }
+    // 最終行の場合、次の行に飛ぶ
     if (code.pointerCode === "\n") {
       changeLine();
     }
@@ -249,19 +253,19 @@ const KeyDown = () => {
 const KeyUp = () => {
   if (keys[event.key]) {
     keyboard.value
-      .querySelectorAll("." + keys[event.key])[0]
+      ?.querySelectorAll("." + keys[event.key])[0]
       .classList.remove("bg-indigo-500");
     keyboard.value
-      .querySelectorAll("." + keys[event.key])[0]
+      ?.querySelectorAll("." + keys[event.key])[0]
       .classList.add("bg-gray-100");
   }
   if (event.shiftKey) {
     if (keys[event.key]) {
       keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
+        ?.querySelectorAll("." + keys[event.key])[0]
         .classList.remove("bg-indigo-500");
       keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
+        ?.querySelectorAll("." + keys[event.key])[0]
         .classList.add("bg-gray-100");
     }
   }
@@ -852,6 +856,7 @@ document.onkeyup = () => {
   width: 155px;
   height: 66px;
 }
+
 .one-ten {
   width: 194px;
   height: 66px;
@@ -863,9 +868,11 @@ document.onkeyup = () => {
   width: 400px;
   height: 66px;
 }
+
 .make-it {
   word-wrap: break-word;
 }
+
 textarea::selection {
   background: #fff;
   color: #ff0000;
