@@ -19,13 +19,29 @@ const { onCountDown, onFinish, setSoundCount } = sound;
 
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
-
+const missMoves = (eventKey: string): void => {
+  console.log("misses");
+  setMissCount();
+  setMisses(eventKey);
+  user.setScore();
+  sound.onMiss();
+};
+const finishMove = (event: KeyboardEvent): void => {
+  onFinish();
+  stopTimer();
+  setGameFalse();
+  setSoundCount();
+  finishResetKeyBoardColor(event);
+  openDialog();
+  return;
+};
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
+
 onMounted(() => {
   //ページ全体を開いている時にどこを押してもkeyEventが起こる
   if (document.getElementById("click-space")?.classList.contains("invisible")) {
@@ -84,13 +100,7 @@ const KeyDown = (event: KeyboardEvent) => {
     sound.onSuccess();
     //最後の文字の場合の処理
     if (code.finishCode.length + 1 === code.index) {
-      onFinish();
-      stopTimer();
-      setGameFalse();
-      setSoundCount();
-      finishResetKeyBoardColor(event);
-      openDialog();
-      return;
+      finishMove(event);
     }
     // 最終行の場合、次の行に飛ぶ
     if (code.pointerCode === "\n") {
@@ -99,13 +109,9 @@ const KeyDown = (event: KeyboardEvent) => {
   } else if (event.shiftKey) {
     if (event.key == "Shift") return;
     else if (document.getElementsByClassName(event.code)[0]) {
-      console.log("misses");
-      setMissCount();
-      setMisses(event.key);
-      user.setScore();
-      sound.onMiss();
+      missMoves(event.key);
     } else {
-      console.log("n0ot here");
+      console.log("not here");
       sound.onMiss();
       return;
     }
@@ -113,13 +119,9 @@ const KeyDown = (event: KeyboardEvent) => {
   //
   else {
     if (document.getElementsByClassName(event.code)[0]) {
-      console.log("misses");
-      setMissCount();
-      setMisses(event.key);
-      user.setScore();
-      sound.onMiss();
+      missMoves(event.key);
     } else {
-      console.log("n0ot here");
+      console.log("not here");
       sound.onMiss();
       return;
     }
@@ -172,7 +174,7 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
       </div>
 
       <div class="flex justify-center items-center p-4 bg-gray-200 rounded-lg">
-        <UsKeyboard ref="keyboard" />
+        <UsKeyboard />
       </div>
       <!-- ここからスタート時のスペースばー対応 -->
       <div
