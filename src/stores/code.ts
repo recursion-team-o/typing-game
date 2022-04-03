@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { codeBoxStore } from "./codeBox";
+import { userStore } from "./user";
 
 export const codeStore = defineStore({
   id: "code",
