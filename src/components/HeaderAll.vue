@@ -37,6 +37,7 @@ const { getMuteStatus, vol, getVolStatus } = storeToRefs(sound);
       <RouterLink class="px-2" to="/about">説明画面</RouterLink>
       <RouterLink class="px-2" to="/game">ゲーム画面</RouterLink>
       <RouterLink class="px-2" to="/result">結果画面</RouterLink>
+      <RouterLink class="px-2" to="/myPage">マイページ</RouterLink>
       <div
         class="w-[70px] cursor-pointer"
         v-show="getMuteStatus"
