@@ -63,5 +63,8 @@ export const userStore = defineStore({
     setGameTrue(): void {
       this.canStartGame = true;
     },
+    resetMisses(): void {
+      this.missTypes = new Map();
+    },
   },
 });

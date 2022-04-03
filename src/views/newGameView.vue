@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -41,6 +42,12 @@ const openDialog = (): void => {
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
+onBeforeRouteLeave((to, from) => {
+  stopTimer();
+  setGameFalse();
+  setSoundCount();
+  finishResetKeyBoardColor(event);
+});
 
 onMounted(() => {
   //ページ全体を開いている時にどこを押してもkeyEventが起こる
