@@ -126,7 +126,7 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
 
 <template>
   <!-- 上半分のHTML -->
-  <div class="bg-gray-50 flex items-center">
+  <div class="flex items-center" style="background-color: #f9f9f9">
     <div
       class="h-full container mx-auto px-5 sm:py-12 py-4 flex flex-col justify-between"
     >

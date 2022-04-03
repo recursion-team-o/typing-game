@@ -13,7 +13,7 @@ const { name } = storeToRefs(user);
 
 <template>
   <main>
-    <div class="h-full bg-yellow-300 flex items-center">
+    <div class="h-full flex items-center" style="background-color: #f9f9f9">
       <div class="container mx-auto px-5 sm:py-12 py-4">
         <div class="mb-20">
           <div class="text-center">

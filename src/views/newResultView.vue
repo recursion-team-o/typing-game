@@ -170,7 +170,7 @@ function makeItRed(): void {
 
 <template>
   <!-- ヘッダーの追加 -->
-  <div class="bg-gray-200 flex items-center">
+  <div class="flex items-center" style="background-color: #f9f9f9">
     <div
       class="h-full container mx-auto px-5 sm:py-12 py-4 flex justify-between flex-col md:flex-row-reverse"
     >
