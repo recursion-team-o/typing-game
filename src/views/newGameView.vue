@@ -98,19 +98,33 @@ const KeyDown = (event: KeyboardEvent) => {
     }
   } else if (event.shiftKey) {
     if (event.key == "Shift") return;
-    else {
+    else if (document.getElementsByClassName(event.code)[0]) {
+      console.log("misses");
       setMissCount();
       setMisses(event.key);
       user.setScore();
       sound.onMiss();
+    } else {
+      console.log("n0ot here");
+      sound.onMiss();
+      return;
     }
   }
-  // miss
+  //
   else {
-    setMissCount();
-    setMisses(event.key);
-    user.setScore();
-    sound.onMiss();
+    if (document.getElementsByClassName(event.code)[0]) {
+      console.log("misses");
+      setMissCount();
+      setMisses(event.key);
+      user.setScore();
+      sound.onMiss();
+    } else {
+      console.log("n0ot here");
+      sound.onMiss();
+      return;
+    }
+
+    // 存在する場合の処理
   }
 };
 
