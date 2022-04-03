@@ -50,11 +50,19 @@ export const userStore = defineStore({
     setScore(): void {
       this.score -= 1;
     },
-    setMisses(key: string): void {
-      if (!this.missTypes.has(key)) {
-        this.missTypes.set(key, 1);
+    setMisses(event: KeyboardEvent): void {
+      if (!this.missTypes.has(event.key)) {
+        this.missTypes.set(event.key, 1);
+        this.missTypes.set(event.code, 1);
       } else {
-        this.missTypes.set(key, Number(this.missTypes.get(key)) + 1);
+        this.missTypes.set(
+          event.key,
+          Number(this.missTypes.get(event.key)) + 1
+        );
+        this.missTypes.set(
+          event.code,
+          Number(this.missTypes.get(event.key)) + 1
+        );
       }
     },
     setGameFalse(): void {

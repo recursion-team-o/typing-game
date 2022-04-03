@@ -20,7 +20,7 @@ const { onCountDown, onFinish, setSoundCount } = sound;
 
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
-const missMoves = (eventKey: string): void => {
+const missMoves = (eventKey: KeyboardEvent): void => {
   console.log("misses");
   setMissCount();
   setMisses(eventKey);
@@ -116,7 +116,7 @@ const KeyDown = (event: KeyboardEvent) => {
   } else if (event.shiftKey) {
     if (event.key == "Shift") return;
     else if (document.getElementsByClassName(event.code)[0]) {
-      missMoves(event.key);
+      missMoves(event);
     } else {
       console.log("not here");
       sound.onMiss();
@@ -126,7 +126,7 @@ const KeyDown = (event: KeyboardEvent) => {
   //
   else {
     if (document.getElementsByClassName(event.code)[0]) {
-      missMoves(event.key);
+      missMoves(event);
     } else {
       console.log("not here");
       sound.onMiss();

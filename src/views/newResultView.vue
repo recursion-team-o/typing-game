@@ -140,30 +140,50 @@ function makeItRed(): void {
   console.log("make it red");
   user.missTypes.forEach((index, key) => {
     console.log(index + " , " + key);
-    if (keys[key]) {
+    try {
       if (index < 3) {
         document
-          ?.querySelectorAll("." + keys[key])[0]
+          ?.querySelectorAll("." + key)[0]
           ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-200");
+        document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-200");
       } else if (index < 7) {
         document
-          ?.querySelectorAll("." + keys[key])[0]
+          ?.querySelectorAll("." + key)[0]
           ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-500");
+        document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-500");
       } else {
         document
-          ?.querySelectorAll("." + keys[key])[0]
+          ?.querySelectorAll("." + key)[0]
           ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-900");
+        document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-900");
       }
+    } catch (error) {
+      console.log("classにないキー", error);
     }
+    // if (keys[key]) {
+    //   if (index < 3) {
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.remove("bg-gray-100");
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.add("bg-red-200");
+    //   } else if (index < 7) {
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.remove("bg-gray-100");
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.add("bg-red-500");
+    //   } else {
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.remove("bg-gray-100");
+    //     document
+    //       ?.querySelectorAll("." + keys[key])[0]
+    //       ?.classList.add("bg-red-900");
+    //   }
+    // }
   });
 }
 </script>
