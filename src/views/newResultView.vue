@@ -15,7 +15,7 @@ const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount, getSuccessPer } = storeToRefs(code);
 const { lang, level } = storeToRefs(user);
-const { setGameTrue, resetMisses } = user;
+const { resetMisses } = user;
 const keys: { [name: string]: string } = {};
 onMounted(() => {
   makeItRed();
