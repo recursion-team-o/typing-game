@@ -93,7 +93,7 @@ let errorLevelClass = reactive({
 
       <div>
         <label class="block mb-2 text-sm font-medium text-gray-900"
-          >language
+          >Language
         </label>
         <select
           @change="langInput = false"
@@ -109,7 +109,7 @@ let errorLevelClass = reactive({
       </div>
       <div>
         <label class="block mb-2 text-sm font-medium text-gray-900"
-          >level
+          >Level
         </label>
         <select
           @change="levelInput = false"

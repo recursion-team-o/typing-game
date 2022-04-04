@@ -4,43 +4,43 @@ export default function () {
     JavaScript: {
       初級: {
         1: `
-        console.log(10);
-        console.log(typeof 10);
-        console.log("a");
-        console.log("Hello World");
-        console.log(typeof "a");
-        console.log(typeof "Hello World");
-        console.log(true);
-        console.log(typeof true);
-        console.log(typeof "false");
-        `,
+      console.log(10);
+      console.log(typeof 10);
+      console.log("a");
+      console.log("Hello World");
+      console.log(typeof "a");
+      console.log(typeof "Hello World");
+      console.log(true);
+      console.log(typeof true);
+      console.log(typeof "false");
+      `,
         2: `
-        console.log(12 + 5);
-        console.log(12.0 + 5.0);
-        console.log(12 - 5);
-        console.log(12.0 - 5.0);
-        console.log(12 * 5);
-        console.log(12.0 * 5.0);
-        console.log(12 / 5);
-        console.log(12.0 / 5.0);
-        console.log(1 / 30000000);
-        console.log(1 / 0);
-        console.log(0 / 0);
-      `,
+      console.log(12 + 5);
+      console.log(12.0 + 5.0);
+      console.log(12 - 5);
+      console.log(12.0 - 5.0);
+      console.log(12 * 5);
+      console.log(12.0 * 5.0);
+      console.log(12 / 5);
+      console.log(12.0 / 5.0);
+      console.log(1 / 30000000);
+      console.log(1 / 0);
+      console.log(0 / 0);
+    `,
         3: `
-        console.log(33 % 5);
-        console.log(10 % 2);
-        console.log(3 ** 4);
-        console.log(2 ** 0);
-        console.log(3 == 3);
-        console.log(3 == 2);
-        console.log(3 != 3);
-        console.log(3 != 2);
-        console.log(3 > 2);
-        console.log(2 > 3);
-        console.log(3 < 2);
-        console.log(2 < 3);
-      `,
+      console.log(33 % 5);
+      console.log(10 % 2);
+      console.log(3 ** 4);
+      console.log(2 ** 0);
+      console.log(3 == 3);
+      console.log(3 == 2);
+      console.log(3 != 3);
+      console.log(3 != 2);
+      console.log(3 > 2);
+      console.log(2 > 3);
+      console.log(3 < 2);
+      console.log(2 < 3);
+    `,
         4: `
       console.log("abcde"[4]);
       console.log("Seafood".length);
@@ -157,7 +157,6 @@ export default function () {
       console.log(lastName.toLowerCase());
 
       let sentence = "I will go hiking near a ranch in Oregon.";
-      let bun = "100人近くの人がいた";
       console.log(sentence.substring(2,5));
       console.log(sentence.substring(7,sentence.length));
       `,
@@ -387,10 +386,6 @@ export default function () {
               this.heightM = heightM;
               this.weightKg = weightKg;
               this.birthYear = birthYear;
-          }
-
-          getStateString(){
-              return "First Name: " + this.firstName + ", Last Name: " + this.lastName + ", heightM: " + this.heightM + ", weightKg: " + this.weightKg + ", birthYear: " + this.birthYear;
           }
 
           getFullName(){
@@ -891,72 +886,71 @@ export default function () {
     Java: {
       初級: {
         1: `
-        System.out.println(10);
-        System.out.println(0b1000);
-        System.out.println(3.14);
-        System.out.println('a');
-        System.out.println('あ');
-        System.out.println("a");
-        System.out.println("Hello World");
-        System.out.println(true);
-        System.out.println(false);
+      System.out.println(10);
+      System.out.println(0b1000);
+      System.out.println(3.14);
+      System.out.println('a');
+      System.out.println("a");
+      System.out.println("Hello World");
+      System.out.println(true);
+      System.out.println(false);
         `,
         2: `
-        System.out.println(12 + 5);
-        System.out.println(12.0 + 5.0);
-        System.out.println(12 - 5);
-        System.out.println(12.0 - 5.0);
-        System.out.println(12 * 5);
-        System.out.println(12.0 * 5.0);
-        System.out.println(12 / 5);
-        System.out.println(12.0 / 5.0);
-        System.out.println(1 / 30000000);
-        System.out.println(1.0 / 30000000);
+      System.out.println(12 + 5);
+      System.out.println(12.0 + 5.0);
+      System.out.println(12 - 5);
+      System.out.println(12.0 - 5.0);
+      System.out.println(12 * 5);
+      System.out.println(12.0 * 5.0);
+      System.out.println(12 / 5);
+      System.out.println(12.0 / 5.0);
+      System.out.println(1 / 30000000);
+      System.out.println(1.0 / 30000000);
       `,
         3: `
-        System.out.println(33 % 5);
-        System.out.println(10 % 2);
-        System.out.println(21 % 2 * 8);
-        System.out.println(21 - 2 % 2);
-        System.out.println(3 == 3);
-        System.out.println(3 == 2);
-        System.out.println(3 != 3);
-        System.out.println(3 != 2);
-        System.out.println(3 > 2);
-        System.out.println(2 > 3);
-        System.out.println(3 < 2);
-        System.out.println(2 < 3);
-      `,
+      System.out.println(33 % 5);
+      System.out.println(10 % 2);
+      System.out.println(21 % 2 * 8);
+      System.out.println(21 - 2 % 2);
+      System.out.println(3 == 3);
+      System.out.println(3 == 2);
+      System.out.println(3 != 3);
+      System.out.println(3 != 2);
+      System.out.println(3 > 2);
+      System.out.println(2 > 3);
+      System.out.println(3 < 2);
+      System.out.println(2 < 3);
+    `,
         4: `
-        System.out.println("abcde".charAt(4));
-        System.out.println("Seafood".length());
-        System.out.println("abcd".charAt("abcd".length() - 1));
-        char letter = 'a';
-        final int MY_NUMBER = 41984980;
-        letter = 'c';
-        System.out.println(letter);
-        System.out.println(MY_NUMBER);
+      System.out.println("abcde".charAt(4));
+      System.out.println("Seafood".length());
+      System.out.println("abcd".charAt("abcd".length() - 1));
+      char letter = 'a';
+      final int MY_NUMBER = 41984980;
+      letter = 'c';
+      System.out.println(letter);
+      System.out.println(MY_NUMBER);
       `,
         5: `
-        int incomingAnimals = 15;
-        int animalsInShelter = 10 + incomingAnimals;
-        System.out.println(animalsInShelter);
+      int incomingAnimals = 15;
+      int animalsInShelter = 10 + incomingAnimals;
+      System.out.println(animalsInShelter);
 
-        public static double triangleArea(int width, int height) {
-            return width * height / 2;
-        }
-        System.out.println(triangleArea(5,4));
+      public static double triangleArea(int width, int height) {
+          return width * height / 2;
+      }
+      System.out.println(triangleArea(5,4));
       `,
         6: `
-        public static int square(int number){
-            return number * number;
-        }
-        System.out.println(square(3));
+      public static int square(int number){
+          return number * number;
+      }
+      System.out.println(square(3));
 
-        public static char stringFirst(String s){
-            return s.charAt(0);
-        }
-        System.out.println(stringFirst("Recursion"));
+      public static char stringFirst(String s){
+          return s.charAt(0);
+      }
+      System.out.println(stringFirst("Recursion"));
       `,
         7: `
       public static double hotelAccommodationFee(int price, int day) {
@@ -971,67 +965,66 @@ export default function () {
       System.out.println(hotelAccommodationFee(80,5));
       `,
         8: `
-        public static String languageSetting(String country) {
-          if (country == "Japan") return "ja";
-          else return "en";
-        }
+      public static String languageSetting(String country) {
+        if (country == "Japan") return "ja";
+        else return "en";
+      }
 
-        System.out.println(languageSetting("Japan"));
-      `,
+      System.out.println(languageSetting("Japan"));
+    `,
         9: `
-        public static String firstLastCharacter(String word){
-            if(word.length() == 0){
-                return "Type random words";
-            }
-            else{
-                return word.charAt(0) + " " + word.charAt(word.length()-1);
-            }
-        }
+      public static String firstLastCharacter(String word){
+          if(word.length() == 0){
+              return "Type random words";
+          }
+          else{
+              return word.charAt(0) + " " + word.charAt(word.length()-1);
+          }
+      }
 
-        System.out.println(firstLastCharacter("lunch"));
-      `,
+      System.out.println(firstLastCharacter("lunch"));
+    `,
         10: `
-        System.out.println(Math.floor(3.3));
-        System.out.println(Math.ceil(3.3));
-        System.out.println(Math.pow(3,4));
+      System.out.println(Math.floor(3.3));
+      System.out.println(Math.ceil(3.3));
+      System.out.println(Math.pow(3,4));
 
-        public static double pythagoreanTheorem(double a, double b){
-            return Math.sqrt(a*a + b*b);
-        }
+      public static double pythagoreanTheorem(double a, double b){
+          return Math.sqrt(a*a + b*b);
+      }
 
-        System.out.println(pythagoreanTheorem(3,4));
+      System.out.println(pythagoreanTheorem(3,4));
 
-        `,
+      `,
         11: `
-        String lastName = "Albert";
-        System.out.println(lastName.toUpperCase());
-        System.out.println(lastName.toLowerCase());
+      String lastName = "Albert";
+      System.out.println(lastName.toUpperCase());
+      System.out.println(lastName.toLowerCase());
 
-        String sentence = "I will go hiking near a ranch in Oregon.";
-        String bun = "100人近くの人がいた";
-        System.out.println(sentence.substring(2,10));
+      String sentence = "I will go hiking near a ranch in Oregon.";
+      System.out.println(sentence.substring(2,10));
       `,
       },
       中級: {
         1: `
-        public static double planetGravityMpss(String planet){
-            if(planet == "Earth"){
-                return 9.80665;
-            }
+      public static double planetGravityMpss(String planet){
+          if(planet == "Earth"){
+              return 9.80665;
+          }
 
-            if(planet == "Jupiter"){
-                return 24.79;
-            }
+          if(planet == "Jupiter"){
+              return 24.79;
+          }
 
-            if(planet == "Neptune"){
-                return 11.15;
-            }
+          if(planet == "Neptune"){
+              return 11.15;
+          }
 
-            return 0;
-        }
+          return 0;
+      }
 
-        System.out.println(forceNewtons(80, 9.807));
-        System.out.println(planetGravityMpss("Neptune"));
+      System.out.println(forceNewtons(80, 9.807));
+      System.out.println(planetGravityMpss("Neptune"));
       `,
         2: `
       String s = "Hello";
@@ -1216,10 +1209,6 @@ export default function () {
               this.heightM = heightM;
               this.weightKg = weightKg;
               this.birthYear = birthYear;
-          }
-
-          public String getStateString(){
-              return "First Name: " + this.firstName + ", Last Name: " + this.lastName + ", heightM: " + this.heightM + ", weightKg: " + this.weightKg + ", birthYear: " + this.birthYear;
           }
 
           public String getFullName(){
@@ -1695,15 +1684,15 @@ export default function () {
             if(f.test(list[i])) result.add(list[i]);
         }
         return result;
-    };
+      };
 
-    int[] nums = {1,2,3,4,5,6,7,8,9,10};
-    System.out.println(myFilter.apply(x -> x%2!=0, nums));
+      int[] nums = {1,2,3,4,5,6,7,8,9,10};
+      System.out.println(myFilter.apply(x -> x%2!=0, nums));
 
-    List<Integer> numList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-    numList.stream()
-           .filter(x -> x%2!=0)
-           .forEach(System.out::println);
+      List<Integer> numList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+      numList.stream()
+        .filter(x -> x%2!=0)
+        .forEach(System.out::println);
       `,
         13: `
       public static int myReduce(BiFunction<Integer, Integer, Integer> reduceCallback, int[] list, int initial){
