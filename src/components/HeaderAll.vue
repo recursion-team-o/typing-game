@@ -19,7 +19,7 @@ auth.getAuthState();
       <RouterLink to="/newHome" class="px-2 font-bold text-2xl"
         >CODE-TYPING
       </RouterLink>
-      <StopWatch v-show="$route.name == 'newHome'" />
+      <StopWatch v-show="$route.name == 'newGame'" />
       <div class="px-2 flex items-center">
         <RouterLink class="px-2" to="/newHome">
           <span

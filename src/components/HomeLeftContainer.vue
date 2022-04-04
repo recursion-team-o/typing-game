@@ -58,13 +58,15 @@ let errorLevelClass = reactive({
 </script>
 
 <template>
-  <div class="flex justify-center items-center w-1/2 h-full">
-    <div
-      class="flex flex-col justify-center items-center max-w-md w-10/12 bg-gray-100 border border-gray-900 border-opacity-60 rounded-lg shadow-lg relative"
-    >
+  <div
+    class="p-4 mx-3 lg:w-2/5 bg-white rounded-lg border border-gray-200 shadow-md sm:p-6 lg:p-8 relative"
+  >
+    <form class="space-y-6" action="#">
+      <h5 class="text-2xl font-bold text-gray-900 text-center">レベル別練習</h5>
+      <!-- alert -->
       <div
         v-show="langInput || levelInput"
-        class="flex justify-center items-center mb-4 text-sm text-red-700 bg-red-100 rounded-lg text-center absolute z-10 w-10/12 h-1/4 top-2 transition-all duration-200"
+        class="w-10/12 flex justify-center items-center text-sm text-red-700 bg-red-100 rounded-lg text-center absolute z-10 -top-2 p-2 transition-all duration-200"
         role="alert"
       >
         <svg
@@ -88,12 +90,15 @@ let errorLevelClass = reactive({
           }}</span>
         </div>
       </div>
-      <h3 class="py-6 font-semibold text-2xl">レベル別練習</h3>
-      <div class="relative inline-block w-7/12 mb-4 text-gray-700">
+
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900"
+          >language
+        </label>
         <select
           @change="langInput = false"
           :class="errorLangClass"
-          class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
           v-model="lang"
         >
           <option disabled value="">言語を選択してください</option>
@@ -101,17 +106,15 @@ let errorLevelClass = reactive({
             {{ lang }}
           </option>
         </select>
-        <div
-          class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
-        >
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"></svg>
-        </div>
       </div>
-      <div class="relative inline-block w-7/12 my-2 text-gray-700">
+      <div>
+        <label class="block mb-2 text-sm font-medium text-gray-900"
+          >level
+        </label>
         <select
           @change="levelInput = false"
           :class="errorLevelClass"
-          class="w-full h-10 pl-3 pr-6 text-base border rounded-lg appearance-none focus:shadow-outline"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full block p-2.5"
           v-model="level"
         >
           <option disabled value="">レベルを選んでください</option>
@@ -123,30 +126,21 @@ let errorLevelClass = reactive({
             {{ level }}
           </option>
         </select>
-        <div
-          class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
-        >
-          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"></svg>
-        </div>
       </div>
-      <div class="w-10/12 my-4 flex space-x-2 justify-center">
-        <button @click="openDialog()" type="button" class="btn bg-blue-600">
+      <div class="flex justify-center">
+        <button
+          @click="openDialog()"
+          type="button"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        >
           START
         </button>
       </div>
-    </div>
+    </form>
   </div>
+
   <LevelDialog
     :showLevelDialog="showLevelDialog"
     @closeDialog="closeDialog()"
   />
 </template>
-
-<style scoped>
-.btn {
-  @apply inline-block px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md;
-}
-.error {
-  @apply bg-red-50 border-2 border-red-500 text-red-900 focus:ring-red-500 focus:border-red-500 transition-all duration-200;
-}
-</style>

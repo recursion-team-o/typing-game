@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-import { userStore } from "../stores/user";
 import { codeStore } from "../stores/code";
 import { storeToRefs } from "pinia";
 
@@ -13,12 +12,12 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
-const user = userStore();
-const { getName } = storeToRefs(user);
+
 const code = codeStore();
-const { getSampleCode } = storeToRefs(code);
 const router = useRouter();
-const goToGamePage = () => router.push("/game");
+
+const { getSampleCode } = storeToRefs(code);
+const goToGamePage = () => router.push("/newGame");
 </script>
 
 <template>
@@ -36,9 +35,7 @@ const goToGamePage = () => router.push("/game");
         class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-50"
         v-show="showMyCodeDialog"
       >
-        <div
-          class="flex items-start justify-center min-h-screen pt-24 text-center"
-        >
+        <div class="flex items-center justify-center min-h-screen text-center">
           <div
             class="modal-content"
             role="dialog"
@@ -47,27 +44,21 @@ const goToGamePage = () => router.push("/game");
             aria-labelledby="modal-headline"
           >
             <div
-              class="modal-header flex flex-shrink-0 items-center justify-center p-4 border-b border-gray-200 rounded-t-md"
+              class="modal-header flex flex-shrink-0 items-center justify-center border-b border-gray-200 rounded-t-md"
             >
-              <p class="text-2xl font-medium">練習ソースコード</p>
+              <p class="text-2xl font-bold">練習ソースコード</p>
             </div>
             <div
-              class="modal-body relative flex flex-col justify-around items-center h-72 px-4 pb-4"
+              class="modal-body relative flex flex-col justify-around items-center h-72"
             >
-              <div class="flex relative w-10/12 max-w-sm">
-                <span class="menu-item">UserName</span>
-                <div type="text" class="menu-content">
-                  <p>{{ getName }}</p>
-                </div>
-              </div>
               <div
-                class="flex relative mt-4 w-10/12 max-w-2xl rounded-md border overflow-y-scroll h-60"
+                class="flex relative w-10/12 max-w-2xl rounded-md border overflow-y-scroll h-60"
               >
                 {{ getSampleCode }}
               </div>
             </div>
             <div
-              class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between py-4 px-8 border-t border-gray-200 rounded-b-md"
+              class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-around border-t border-gray-200 rounded-b-md"
             >
               <button
                 @click="closeDialog()"
@@ -106,6 +97,6 @@ const goToGamePage = () => router.push("/game");
   @apply rounded-r-lg flex-1 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 shadow-sm text-base;
 }
 .modal-content {
-  @apply border-none shadow-lg relative flex flex-col justify-around w-10/12 max-w-3xl h-[600px] pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
+  @apply border-none shadow-lg relative flex flex-col justify-between w-3/4 max-w-2xl p-4 pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
 }
 </style>

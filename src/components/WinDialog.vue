@@ -62,14 +62,9 @@ defineProps<{
             >
               <RouterLink
                 class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
-                to="/result"
-                >結果画面へ</RouterLink
-              >
-              <RouterLink
-                class="inline-block px-20 py-3 hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
                 to="/newResult"
-                >new結果画面へ</RouterLink
-              >
+                >結果画面へ
+              </RouterLink>
             </div>
           </div>
         </div>
