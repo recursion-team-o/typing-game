@@ -28,7 +28,7 @@ export const codeBoxStore = defineStore({
       const user = userStore();
       const codeList = this.getCodeList(user.getLang, user.getLevel);
       const codeListLength = Object.keys(codeList).length;
-      const randomNum: Function = (min: number, max: number) => {
+      const randomNum = (min: number, max: number): number => {
         return Math.floor(Math.random() * (max - min) + min);
       };
       const codeNum = randomNum(1, codeListLength);

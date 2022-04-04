@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -13,8 +13,11 @@ const sound = soundStore();
 const { setMisses, setGameFalse } = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
+
+const { onCountDown, onFinish } = sound;
 const keyboard = ref(null);
 const upper = ref(null);
+
 let showMyCodeDialog = ref<boolean>(false);
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
@@ -22,7 +25,6 @@ const openDialog = (): void => {
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
-
 //キーボードのhashmap
 const keys: { [name: string]: string } = {};
 
@@ -162,14 +164,36 @@ const KeyDown = () => {
   }
   //スタート
   if (code.correctCode === "" && event.key === " ") {
-    startGame();
-    startTimer();
+    var count = 4;
+    let container = document.getElementById("count-down");
+    container.classList.add("zoom-in");
+    onCountDown();
+    const anim = () => {
+      if (count > 1) {
+        container.innerHTML = "";
+        container.innerHTML = String(count - 1);
+        count--;
+        setTimeout(anim, 1000);
+      } else if (count === 1) {
+        container.innerHTML = "";
+        container.innerHTML = "START";
+        count--;
+        setTimeout(anim, 1000);
+      } else {
+        document.getElementById("click-space").classList.add("invisible");
+        startGame();
+        startTimer();
+      }
+    };
+    anim();
   }
-  //ポインターとキーがあっているか
+  //ポインターとキーの照合
   else if (event.key === code.pointerCode) {
     moveIndex();
     sound.onSuccess();
+
     if (code.finishCode.length + 1 === code.index) {
+      onFinish();
       stopTimer();
       setGameFalse();
       if (keys[event.key]) {
@@ -185,9 +209,11 @@ const KeyDown = () => {
         .classList.remove("bg-indigo-500");
       keyboard.value.querySelectorAll(".Shift")[0].classList.add("bg-gray-100");
       console.log("color dismissed");
+      document.getElementById("click-space").classList.remove("invisible");
       openDialog();
       return;
     }
+    // 最終行の場合、次の行に飛ぶ
     if (code.pointerCode === "\n") {
       changeLine();
     }
@@ -198,6 +224,7 @@ const KeyDown = () => {
       moveIndex();
 
       if (code.finishCode.length + 1 === code.index) {
+        onFinish();
         stopTimer();
         keyboard.value
           .querySelectorAll(".Shift")[0]
@@ -206,6 +233,7 @@ const KeyDown = () => {
           .querySelectorAll(".Shift")[0]
           .classList.add("bg-gray-100");
         setGameFalse();
+        document.getElementById("click-space").classList.remove("invisible");
         openDialog();
         return;
       }
@@ -222,22 +250,22 @@ const KeyDown = () => {
   }
 };
 
-const KeyUp = () => {
+const KeyUp = (event: KeyboardEvent) => {
   if (keys[event.key]) {
     keyboard.value
-      .querySelectorAll("." + keys[event.key])[0]
+      ?.querySelectorAll("." + keys[event.key])[0]
       .classList.remove("bg-indigo-500");
     keyboard.value
-      .querySelectorAll("." + keys[event.key])[0]
+      ?.querySelectorAll("." + keys[event.key])[0]
       .classList.add("bg-gray-100");
   }
   if (event.shiftKey) {
     if (keys[event.key]) {
       keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
+        ?.querySelectorAll("." + keys[event.key])[0]
         .classList.remove("bg-indigo-500");
       keyboard.value
-        .querySelectorAll("." + keys[event.key])[0]
+        ?.querySelectorAll("." + keys[event.key])[0]
         .classList.add("bg-gray-100");
     }
   }
@@ -764,6 +792,15 @@ document.onkeyup = () => {
       </div>
     </div>
   </div>
+  <!-- ここからスタート時のスペースばー対応 -->
+  <div
+    id="click-space"
+    style="position: absolute; left: 0px; top: 0px"
+    class="click-space text-shadow text-8xl flex justify-center text-white items-center"
+  >
+    <!-- 文字（click space to start) -->
+    <p id="count-down">click space-bar to start</p>
+  </div>
   <WinDialog :showMyCodeDialog="showMyCodeDialog" @closeDialog="closeDialog" />
 </template>
 <style scoped>
@@ -798,6 +835,7 @@ document.onkeyup = () => {
   width: 97%;
   height: 97%;
 }
+
 .one-four {
   width: 97px;
   height: 66px;
@@ -818,6 +856,7 @@ document.onkeyup = () => {
   width: 155px;
   height: 66px;
 }
+
 .one-ten {
   width: 194px;
   height: 66px;
@@ -829,16 +868,29 @@ document.onkeyup = () => {
   width: 400px;
   height: 66px;
 }
+
 .make-it {
   word-wrap: break-word;
 }
+
 textarea::selection {
   background: #fff;
   color: #ff0000;
 }
-
+.click-space {
+  opacity: 0.8;
+  background-color: gray;
+  width: 100%;
+  height: 100%;
+}
+.zoom-in {
+  animation: zoom-in-anim 4s;
+}
+.text-shadow {
+  text-shadow: 3px 3px 3px black;
+}
 #correct {
-  color: #0000ff;
+  color: #a7a2a2;
 }
 #that {
   animation: flash 1s linear infinite;
@@ -855,6 +907,32 @@ textarea::selection {
 
   50% {
     opacity: 0;
+  }
+}
+@keyframes zoom-in-anim {
+  0% {
+    transform: scale(1);
+  }
+  24% {
+    transform: scale(2.5);
+  }
+  25% {
+    transform: scale(1);
+  }
+  49% {
+    transform: scale(2.5);
+  }
+  50% {
+    transform: scale(1);
+  }
+  74% {
+    transform: scale(2.5);
+  }
+  75% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(2.5);
   }
 }
 </style>

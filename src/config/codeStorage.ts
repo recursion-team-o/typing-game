@@ -4,72 +4,40 @@ export default function () {
     JavaScript: {
       初級: {
         1: `
-        console.log(10);
-        console.log(typeof 10);
-        console.log("a");
-        console.log("Hello World");
-        console.log(typeof "a");
-        console.log(typeof "Hello World");
-        console.log(true);
-        console.log(typeof true);
-        console.log(typeof "false");
-        `,
+      console.log(10);
+      console.log(typeof 10);
+      console.log("a");
+      console.log("Hello World");
+      console.log(typeof "Hello World");
+      `,
         2: `
-        console.log(12 + 5);
-        console.log(12.0 + 5.0);
-        console.log(12 - 5);
-        console.log(12.0 - 5.0);
-        console.log(12 * 5);
-        console.log(12.0 * 5.0);
-        console.log(12 / 5);
-        console.log(12.0 / 5.0);
-        console.log(1 / 30000000);
-        console.log(1 / 0);
-        console.log(0 / 0);
-      `,
+      console.log(12 + 5);
+      console.log(12.0 - 5.0);
+      console.log(12 * 5);
+      console.log(12.0 / 5.0);
+      console.log(1 / 0);
+    `,
         3: `
-        console.log(33 % 5);
-        console.log(10 % 2);
-        console.log(3 ** 4);
-        console.log(2 ** 0);
-        console.log(3 == 3);
-        console.log(3 == 2);
-        console.log(3 != 3);
-        console.log(3 != 2);
-        console.log(3 > 2);
-        console.log(2 > 3);
-        console.log(3 < 2);
-        console.log(2 < 3);
-      `,
+      console.log(33 % 5);
+      console.log(3 ** 4);
+      console.log(3 == 3);
+      console.log(3 != 3);
+      console.log(3 > 2);
+      console.log(2 < 3);
+    `,
         4: `
       console.log("abcde"[4]);
       console.log("Seafood".length);
       console.log("abcd"["abcd".length - 1]);
 
       let letter = "a";
-      let height = 175;
-      const MY_NUMBER = 41984980;
       letter = "c";
-      height = 190;
       console.log(letter);
-      console.log(height);
-      console.log(MY_NUMBER);
       `,
         5: `
       let incomingAnimals = 15;
       let animalsInShelter = 10 + incomingAnimals;
       console.log(animalsInShelter);
-
-      let onlineUser = 30 ;
-      let onlinePaidUser = 3;
-      onlineUser = onlineUser + onlinePaidUser;
-      console.log(onlineUser);
-
-      function triangleArea(width, height) {
-        return width * height / 2;
-      }
-
-      console.log(triangleArea(5,4));
       `,
         6: `
       function square(number){
@@ -81,11 +49,6 @@ export default function () {
         return s[0];
       }
       console.log(stringFirst("Recursion"));
-
-      function getInitial(lastName, firstName){
-        return lastName[0] + '.' + firstName[0];
-      }
-      console.log(getInitial("Steve", "Jobs"));
       `,
         7: `
       function hotelAccommodationFee(price, day) {
@@ -110,16 +73,6 @@ export default function () {
         return s.length > 5;
       }
       console.log(isLongerThan5("abcdef"));
-
-      function languageSetting(country) {
-        if (country == "Japan") {
-            return "ja";
-        } else {
-            return "en";
-        }
-      }
-
-      console.log(languageSetting("Japan"));
       `,
         9: `
       function canSeeMovie(age){
@@ -128,15 +81,6 @@ export default function () {
       }
 
       console.log(canSeeMovie(20));
-
-      function countWord(word) {
-          if(word == "") {
-              return word.length -1;
-          }
-          return word.length;
-      }
-
-      console.log(countWord("hello"));
       `,
         10: `
       console.log(Math.floor(3.3));
@@ -149,7 +93,6 @@ export default function () {
       }
 
       console.log(pythagoreanTheorem(3,4));
-
       `,
         11: `
       let lastName = "Albert";
@@ -157,7 +100,6 @@ export default function () {
       console.log(lastName.toLowerCase());
 
       let sentence = "I will go hiking near a ranch in Oregon.";
-      let bun = "100人近くの人がいた";
       console.log(sentence.substring(2,5));
       console.log(sentence.substring(7,sentence.length));
       `,
@@ -168,25 +110,6 @@ export default function () {
           return kg * mpss;
       }
       console.log(forceNewtons(80, 9.807));
-
-      function planetGravityMpss(planet){
-        if(planet == "Earth"){
-            return 9.80665;
-        }
-
-        if(planet == "Jupiter"){
-            return 24.79;
-        }
-
-        if(planet == "Neptune"){
-            return 11.15;
-        }
-
-        return 0;
-      }
-
-      console.log(planetGravityMpss("Neptune"));
-      console.log(forceNewtons(80, 9.80665));
       `,
         2: `
       console.log(Math.floor(Math.random() * 7));
@@ -194,15 +117,11 @@ export default function () {
       console.log(s[Math.floor(Math.random() * s.length)]);
 
       console.log("A".codePointAt(0));
-      console.log("z".codePointAt(0));
 
       console.log("%".codePointAt(0));
-      console.log("?".codePointAt(0));
 
       let s = "abcde";
       console.log(s.codePointAt(10));
-
-      console.log(String.fromCodePoint(65));
       `,
         3: `
       function randomInteger(min, max){
@@ -248,20 +167,6 @@ export default function () {
       }
 
       console.log(gcd(44,242));
-
-      function getGreatestDivisor(n){
-
-        return getGreatestDivisorHelper(n, n-1);
-      }
-
-      function getGreatestDivisorHelper(n,k){
-        if (n % k == 0){
-            return k;
-        }
-        return getGreatestDivisorHelper(n,k-1);
-      }
-
-      console.log(getGreatestDivisor(12));
       `,
         5: `
       function userName(){
@@ -270,9 +175,6 @@ export default function () {
 
           return firstName + " - " + lastName;
       }
-
-      let firstName = "Masamune";
-      let lastName = "Watanabe";
 
       function myFun(){
           console.log(firstName + " - " + lastName);
@@ -324,31 +226,8 @@ export default function () {
       }
 
       console.log(summationForLoopIteration(10));
-
-      function divideByCountIteration(divisor, n){
-          let counter = 0;
-
-          for(let temp = n; temp > 1; temp = temp/divisor){
-              counter++;
-          }
-
-          return counter;
-      }
-
-      console.log(divideByCountIteration(2,64));
       `,
         8: `
-      function countUpToNWhile(n){
-          let i = 0;
-
-          while(i < n){
-              console.log(i);
-              i++;
-          }
-      }
-
-      countUpToNWhile(15);
-
       function summationWhileLoopIteration(n) {
           let total = 0;
 
@@ -389,10 +268,6 @@ export default function () {
               this.birthYear = birthYear;
           }
 
-          getStateString(){
-              return "First Name: " + this.firstName + ", Last Name: " + this.lastName + ", heightM: " + this.heightM + ", weightKg: " + this.weightKg + ", birthYear: " + this.birthYear;
-          }
-
           getFullName(){
               return this.firstName + " " + this.lastName;
           }
@@ -415,20 +290,6 @@ export default function () {
               this.localTax = localTax;;
           }
       }
-
-      class DownloadableProduct{
-          constructor(title, description, price, sizeMb, extension){
-              this.title = title;
-              this.description = description;
-              this.price = price;
-              this.sizeMb = sizeMb;
-              this.extension = extension;
-          }
-
-          getFinalPrice(taxObject){
-              return this.price * (1 + taxObject.federalTax + taxObject.stateTax + taxObject.localTax);
-          }
-      }
       `,
         12: `
       function printIntArray(intArr){
@@ -437,30 +298,11 @@ export default function () {
           }
       }
 
-      function printIntArray(intArr){
-          for(let i = 0; i < intArr ; i++){
-              console.log(intArr[i]);
-          }
-      }
-
       let arr1 = [40,3,22,-2,4,8];
-      printIntArray(arr1);
-
-      let arr1 = [40,3,22,-2,4,8];
-      printIntArray(arr1);
-      arr1[3] = 34;
-      arr1[1] = 40;
-      printIntArray(arr1);
-
-      arr1[2] = 89;
-      arr1[5] = 55;
       printIntArray(arr1);
       `,
         13: `
       let dArr = [2,3];
-
-      dArr.unshift(3);
-      dArr.unshift(3,43,5234,34);
 
       dArr.shift();
 
@@ -470,12 +312,7 @@ export default function () {
 
       dArr.splice(Math.floor(dArr.length / 2), 0, 4);
 
-      dArr.splice(Math.floor(dArr.length / 2), 1);
-      dArr.splice(Math.floor(dArr.length / 2), 5);
-
       dArr.push(4);
-      dArr.push(50);
-      dArr.push(6,3,4,54);
 
       dArr.pop();
 
@@ -891,72 +728,47 @@ export default function () {
     Java: {
       初級: {
         1: `
-        System.out.println(10);
-        System.out.println(0b1000);
-        System.out.println(3.14);
-        System.out.println('a');
-        System.out.println('あ');
-        System.out.println("a");
-        System.out.println("Hello World");
-        System.out.println(true);
-        System.out.println(false);
+      System.out.println(10);
+      System.out.println(3.14);
+      System.out.println('a');
+      System.out.println("Hello World");
+      System.out.println(true);
         `,
         2: `
-        System.out.println(12 + 5);
-        System.out.println(12.0 + 5.0);
-        System.out.println(12 - 5);
-        System.out.println(12.0 - 5.0);
-        System.out.println(12 * 5);
-        System.out.println(12.0 * 5.0);
-        System.out.println(12 / 5);
-        System.out.println(12.0 / 5.0);
-        System.out.println(1 / 30000000);
-        System.out.println(1.0 / 30000000);
+      System.out.println(12 + 5);
+      System.out.println(12.0 - 5.0);
+      System.out.println(12 * 5);
+      System.out.println(12.0 / 5.0);
+      System.out.println(1 / 30000000);
       `,
         3: `
-        System.out.println(33 % 5);
-        System.out.println(10 % 2);
-        System.out.println(21 % 2 * 8);
-        System.out.println(21 - 2 % 2);
-        System.out.println(3 == 3);
-        System.out.println(3 == 2);
-        System.out.println(3 != 3);
-        System.out.println(3 != 2);
-        System.out.println(3 > 2);
-        System.out.println(2 > 3);
-        System.out.println(3 < 2);
-        System.out.println(2 < 3);
-      `,
+      System.out.println(33 % 5);
+      System.out.println(21 % 2 * 8);
+      System.out.println(3 == 3);
+      System.out.println(3 != 3);
+      System.out.println(3 > 2);
+      System.out.println(2 < 3);
+    `,
         4: `
-        System.out.println("abcde".charAt(4));
-        System.out.println("Seafood".length());
-        System.out.println("abcd".charAt("abcd".length() - 1));
-        char letter = 'a';
-        final int MY_NUMBER = 41984980;
-        letter = 'c';
-        System.out.println(letter);
-        System.out.println(MY_NUMBER);
+      System.out.println("abcde".charAt(4));
+      System.out.println("Seafood".length());
+      System.out.println("abcd".charAt("abcd".length() - 1));
       `,
         5: `
-        int incomingAnimals = 15;
-        int animalsInShelter = 10 + incomingAnimals;
-        System.out.println(animalsInShelter);
+      int incomingAnimals = 15;
+      int animalsInShelter = 10 + incomingAnimals;
+      System.out.println(animalsInShelter);
 
-        public static double triangleArea(int width, int height) {
-            return width * height / 2;
-        }
-        System.out.println(triangleArea(5,4));
+      public static double triangleArea(int width, int height) {
+          return width * height / 2;
+      }
+      System.out.println(triangleArea(5,4));
       `,
         6: `
-        public static int square(int number){
-            return number * number;
-        }
-        System.out.println(square(3));
-
-        public static char stringFirst(String s){
-            return s.charAt(0);
-        }
-        System.out.println(stringFirst("Recursion"));
+      public static int square(int number){
+          return number * number;
+      }
+      System.out.println(square(3));
       `,
         7: `
       public static double hotelAccommodationFee(int price, int day) {
@@ -971,80 +783,72 @@ export default function () {
       System.out.println(hotelAccommodationFee(80,5));
       `,
         8: `
-        public static String languageSetting(String country) {
-          if (country == "Japan") return "ja";
-          else return "en";
-        }
+      public static String languageSetting(String country) {
+        if (country == "Japan") return "ja";
+        else return "en";
+      }
 
-        System.out.println(languageSetting("Japan"));
-      `,
+      System.out.println(languageSetting("Japan"));
+    `,
         9: `
-        public static String firstLastCharacter(String word){
-            if(word.length() == 0){
-                return "Type random words";
-            }
-            else{
-                return word.charAt(0) + " " + word.charAt(word.length()-1);
-            }
-        }
+      public static String firstLastCharacter(String word){
+          if(word.length() == 0){
+              return "Type random words";
+          }
+          else{
+              return word.charAt(0) + " " + word.charAt(word.length()-1);
+          }
+      }
 
-        System.out.println(firstLastCharacter("lunch"));
-      `,
+      System.out.println(firstLastCharacter("lunch"));
+    `,
         10: `
-        System.out.println(Math.floor(3.3));
-        System.out.println(Math.ceil(3.3));
-        System.out.println(Math.pow(3,4));
+      System.out.println(Math.floor(3.3));
+      System.out.println(Math.ceil(3.3));
+      System.out.println(Math.pow(3,4));
 
-        public static double pythagoreanTheorem(double a, double b){
-            return Math.sqrt(a*a + b*b);
-        }
+      public static double pythagoreanTheorem(double a, double b){
+          return Math.sqrt(a*a + b*b);
+      }
 
-        System.out.println(pythagoreanTheorem(3,4));
+      System.out.println(pythagoreanTheorem(3,4));
 
-        `,
+      `,
         11: `
-        String lastName = "Albert";
-        System.out.println(lastName.toUpperCase());
-        System.out.println(lastName.toLowerCase());
+      String lastName = "Albert";
+      System.out.println(lastName.toUpperCase());
+      System.out.println(lastName.toLowerCase());
 
-        String sentence = "I will go hiking near a ranch in Oregon.";
-        String bun = "100人近くの人がいた";
-        System.out.println(sentence.substring(2,10));
+      String sentence = "I will go hiking near a ranch in Oregon.";
+      System.out.println(sentence.substring(2,10));
       `,
       },
       中級: {
         1: `
-        public static double planetGravityMpss(String planet){
-            if(planet == "Earth"){
-                return 9.80665;
-            }
+      public static double planetGravityMpss(String planet){
+          if(planet == "Earth"){
+              return 9.80665;
+          }
 
-            if(planet == "Jupiter"){
-                return 24.79;
-            }
+          if(planet == "Jupiter"){
+              return 24.79;
+          }
 
-            if(planet == "Neptune"){
-                return 11.15;
-            }
+          if(planet == "Neptune"){
+              return 11.15;
+          }
 
-            return 0;
-        }
-
-        System.out.println(forceNewtons(80, 9.807));
-        System.out.println(planetGravityMpss("Neptune"));
+          return 0;
+      }
+      System.out.println(planetGravityMpss("Neptune"));
       `,
         2: `
       String s = "Hello";
       System.out.println(s.charAt((int)Math.floor(Math.random() * s.length())));
 
       System.out.println("A".codePointAt(0));
-      System.out.println("z".codePointAt(0));
 
       System.out.println("%".codePointAt(0));
-      System.out.println("?".codePointAt(0));
-
-      String s = "abcde";
-      System.out.println(s.codePointAt(1));
 
       System.out.println((char)65);
       `,
@@ -1070,17 +874,6 @@ export default function () {
       System.out.println(randomCharEvenOrOdd("Don't tell me lies."));
       `,
         4: `
-      public static int gcd(int m, int n) {
-
-          if ((m % n) == 0){
-              return n;
-          } else {
-              return gcd(n, m % n);
-          }
-      }
-
-      System.out.println(gcd(44,242));
-
       public static int getGreatestDivisor(int n){
 
           return getGreatestDivisorHelper(n, n-1);
@@ -1106,10 +899,6 @@ export default function () {
           return firstName + " - " + lastName;
       }
 
-      System.out.println(firstName + " - " + lastName);
-
-      String firstName = "Fernando";
-      String lastName = "Yamato";
       System.out.println(firstName + " - " + lastName);
 
       System.out.println(userName());
@@ -1148,31 +937,8 @@ export default function () {
       }
 
       System.out.println(summationForLoopIteration(10));
-
-      public static int divideBy2CountIteration(int n){
-          int counter = 0;
-
-          for(int temp = n; temp > 1; temp = temp/2){
-            counter++;
-          }
-
-          return counter;
-      }
-
-      System.out.println(divideBy2CountIteration(64));
       `,
         8: `
-      public static void countUpToNWhile(int n){
-          int i = 0;
-
-          while(i < n){
-              System.out.println(i);
-              i++;
-          }
-      }
-
-      countUpToNWhile(15);
-
       public static int summationWhileLoopIteration(int n) {
           int total = 0;
 
@@ -1218,10 +984,6 @@ export default function () {
               this.birthYear = birthYear;
           }
 
-          public String getStateString(){
-              return "First Name: " + this.firstName + ", Last Name: " + this.lastName + ", heightM: " + this.heightM + ", weightKg: " + this.weightKg + ", birthYear: " + this.birthYear;
-          }
-
           public String getFullName(){
               return this.firstName + " " + this.lastName;
           }
@@ -1259,17 +1021,6 @@ export default function () {
 
       int[] arr = new int[6];
       printIntArray(arr);
-
-      for(int i = 0; i < arr.length; i++){
-          arr[i] = i;
-      }
-
-      int[] arr1 = new int[]{20,13,-12,2,5};
-      printIntArray(arr1);
-
-      arr1[3] = 34;
-      arr1[1] = 40;
-      printIntArray(arr1);
       `,
         //動的配列
         13: `
@@ -1283,16 +1034,11 @@ export default function () {
       ArrayList<Integer> dArr = new ArrayList<Integer> ();
 
       dArr.add(2);
-      dArr.add(3);
       dArr.add(0, 3);
-      dArr.add(1, 34);
 
       dArr.remove(0);
 
       dArr.set(1, 100);
-
-      dArr.add((int)(Math.floor(dArr.size()/2)), 77);
-      dArr.add(222);
 
       dArr.remove(dArr.size()-1);
       printArrayList(dArr);
@@ -1695,15 +1441,15 @@ export default function () {
             if(f.test(list[i])) result.add(list[i]);
         }
         return result;
-    };
+      };
 
-    int[] nums = {1,2,3,4,5,6,7,8,9,10};
-    System.out.println(myFilter.apply(x -> x%2!=0, nums));
+      int[] nums = {1,2,3,4,5,6,7,8,9,10};
+      System.out.println(myFilter.apply(x -> x%2!=0, nums));
 
-    List<Integer> numList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
-    numList.stream()
-           .filter(x -> x%2!=0)
-           .forEach(System.out::println);
+      List<Integer> numList = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+      numList.stream()
+        .filter(x -> x%2!=0)
+        .forEach(System.out::println);
       `,
         13: `
       public static int myReduce(BiFunction<Integer, Integer, Integer> reduceCallback, int[] list, int initial){
