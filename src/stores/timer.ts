@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { userStore } from "./user";
 
 export const timerStore = defineStore({
   id: "timer",
@@ -66,6 +67,9 @@ export const timerStore = defineStore({
       if (this.intervalId) {
         clearInterval(this.intervalId);
         this.setStopTime(performance.now());
+        const user = userStore();
+        user.setTime(this.getDurationTime);
+        user.saveRecord();
         this.intervalId = null;
       }
     },

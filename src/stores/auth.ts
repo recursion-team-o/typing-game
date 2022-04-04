@@ -18,6 +18,10 @@ export const authStore = defineStore("auth", {
   }),
   getters: {
     isLoggedIn: (state) => state.currentUser !== null,
+    getDisplayname: (state) =>
+      state.currentUser?.displayName != null
+        ? state.currentUser?.displayName
+        : "ゲスト",
   },
   actions: {
     async login() {
