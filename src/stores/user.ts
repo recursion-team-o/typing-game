@@ -9,6 +9,7 @@ export const userStore = defineStore({
     time: 0 as number,
     score: 100 as number,
     missTypes: new Map<string, number>(),
+    codeMissTypes: new Map<string, number>(),
     canStartGame: false as boolean,
   }),
   getters: {
@@ -53,15 +54,20 @@ export const userStore = defineStore({
     setMisses(event: KeyboardEvent): void {
       if (!this.missTypes.has(event.key)) {
         this.missTypes.set(event.key, 1);
-        this.missTypes.set(event.code, 1);
       } else {
         this.missTypes.set(
           event.key,
           Number(this.missTypes.get(event.key)) + 1
         );
-        this.missTypes.set(
+      }
+    },
+    setCodeMisses(event: KeyboardEvent): void {
+      if (!this.codeMissTypes.has(event.code)) {
+        this.codeMissTypes.set(event.code, 1);
+      } else {
+        this.codeMissTypes.set(
           event.code,
-          Number(this.missTypes.get(event.key)) + 1
+          Number(this.codeMissTypes.get(event.code)) + 1
         );
       }
     },
@@ -73,6 +79,9 @@ export const userStore = defineStore({
     },
     resetMisses(): void {
       this.missTypes = new Map();
+    },
+    resetScore(): void {
+      this.score = 100;
     },
   },
 });

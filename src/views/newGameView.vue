@@ -13,7 +13,14 @@ const code = codeStore();
 const timer = timerStore();
 const sound = soundStore();
 
-const { setMisses, setGameFalse, setGameTrue } = user;
+const {
+  setMisses,
+  setCodeMisses,
+  setGameFalse,
+  setGameTrue,
+  resetMisses,
+  resetScore,
+} = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
 const { onCountDown, onFinish, setSoundCount } = sound;
@@ -24,6 +31,7 @@ const missMoves = (eventKey: KeyboardEvent): void => {
   console.log("misses");
   setMissCount();
   setMisses(eventKey);
+  setCodeMisses(eventKey);
   user.setScore();
   sound.onMiss();
 };
@@ -61,6 +69,10 @@ onMounted(() => {
   if (container?.innerHTML !== "click space-bar to start") {
     if (container) container.innerHTML = "click space-bar to start";
   }
+  code.resetCode();
+  timer.resetTimer();
+  resetMisses();
+  resetScore();
   document.onkeydown = (event: KeyboardEvent) => {
     if (code.correctCode === "" && event.key === " ") {
       if (sound.soundCount === 0) {
@@ -127,10 +139,6 @@ const KeyDown = (event: KeyboardEvent) => {
   else {
     if (document.getElementsByClassName(event.code)[0]) {
       missMoves(event);
-    } else {
-      console.log("not here");
-      sound.onMiss();
-      return;
     }
 
     // 存在する場合の処理
