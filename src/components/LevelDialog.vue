@@ -13,10 +13,12 @@ const emit = defineEmits<{
 const closeDialog = (): void => {
   emit("closeDialog");
 };
+
 const code = codeStore();
 const user = userStore();
-const { getName, getLang, getLevel } = storeToRefs(user);
 const router = useRouter();
+
+const { getLang, getLevel } = storeToRefs(user);
 const goToGamePage = () => router.push("/game");
 </script>
 
@@ -35,9 +37,7 @@ const goToGamePage = () => router.push("/game");
         class="fixed z-10 inset-0 overflow-y-auto bg-black bg-opacity-50"
         v-show="showLevelDialog"
       >
-        <div
-          class="flex items-start justify-center min-h-screen pt-24 text-center"
-        >
+        <div class="flex items-center justify-center min-h-screen text-center">
           <div
             class="modal-content"
             role="dialog"
@@ -46,19 +46,13 @@ const goToGamePage = () => router.push("/game");
             aria-labelledby="modal-headline"
           >
             <div
-              class="modal-header flex flex-shrink-0 items-center justify-center p-4 border-b border-gray-200 rounded-t-md"
+              class="modal-header flex flex-shrink-0 items-center justify-center border-b border-gray-200 rounded-t-md"
             >
-              <p class="text-2xl font-medium">練習メニュー</p>
+              <p class="text-2xl font-bold">練習メニュー</p>
             </div>
             <div
-              class="modal-body relative flex flex-col justify-around items-center h-72 p-4"
+              class="modal-body relative flex flex-col justify-around items-center h-72"
             >
-              <div class="flex relative w-10/12 max-w-sm">
-                <span class="menu-item"> UserName </span>
-                <div type="text" class="menu-content">
-                  <p>{{ getName }}</p>
-                </div>
-              </div>
               <div class="flex relative w-10/12 max-w-sm">
                 <span class="menu-item"> 使用言語 </span>
                 <div type="text" class="menu-content">
@@ -73,7 +67,7 @@ const goToGamePage = () => router.push("/game");
               </div>
             </div>
             <div
-              class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between p-4 border-t border-gray-200 rounded-b-md"
+              class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-around border-t border-gray-200 rounded-b-md"
             >
               <button
                 type="button"
@@ -112,6 +106,6 @@ const goToGamePage = () => router.push("/game");
   @apply rounded-r-lg flex-1 border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 shadow-sm text-base;
 }
 .modal-content {
-  @apply border-none shadow-lg relative flex flex-col w-10/12 max-w-3xl pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
+  @apply border-none shadow-lg relative flex flex-col w-3/4  max-w-2xl p-4 pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current;
 }
 </style>
