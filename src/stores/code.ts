@@ -4,13 +4,12 @@ import { codeBoxStore } from "./codeBox";
 export const codeStore = defineStore({
   id: "code",
   state: () => ({
-    fullCode: config.newCode,
+    fullCode: "",
     correctCode: "",
     pointerCode: "",
-    notYetCode: config.newCode.substring(0),
+    notYetCode: "",
     //コード全体の最後にある空白を全て消す
-    finishCode: config.newCode.replace(/\s+$/g, ""),
-    actualString: config.newCode.replace(/^\s+|\s+$/g, ""),
+    finishCode: "",
     index: 0,
     missCount: 0,
     sampleCode: "",
@@ -20,9 +19,9 @@ export const codeStore = defineStore({
       return `${state.sampleCode}`;
     },
     getSuccessPer(state): number {
-      const actual = state.actualString.length;
-      const totalTouch = actual + state.missCount;
-      return (actual / totalTouch) * 100;
+      const actualLength = state.fullCode.replace(/^\s+|\s+$/g, "").length;
+      const totalTouch = actualLength + state.missCount;
+      return (actualLength / totalTouch) * 100;
     },
     getMissCount(state): number {
       return state.missCount;
@@ -90,10 +89,8 @@ export const codeStore = defineStore({
       }
     },
     setSelectCode(): void {
-      console.log("select level lang");
       const codeBox = codeBoxStore();
       codeBox.setSelectCode();
-      console.log(codeBox.getSelectCode);
       const selectCode = codeBox.getSelectCode;
       this.setJustCode(selectCode);
     },
@@ -103,14 +100,9 @@ export const codeStore = defineStore({
     resetCode(): void {
       this.correctCode = "";
       this.pointerCode = "";
-      this.notYetCode = config.newCode.substring(0);
+      this.notYetCode = "";
       this.index = 0;
       this.missCount = 0;
     },
   },
 });
-
-//仮のデータ
-const config = {
-  newCode: `<template>\n  <div ref="upper">\n</div>`,
-};

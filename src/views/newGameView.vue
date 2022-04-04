@@ -27,6 +27,7 @@ const { onCountDown, onFinish, setSoundCount } = sound;
 
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
+
 const missMoves = (eventKey: KeyboardEvent): void => {
   console.log("misses");
   setMissCount();
@@ -35,6 +36,7 @@ const missMoves = (eventKey: KeyboardEvent): void => {
   user.setScore();
   sound.onMiss();
 };
+
 const finishMove = (event: KeyboardEvent): void => {
   onFinish();
   stopTimer();
@@ -44,20 +46,28 @@ const finishMove = (event: KeyboardEvent): void => {
   openDialog();
   return;
 };
+
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
+
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
-onBeforeRouteLeave((to, from) => {
+
+onBeforeRouteLeave(() => {
   stopTimer();
   setGameFalse();
   setSoundCount();
-  finishResetKeyBoardColor(event);
+  // finishResetKeyBoardColor(event);
 });
 
 onMounted(() => {
+  code.resetCode();
+  timer.resetTimer();
+  resetMisses();
+  resetScore();
+  code.setNotYetCode(code.fullCode);
   //ページ全体を開いている時にどこを押してもkeyEventが起こる
   if (document.getElementById("click-space")?.classList.contains("invisible")) {
     document.getElementById("click-space")?.classList.remove("invisible");
@@ -69,10 +79,7 @@ onMounted(() => {
   if (container?.innerHTML !== "click space-bar to start") {
     if (container) container.innerHTML = "click space-bar to start";
   }
-  code.resetCode();
-  timer.resetTimer();
-  resetMisses();
-  resetScore();
+
   document.onkeydown = (event: KeyboardEvent) => {
     if (code.correctCode === "" && event.key === " ") {
       if (sound.soundCount === 0) {
@@ -111,7 +118,6 @@ const KeyDown = (event: KeyboardEvent) => {
     .getElementsByClassName(event.code)[0]
     ?.classList.remove("bg-gray-100");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-400");
-  //スタート
 
   //ポインターとキーの照合
   if (event.key === code.pointerCode) {
@@ -129,19 +135,13 @@ const KeyDown = (event: KeyboardEvent) => {
     if (event.key == "Shift") return;
     else if (document.getElementsByClassName(event.code)[0]) {
       missMoves(event);
-    } else {
-      console.log("not here");
-      sound.onMiss();
-      return;
     }
   }
-  //
+  //miss時の処理
   else {
     if (document.getElementsByClassName(event.code)[0]) {
       missMoves(event);
     }
-
-    // 存在する場合の処理
   }
 };
 
