@@ -81,7 +81,6 @@ export const codeStore = defineStore({
       this.setNextIndexCode(this.index);
       this.index += 1;
       if (this.finishCode.length + 1 === this.index) {
-        console.log("finished");
         return;
       }
       if (this.pointerCode === "\n") {

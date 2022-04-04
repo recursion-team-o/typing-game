@@ -21,13 +21,13 @@ auth.getAuthState();
       </RouterLink>
       <StopWatch v-show="$route.name == 'game'" />
       <div class="px-2 flex items-center">
-        <a href="" class="px-2">
+        <!-- <a href="" class="px-2">
           <span
             class="bg-gray-300 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
             >BETA
           </span>
           Myページ
-        </a>
+        </a> -->
         <!-- 音量バー -->
         <div class="flex cursor-pointer mr-4">
           <div

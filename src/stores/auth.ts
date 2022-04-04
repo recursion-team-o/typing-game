@@ -24,12 +24,10 @@ export const authStore = defineStore("auth", {
       try {
         const res = await signInWithPopup(auth, provider);
         this.$patch({ currentUser: res.user });
-        alert("ログインが完了しました");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {
           alert("適切なアカウントを選択してください");
-          console.log(err);
           return;
         }
         throw err;
@@ -39,7 +37,6 @@ export const authStore = defineStore("auth", {
       try {
         await signOut(auth);
         this.$reset();
-        alert("ログアウト");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {
@@ -68,7 +65,6 @@ export const authStore = defineStore("auth", {
       try {
         const guest = await signInAnonymously(auth);
         this.$patch({ currentUser: guest.user });
-        alert("ログインしました");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {
