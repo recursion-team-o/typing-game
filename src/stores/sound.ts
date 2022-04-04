@@ -35,6 +35,7 @@ export const soundStore = defineStore({
       volume: 0.3,
       format: ["mp3"],
     }),
+    soundCount: 0,
     bgmStatus: false as boolean,
     muteStatus: true as boolean,
     vol: 0.5 as number,
@@ -84,6 +85,9 @@ export const soundStore = defineStore({
     },
     toggleVol(): void {
       this.volStatus = !this.volStatus;
+    },
+    setSoundCount(): void {
+      this.soundCount = 0;
     },
   },
 });
