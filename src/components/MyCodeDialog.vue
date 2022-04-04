@@ -17,7 +17,7 @@ const code = codeStore();
 const router = useRouter();
 
 const { getSampleCode } = storeToRefs(code);
-const goToGamePage = () => router.push("/newGame");
+const goToGamePage = () => router.push("/game");
 </script>
 
 <template>

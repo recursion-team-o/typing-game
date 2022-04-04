@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// todo
-// 1.苦手キー 一覧のスクロール正常に動作しない
-// 2.ミスしたキーの色付け
 import { timerStore } from "../stores/timer";
 import { storeToRefs } from "pinia";
 import { codeStore } from "../stores/code";
@@ -21,9 +18,7 @@ onMounted(() => {
 });
 
 function makeItRed(): void {
-  console.log("make it red");
   user.codeMissTypes.forEach((index, key) => {
-    console.log(index + " , " + key);
     if (index < 3) {
       document?.querySelectorAll("." + key)[0]?.classList.remove("bg-gray-100");
       document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-200");
@@ -45,7 +40,7 @@ function makeItRed(): void {
       class="h-full container mx-auto px-5 sm:py-12 py-4 flex justify-between flex-col md:flex-row-reverse"
     >
       <div
-        class="left-box bg-white flex flex-col justify-around lg:ml-8 ml-2 p-4 result-card rounded-lg"
+        class="left-box bg-white flex flex-col justify-around lg:ml-8 ml-2 p-4 result-card rounded-lg border border-gray-200 shadow-md"
       >
         <div class="lg:text-5xl text-3xl font-bold text-center">
           スコア: {{ user.score }}
@@ -57,7 +52,9 @@ function makeItRed(): void {
             時間: {{ getMinString }}:{{ getSecString }}:{{ getPointMsec }}
           </li>
           <li class="text-2xl mt-2">ミスタイプ数: {{ getMissCount }}</li>
-          <li class="text-2xl mt-2">成功率: {{ getSuccessPer }}%</li>
+          <li class="text-2xl mt-2">
+            成功率: {{ code.fullCode.length === 0 ? 0 : getSuccessPer + "%" }}
+          </li>
         </ol>
 
         <div class="flex justify-center items-center mt-5">
@@ -79,7 +76,7 @@ function makeItRed(): void {
               resetScore();
             "
             class="inline-block mr-4 px-2 py-3 text-center w-full hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
-            to="/newHome"
+            to="/"
             >メインに戻る
           </RouterLink>
 
@@ -91,14 +88,14 @@ function makeItRed(): void {
               resetScore();
             "
             class="inline-block ml-4 px-2 py-3 s-button text-center w-full rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
-            to="/newGame"
+            to="/game"
             >リスタート
           </RouterLink>
         </div>
       </div>
 
       <div
-        class="right-box flex justify-between flex-col lg:mr-8 mr-2 p-4 bg-white rounded-lg"
+        class="right-box flex justify-between flex-col lg:mr-8 mr-2 p-4 bg-white rounded-lg border border-gray-200 shadow-md"
       >
         <div class="nigate-keys upper-box flex flex-col">
           <div class="text-4xl font-bold underline mb-4 text-center">
@@ -115,7 +112,7 @@ function makeItRed(): void {
         </div>
         <div class="flex mt-2 justify-center items-center">
           <!-- キーボード-->
-          <div class="bottom-box bg-gray-200 rounded-lg">
+          <div class="bottom-box bg-gray-200 rounded-lg border">
             <UsKeyboard />
           </div>
           <!-- キーボード -->

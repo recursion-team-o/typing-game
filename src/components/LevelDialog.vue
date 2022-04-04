@@ -19,7 +19,7 @@ const user = userStore();
 const router = useRouter();
 
 const { getLang, getLevel } = storeToRefs(user);
-const goToGamePage = () => router.push("/newGame");
+const goToGamePage = () => router.push("/game");
 </script>
 
 <template>

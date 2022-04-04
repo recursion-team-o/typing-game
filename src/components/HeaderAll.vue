@@ -16,33 +16,18 @@ auth.getAuthState();
 <template>
   <nav class="bg-white border-b">
     <div class="container m-auto px-4 py-3 flex items-center justify-between">
-      <RouterLink to="/newHome" class="px-2 font-bold text-2xl"
+      <RouterLink to="/" class="px-2 font-bold text-2xl"
         >CODE-TYPING
       </RouterLink>
-      <StopWatch v-show="$route.name == 'newGame'" />
+      <StopWatch v-show="$route.name == 'game'" />
       <div class="px-2 flex items-center">
-        <RouterLink class="px-2" to="/newHome">
+        <a href="" class="px-2">
           <span
-            class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
-            >new
+            class="bg-gray-300 text-gray-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded"
+            >BETA
           </span>
-          ホーム画面
-        </RouterLink>
-        <RouterLink class="px-2" to="/newGame">
-          <span
-            class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
-            >new
-          </span>
-          ゲーム画面
-        </RouterLink>
-        <RouterLink class="px-2" to="/newResult">
-          <span
-            class="bg-blue-100 text-blue-800 text-xs font-semibold mr-1 px-1 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800"
-            >new
-          </span>
-          結果画面
-        </RouterLink>
-        <a href="" class="px-2">Myページ</a>
+          Myページ
+        </a>
         <!-- 音量バー -->
         <div class="flex cursor-pointer mr-4">
           <div
