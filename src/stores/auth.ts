@@ -20,26 +20,23 @@ export const authStore = defineStore("auth", {
     isLoggedIn: (state) => state.currentUser !== null,
   },
   actions: {
-    async login() {
+    async login(): Promise<void> {
       try {
         const res = await signInWithPopup(auth, provider);
         this.$patch({ currentUser: res.user });
-        alert("ログインが完了しました");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {
           alert("適切なアカウントを選択してください");
-          console.log(err);
           return;
         }
         throw err;
       }
     },
-    async logout() {
+    async logout(): Promise<void> {
       try {
         await signOut(auth);
         this.$reset();
-        alert("ログアウト");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {
@@ -49,7 +46,7 @@ export const authStore = defineStore("auth", {
         throw err;
       }
     },
-    async getAuthState(): Promise<any> {
+    async getAuthState(): Promise<unknown> {
       return new Promise((resolve, reject) => {
         onAuthStateChanged(
           auth,
@@ -64,11 +61,10 @@ export const authStore = defineStore("auth", {
         );
       });
     },
-    async guestsLogin() {
+    async guestsLogin(): Promise<void> {
       try {
         const guest = await signInAnonymously(auth);
         this.$patch({ currentUser: guest.user });
-        alert("ログインしました");
         // ルーティングを入れる
       } catch (err) {
         if (err instanceof Error) {

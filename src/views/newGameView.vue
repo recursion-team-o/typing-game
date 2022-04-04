@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { onBeforeRouteLeave } from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -12,6 +12,7 @@ const user = userStore();
 const code = codeStore();
 const timer = timerStore();
 const sound = soundStore();
+const router = useRouter();
 
 const {
   setMisses,
@@ -27,14 +28,15 @@ const { onCountDown, onFinish, setSoundCount } = sound;
 
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
+
 const missMoves = (eventKey: KeyboardEvent): void => {
-  console.log("misses");
   setMissCount();
   setMisses(eventKey);
   setCodeMisses(eventKey);
   user.setScore();
   sound.onMiss();
 };
+
 const finishMove = (event: KeyboardEvent): void => {
   onFinish();
   stopTimer();
@@ -44,74 +46,86 @@ const finishMove = (event: KeyboardEvent): void => {
   openDialog();
   return;
 };
+
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
+
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
-onBeforeRouteLeave((to, from) => {
+
+onBeforeRouteLeave(() => {
   stopTimer();
   setGameFalse();
   setSoundCount();
-  finishResetKeyBoardColor(event);
 });
 
 onMounted(() => {
-  //ページ全体を開いている時にどこを押してもkeyEventが起こる
-  if (document.getElementById("click-space")?.classList.contains("invisible")) {
-    document.getElementById("click-space")?.classList.remove("invisible");
-  }
-  let container = document.getElementById("count-down");
-  if (container?.classList.contains("zoom-in")) {
-    container.classList.remove("zoom-in");
-  }
-  if (container?.innerHTML !== "click space-bar to start") {
-    if (container) container.innerHTML = "click space-bar to start";
-  }
-  code.resetCode();
-  timer.resetTimer();
-  resetMisses();
-  resetScore();
-  document.onkeydown = (event: KeyboardEvent) => {
-    if (code.correctCode === "" && event.key === " ") {
-      if (sound.soundCount === 0) {
-        sound.soundCount += 1;
-        let count = 4;
-        let container = document.getElementById("count-down");
-        container?.classList.add("zoom-in");
-        onCountDown();
-        const anim = () => {
-          if (count > 1) {
-            if (container) container.innerHTML = String(count - 1);
-            count--;
-            setTimeout(anim, 1000);
-          } else if (count === 1) {
-            if (container) container.innerHTML = "START";
-            count--;
-            setTimeout(anim, 1000);
-          } else {
-            document.getElementById("click-space")?.classList.add("invisible");
-            setGameTrue();
-            startGame();
-            startTimer();
-          }
-        };
-        anim();
-      }
+  if (code.fullCode === "") {
+    router.push("/");
+  } else {
+    code.resetCode();
+    timer.resetTimer();
+    resetMisses();
+    resetScore();
+    code.setNotYetCode(code.fullCode);
+    //ページ全体を開いている時にどこを押してもkeyEventが起こる
+    if (
+      document.getElementById("click-space")?.classList.contains("invisible")
+    ) {
+      document.getElementById("click-space")?.classList.remove("invisible");
     }
-    if (user.canStartGame) KeyDown(event);
-  };
-  document.onkeyup = (event: KeyboardEvent) => {
-    if (user.canStartGame) KeyUp(event);
-  };
+
+    let container = document.getElementById("count-down");
+    if (container?.classList.contains("zoom-in")) {
+      container.classList.remove("zoom-in");
+    }
+    if (container?.innerHTML !== "click space-bar to start") {
+      if (container) container.innerHTML = "click space-bar to start";
+    }
+
+    document.onkeydown = (event: KeyboardEvent) => {
+      if (code.correctCode === "" && event.key === " ") {
+        if (sound.soundCount === 0) {
+          sound.soundCount += 1;
+          let count = 4;
+          let container = document.getElementById("count-down");
+          container?.classList.add("zoom-in");
+          onCountDown();
+          const anim = () => {
+            if (count > 1) {
+              if (container) container.innerHTML = String(count - 1);
+              count--;
+              setTimeout(anim, 1000);
+            } else if (count === 1) {
+              if (container) container.innerHTML = "START";
+              count--;
+              setTimeout(anim, 1000);
+            } else {
+              document
+                .getElementById("click-space")
+                ?.classList.add("invisible");
+              setGameTrue();
+              startGame();
+              startTimer();
+            }
+          };
+          anim();
+        }
+      }
+      if (user.canStartGame) KeyDown(event);
+    };
+    document.onkeyup = (event: KeyboardEvent) => {
+      if (user.canStartGame) KeyUp(event);
+    };
+  }
 });
 const KeyDown = (event: KeyboardEvent) => {
   document
     .getElementsByClassName(event.code)[0]
     ?.classList.remove("bg-gray-100");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-400");
-  //スタート
 
   //ポインターとキーの照合
   if (event.key === code.pointerCode) {
@@ -129,19 +143,13 @@ const KeyDown = (event: KeyboardEvent) => {
     if (event.key == "Shift") return;
     else if (document.getElementsByClassName(event.code)[0]) {
       missMoves(event);
-    } else {
-      console.log("not here");
-      sound.onMiss();
-      return;
     }
   }
-  //
+  //miss時の処理
   else {
     if (document.getElementsByClassName(event.code)[0]) {
       missMoves(event);
     }
-
-    // 存在する場合の処理
   }
 };
 
@@ -173,7 +181,7 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
 
 <template>
   <!-- 上半分のHTML -->
-  <div class="bg-gray-50 flex items-center">
+  <div class="flex items-center" style="background-color: #f9f9f9">
     <div
       class="h-full container mx-auto px-5 sm:py-12 py-4 flex flex-col justify-between"
     >
