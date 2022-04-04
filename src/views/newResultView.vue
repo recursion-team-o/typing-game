@@ -16,30 +16,24 @@ const { resetMisses, resetScore } = user;
 onMounted(() => {
   makeItRed();
 });
-let twitterShare =
-  "http://twitter.com/share?url=" +
-  "https://recursion-code-typing.netlify.app/&text=" +
-  "Code typing: " +
-  lang +
-  "言語でレベル" +
-  level +
-  "をクリアしました！";
+let twitterShare = "";
 
 function hasLangLevel(): void {
   if (user.lang === "") {
     twitterShare =
       "http://twitter.com/share?url=" +
       "https://recursion-code-typing.netlify.app/&text=" +
-      "Code typingを自分のソースコードでクリアしました！";
+      "Code typingを自分のソースコードでクリアしました！" +
+      "%0A%20%23RecursionCS%0a";
   } else {
     twitterShare =
       "http://twitter.com/share?url=" +
       "https://recursion-code-typing.netlify.app/&text=" +
       "Code typing: " +
-      lang +
-      "言語でレベル" +
-      level +
-      "をクリアしました！";
+      user.lang +
+      "でレベル" +
+      user.level +
+      "をクリアしました！%0A%20%23RecursionCS%0a";
   }
 }
 hasLangLevel();
