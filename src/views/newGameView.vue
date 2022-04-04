@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import { onBeforeRouteLeave } from "vue-router";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -8,7 +8,6 @@ import { soundStore } from "../stores/sound";
 import WinDialog from "../components/WinDialog.vue";
 import UsKeyboard from "../components/UsKeyboard.vue";
 
-const router = useRouter();
 const user = userStore();
 const code = codeStore();
 const timer = timerStore();
@@ -62,11 +61,7 @@ onBeforeRouteLeave(() => {
   setSoundCount();
   // finishResetKeyBoardColor(event);
 });
-
 onMounted(() => {
-  if (code.fullCode.length === 0) {
-    router.push("/");
-  }
   code.resetCode();
   timer.resetTimer();
   resetMisses();
