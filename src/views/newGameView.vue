@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
+import { onBeforeRouteLeave } from "vue-router";
 import { codeStore } from "../stores/code";
 import { timerStore } from "../stores/timer";
 import { userStore } from "../stores/user";
@@ -12,23 +13,93 @@ const code = codeStore();
 const timer = timerStore();
 const sound = soundStore();
 
-const { setMisses, setGameFalse } = user;
+const {
+  setMisses,
+  setCodeMisses,
+  setGameFalse,
+  setGameTrue,
+  resetMisses,
+  resetScore,
+} = user;
 const { startTimer, stopTimer } = timer;
 const { moveIndex, startGame, setMissCount, changeLine } = code;
-const { onCountDown, onFinish } = sound;
+const { onCountDown, onFinish, setSoundCount } = sound;
 
 const upper = ref<HTMLElement>();
 let showMyCodeDialog = ref<boolean>(false);
-
+const missMoves = (eventKey: KeyboardEvent): void => {
+  console.log("misses");
+  setMissCount();
+  setMisses(eventKey);
+  setCodeMisses(eventKey);
+  user.setScore();
+  sound.onMiss();
+};
+const finishMove = (event: KeyboardEvent): void => {
+  onFinish();
+  stopTimer();
+  setGameFalse();
+  setSoundCount();
+  finishResetKeyBoardColor(event);
+  openDialog();
+  return;
+};
 const openDialog = (): void => {
   showMyCodeDialog.value = true;
 };
 const closeDialog = (): void => {
   showMyCodeDialog.value = false;
 };
+onBeforeRouteLeave((to, from) => {
+  stopTimer();
+  setGameFalse();
+  setSoundCount();
+  finishResetKeyBoardColor(event);
+});
+
 onMounted(() => {
   //ページ全体を開いている時にどこを押してもkeyEventが起こる
+  if (document.getElementById("click-space")?.classList.contains("invisible")) {
+    document.getElementById("click-space")?.classList.remove("invisible");
+  }
+  let container = document.getElementById("count-down");
+  if (container?.classList.contains("zoom-in")) {
+    container.classList.remove("zoom-in");
+  }
+  if (container?.innerHTML !== "click space-bar to start") {
+    if (container) container.innerHTML = "click space-bar to start";
+  }
+  code.resetCode();
+  timer.resetTimer();
+  resetMisses();
+  resetScore();
   document.onkeydown = (event: KeyboardEvent) => {
+    if (code.correctCode === "" && event.key === " ") {
+      if (sound.soundCount === 0) {
+        sound.soundCount += 1;
+        let count = 4;
+        let container = document.getElementById("count-down");
+        container?.classList.add("zoom-in");
+        onCountDown();
+        const anim = () => {
+          if (count > 1) {
+            if (container) container.innerHTML = String(count - 1);
+            count--;
+            setTimeout(anim, 1000);
+          } else if (count === 1) {
+            if (container) container.innerHTML = "START";
+            count--;
+            setTimeout(anim, 1000);
+          } else {
+            document.getElementById("click-space")?.classList.add("invisible");
+            setGameTrue();
+            startGame();
+            startTimer();
+          }
+        };
+        anim();
+      }
+    }
     if (user.canStartGame) KeyDown(event);
   };
   document.onkeyup = (event: KeyboardEvent) => {
@@ -41,40 +112,14 @@ const KeyDown = (event: KeyboardEvent) => {
     ?.classList.remove("bg-gray-100");
   document.getElementsByClassName(event.code)[0]?.classList.add("bg-gray-400");
   //スタート
-  if (code.correctCode === "" && event.key === " ") {
-    let count = 3;
-    let container = document.getElementById("count-down");
-    container?.classList.add("zoom-in");
-    onCountDown();
-    const anim = () => {
-      if (count >= 1) {
-        if (container) container.innerHTML = String(count - 1);
-        count--;
-        setTimeout(anim, 1000);
-      } else if (count === 0) {
-        if (container) container.innerHTML = "START";
-        count--;
-        setTimeout(anim, 1000);
-      } else {
-        document.getElementById("click-space")?.classList.add("invisible");
-        startGame();
-        startTimer();
-      }
-    };
-    anim();
-  }
+
   //ポインターとキーの照合
-  else if (event.key === code.pointerCode) {
+  if (event.key === code.pointerCode) {
     moveIndex();
     sound.onSuccess();
     //最後の文字の場合の処理
     if (code.finishCode.length + 1 === code.index) {
-      onFinish();
-      stopTimer();
-      setGameFalse();
-      finishResetKeyBoardColor(event);
-      openDialog();
-      return;
+      finishMove(event);
     }
     // 最終行の場合、次の行に飛ぶ
     if (code.pointerCode === "\n") {
@@ -82,19 +127,21 @@ const KeyDown = (event: KeyboardEvent) => {
     }
   } else if (event.shiftKey) {
     if (event.key == "Shift") return;
-    else {
-      setMissCount();
-      setMisses(event.key);
-      user.setScore();
+    else if (document.getElementsByClassName(event.code)[0]) {
+      missMoves(event);
+    } else {
+      console.log("not here");
       sound.onMiss();
+      return;
     }
   }
-  // miss
+  //
   else {
-    setMissCount();
-    setMisses(event.key);
-    user.setScore();
-    sound.onMiss();
+    if (document.getElementsByClassName(event.code)[0]) {
+      missMoves(event);
+    }
+
+    // 存在する場合の処理
   }
 };
 
@@ -142,7 +189,7 @@ const finishResetKeyBoardColor = (event: KeyboardEvent) => {
       </div>
 
       <div class="flex justify-center items-center p-4 bg-gray-200 rounded-lg">
-        <UsKeyboard ref="keyboard" />
+        <UsKeyboard />
       </div>
       <!-- ここからスタート時のスペースばー対応 -->
       <div

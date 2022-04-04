@@ -15,154 +15,24 @@ const timer = timerStore();
 const { getMinString, getSecString, getPointMsec } = storeToRefs(timer);
 const { getMissCount, getSuccessPer } = storeToRefs(code);
 const { lang, level } = storeToRefs(user);
-const { setGameTrue } = user;
-const keys: { [name: string]: string } = {};
+const { resetMisses, resetScore } = user;
 onMounted(() => {
   makeItRed();
 });
 
-//1
-keys["1"] = "num1";
-keys["2"] = "num2";
-keys["3"] = "num3";
-keys["4"] = "num4";
-keys["5"] = "num5";
-keys["6"] = "num6";
-keys["7"] = "num7";
-keys["8"] = "num8";
-keys["9"] = "num9";
-keys["0"] = "num0";
-keys["-"] = "bar";
-keys["^"] = "hat";
-keys["¥"] = "¥";
-keys["Backspace"] = "Backspace";
-//uppercase
-keys["!"] = "num1";
-keys['"'] = "num2";
-keys["#"] = "num3";
-keys["$"] = "num4";
-keys["%"] = "num5";
-keys["&"] = "num6";
-keys["'"] = "num7";
-keys["("] = "num8";
-keys[")"] = "num9";
-keys["="] = "bar";
-keys["~"] = "hat";
-keys["|"] = "¥";
-
-//2
-keys["q"] = "q";
-keys["w"] = "w";
-keys["e"] = "e";
-keys["r"] = "r";
-keys["t"] = "t";
-keys["y"] = "y";
-keys["u"] = "u";
-keys["i"] = "i";
-keys["o"] = "o";
-keys["p"] = "p";
-keys["@"] = "atmark";
-keys["["] = "bigparaini";
-keys["]"] = "bigparafini";
-//uppercase
-keys["Q"] = "q";
-keys["W"] = "w";
-keys["E"] = "e";
-keys["R"] = "r";
-keys["T"] = "t";
-keys["Y"] = "y";
-keys["U"] = "u";
-keys["I"] = "i";
-keys["O"] = "o";
-keys["P"] = "p";
-keys["`"] = "atmark";
-keys["{"] = "bigparaini";
-keys["}"] = "bigparafini";
-
-//3
-keys["Control"] = "Control";
-keys["a"] = "a";
-keys["s"] = "s";
-keys["d"] = "d";
-keys["f"] = "f";
-keys["g"] = "g";
-keys["h"] = "h";
-keys["j"] = "j";
-keys["k"] = "k";
-keys["l"] = "l";
-keys[";"] = "semi";
-keys[":"] = "coron";
-keys["Enter"] = "Enter";
-//uppercase
-keys["A"] = "a";
-keys["s"] = "s";
-keys["D"] = "d";
-keys["F"] = "f";
-keys["G"] = "g";
-keys["H"] = "h";
-keys["J"] = "j";
-keys["K"] = "k";
-keys["L"] = "l";
-keys["+"] = "semi";
-keys["*"] = "coron";
-
-//4
-keys["Shift"] = "Shift";
-keys["z"] = "z";
-keys["x"] = "x";
-keys["c"] = "c";
-keys["v"] = "v";
-keys["b"] = "b";
-keys["n"] = "n";
-keys["m"] = "m";
-keys[","] = "hai";
-keys["."] = "peri";
-keys["/"] = "slash";
-keys["_"] = "sub";
-//4 uppercase
-keys["Z"] = "z";
-keys["X"] = "x";
-keys["C"] = "c";
-keys["V"] = "v";
-keys["B"] = "b";
-keys["N"] = "n";
-keys["M"] = "m";
-keys["<"] = "hai";
-keys[">"] = "peri";
-keys["?"] = "slash";
-
-//5
-keys["Alt"] = "Alt";
-keys["Meta"] = "Meta";
-keys[" "] = "space";
-
 function makeItRed(): void {
   console.log("make it red");
-  user.missTypes.forEach((index, key) => {
+  user.codeMissTypes.forEach((index, key) => {
     console.log(index + " , " + key);
-    if (keys[key]) {
-      if (index < 3) {
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-200");
-      } else if (index < 7) {
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-500");
-      } else {
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.remove("bg-gray-100");
-        document
-          ?.querySelectorAll("." + keys[key])[0]
-          ?.classList.add("bg-red-900");
-      }
+    if (index < 3) {
+      document?.querySelectorAll("." + key)[0]?.classList.remove("bg-gray-100");
+      document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-200");
+    } else if (index < 7) {
+      document?.querySelectorAll("." + key)[0]?.classList.remove("bg-gray-100");
+      document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-500");
+    } else {
+      document?.querySelectorAll("." + key)[0]?.classList.remove("bg-gray-100");
+      document?.querySelectorAll("." + key)[0]?.classList.add("bg-red-900");
     }
   });
 }
@@ -205,7 +75,8 @@ function makeItRed(): void {
             @click="
               code.resetCode();
               timer.resetTimer();
-              setGameTrue();
+              resetMisses();
+              resetScore();
             "
             class="inline-block mr-4 px-2 py-3 text-center w-full hover:bg-indigo-400 rounded-lg shadow-lg bg-indigo-700 text-white"
             to="/newHome"
@@ -216,7 +87,8 @@ function makeItRed(): void {
             @click="
               code.resetCode();
               timer.resetTimer();
-              setGameTrue();
+              resetMisses();
+              resetScore();
             "
             class="inline-block ml-4 px-2 py-3 s-button text-center w-full rounded-lg hover:bg-gray-400 shadow-lg bg-gray-600 text-white"
             to="/newGame"
