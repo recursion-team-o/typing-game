@@ -21,7 +21,7 @@ export const codeStore = defineStore({
     getSuccessPer(state): number {
       const actualLength = state.fullCode.replace(/^\s+|\s+$/g, "").length;
       const totalTouch = actualLength + state.missCount;
-      return (actualLength / totalTouch) * 100;
+      return Math.round((actualLength / totalTouch) * 1000) / 10;
     },
     getMissCount(state): number {
       return state.missCount;
